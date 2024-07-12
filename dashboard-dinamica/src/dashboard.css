@@ -1,0 +1,135 @@
+body {
+    background: #f2f2f2;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*------------- COMPONENTS  --------------------*/
+
+
+.dash-bg {
+    background-image: url("../src/assets/img/scene-construction-01.jpg");
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    position: fixed;
+    width: 100%;
+}
+/*-------  ---  BARRA LATERAL  ---  ----------*/
+
+.barra-lateral {
+    background: #14233b;
+    color: #fff;
+    min-width: 300px;
+    min-height: 100vh;
+}
+
+.barra-lateral a {
+    color: #fff;
+}
+
+/*-------  ---  LOGO  ---  ----------*/
+
+.barra-lateral .logo {
+    display: block;
+    background: #14233b;
+    max-height: 159px;
+    max-width: 300px;
+    padding: 15px;
+    
+}
+
+.barra-lateral .logo img {
+    height: 100%;
+    width: 100%;
+  }
+  
+
+/* .barra-lateral .logo h2 {
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-weight: 300;
+} */
+
+/*-------  ---  MENU  ---  ----------*/
+
+.barra-lateral .menu a {
+    display: block;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255, .1);
+}
+
+.barra-lateral .menu a:hover {
+    background: #6f6845;
+    color: #fff;
+}
+
+.barra-lateral .menu a i{
+    margin-right: 8px;
+}
+
+/*-------  ---  MEDIA QUERYS  ---  ----------*/
+
+/*  Dispositivo xs  */
+@media screen and (max-width: 320px) {
+    
+}
+
+/*  Dispositivo sm  */
+@media screen and (max-width: 576px) {
+ 
+    
+    
+}
+
+
+/*  Dispositivo md  */
+@media screen and (max-width: 768px) {
+    
+    .barra-lateral{
+        min-height: auto;
+    }
+
+    .barra-lateral .logo {
+        min-height: 50px;
+    }
+
+    .barra-lateral .logo h2 {
+        font-size: 20px;
+        font-weight: 200;
+    }
+
+    .barra-lateral .menu {
+        width: 250px;
+        background: rgba(255,255,255, .3);
+        backdrop-filter: blur(10px);
+    }
+
+}
+
+/*  Dispositivo lg  */
+@media screen and (max-width: 992px) {
+
+}
+
+/*  Dispositivo xl  */
+@media screen and (max-width: 1200px) {
+    
+    .barra-lateral{
+        min-width: auto;
+    }
+
+}
+
+/*  Dispositivo xxl  */
+@media screen and (max-width: 1400px) {
+    
+}
+
+/*-------  ---  /BARRA LATERAL  ---  ----------*/
