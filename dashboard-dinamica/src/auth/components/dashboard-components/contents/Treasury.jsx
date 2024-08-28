@@ -4,7 +4,7 @@ import GraphicData from './tresuary-elements/GraphicData'
 
 const Treasury = () => {
   return (
-    <div className='module-container'>
+    <div className='module-container container-fluid'>
       <SuperiorData />
       <GraphicData />
     </div>

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import imgLogo from './assets/img/logo02.png';
+
 import React from 'react'
 
 const Login = () => {
@@ -11,7 +13,7 @@ const Login = () => {
  
             <form>
                 <div className="cnt-img-lgn">
-                  <img src="../src/assets/img/logo02.png" />
+                  <img src={imgLogo} />
                 </div>
                 <div className="mb-3">
                     <label>Email address</label>

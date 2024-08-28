@@ -50,7 +50,7 @@ export default class LineData extends PureComponent {
 
     render() {
         return (
-          <>
+          <div className="bg-graphics">
             <LineChart
               width={500}
               height={300}
@@ -70,7 +70,7 @@ export default class LineData extends PureComponent {
               <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
               <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
             </LineChart>
-          </>
+          </div>
         );
       }
 

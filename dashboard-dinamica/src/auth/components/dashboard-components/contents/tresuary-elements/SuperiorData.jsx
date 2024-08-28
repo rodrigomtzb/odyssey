@@ -14,7 +14,7 @@ import {
 
 const SuperiorData = () => {
   return (
-    <MDBContainer fluid>
+    <MDBContainer fluid className='clsVisibility'>
       <MDBRow className='justify-content-center'>
         <MDBCol md='10'>
           <section>

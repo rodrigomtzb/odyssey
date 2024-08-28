@@ -51,14 +51,14 @@ export default class AreaData extends PureComponent {
     
     render() {
       return (
-        
+        <div className="bg-graphics">
           <AreaChart
             width={500}
             height={400}
             data={data}
             margin={{
               top: 10,
-              right: 30,
+              right: 0,
               left: 0,
               bottom: 0,
             }}
@@ -71,7 +71,7 @@ export default class AreaData extends PureComponent {
             <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
             <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
           </AreaChart>
-
+        </div>
       );
     }
   }

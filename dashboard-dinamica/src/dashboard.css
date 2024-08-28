@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
 body {
     background: #f2f2f2;
     font-size: 16px;
@@ -8,6 +9,14 @@ a {
     text-decoration: none;
 }
 
+/* ------------- Ayudas Desarrollo -------------*/
+
+.clsVisibility{
+    border: solid 1px #FF0000;
+}
+
+/* ------------- /Fin de Ayudas Desarrollo ----- */ 
+
 /*------------- COMPONENTS  --------------------*/
 
 
@@ -17,6 +26,7 @@ a {
     background-size: 100vw 100vh;
     position: fixed;
     width: 100%;
+    height: 100vh;
 }
 /*-------  ---  BARRA LATERAL  ---  ----------*/
 
@@ -66,13 +76,36 @@ a {
 }
 
 .barra-lateral .menu a:hover {
-    background: #6f6845;
-    color: #fff;
+    background: #ffffff;
+    color: #14233b;
 }
 
 .barra-lateral .menu a i{
     margin-right: 8px;
 }
+
+/* ----------- transition  --------------------*/
+
+  .cnt-menu.horizTranslate {
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+    margin-left: 200px !important;
+  }
+
+  .cnt-menu.horizTranslateReverse {
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    transition: 1s;
+    margin-left: 0px !important;
+  }
+
+/* -------------fin transition ----------------*/
+
 
 /*-------  ---  MEDIA QUERYS  ---  ----------*/
 
@@ -92,29 +125,61 @@ a {
 /*  Dispositivo md  */
 @media screen and (max-width: 768px) {
     
-    .barra-lateral{
-        min-height: auto;
-    }
-
-    .barra-lateral .logo {
-        min-height: 50px;
-    }
-
-    .barra-lateral .logo h2 {
-        font-size: 20px;
-        font-weight: 200;
-    }
-
-    .barra-lateral .menu {
-        width: 250px;
-        background: rgba(255,255,255, .3);
-        backdrop-filter: blur(10px);
-    }
+    
 
 }
 
 /*  Dispositivo lg  */
 @media screen and (max-width: 992px) {
+
+    .btn-menu{
+        position: absolute;
+        top: 0px;
+        left: 200px;
+        background-color: rgba(255,255,255,.5);
+        padding: 5px 10px;
+    }
+
+    .barra-lateral{
+        height: 85px;
+        min-height: 85px;
+        width: auto;
+    }
+
+    .barra-lateral .logo {
+        min-height: 85px;
+        height: 85px;
+        max-height: 85px;
+        margin: 0 auto;
+        width: 179px;
+    }
+
+    .barra-lateral .cnt-menu{
+        height: auto;
+        width: 235px;
+        position: relative;
+        left: -200px;
+        z-index: 100;
+    }
+
+    .barra-lateral .menu {
+        width: 200px;
+        background: rgba(255,255,255, .3);
+        backdrop-filter: blur(10px);
+        position: absolute;
+        top: 0px;
+        
+    }
+
+    .barra-lateral .menu a {
+        display: block;
+        padding: 15px;
+        width: 200px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        border-bottom: 1px solid rgba(255,255,255, .1);
+        margin-left: 0;
+    }
 
 }
 

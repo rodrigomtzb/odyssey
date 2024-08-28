@@ -13,7 +13,7 @@ function DashBoard() {
     <>   
       <Container fluid="xs" className='dash-bg'>
         <Row>
-            <Col sm="auto">
+            <Col  md="col-12 h-10" lg="auto" >
                 <Menu></Menu>
             </Col>
             <Col>
