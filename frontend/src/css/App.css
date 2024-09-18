@@ -48,7 +48,12 @@
   color: #14233b !important;
   border: 1px solid #14233b !important;
 }
+.nav-item:hover{
+  background-color: white !important;
+}
+.nav-item:active{
 
+}
 .read-the-docs {
   color: #888;
 }

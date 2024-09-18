@@ -14,7 +14,7 @@ const UserForm = () => {
           <Form.Control
             type="text"
             placeholder="Ingresa los nombres del usuario"
-            className="border border-bottom-primary"
+            className="border border-primary"
             required
           />
         </FloatingLabel>

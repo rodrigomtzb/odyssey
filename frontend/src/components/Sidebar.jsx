@@ -22,7 +22,7 @@ const Sidebar = ({ menuItems }) => {
             {menuItem.subItems ? (
               <>
                 <button
-                  className="btn btn-link nav-link"
+                  className="btn btn-link nav-link text-white"
                   onClick={() => toggleMenu(index)}
                   aria-controls={`collapse-menu-${index}`}
                   aria-expanded={openMenus[index] || false}
@@ -33,7 +33,7 @@ const Sidebar = ({ menuItems }) => {
                   <ul id={`collapse-menu-${index}`} className="list-unstyled">
                     {menuItem.subItems.map((subItem, subIndex) => (
                       <li key={subIndex}>
-                        <Link to={subItem.path} className="nav-link">
+                        <Link to={subItem.path} className="nav-link text-white">
                           {subItem.title}
                         </Link>
                       </li>
@@ -42,7 +42,7 @@ const Sidebar = ({ menuItems }) => {
                 </Collapse>
               </>
             ) : (
-              <Link to={menuItem.path} className="nav-link">
+              <Link to={menuItem.path} className="nav-link text-white">
                 {menuItem.title}
               </Link>
             )}

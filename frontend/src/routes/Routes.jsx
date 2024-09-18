@@ -8,6 +8,7 @@ import HumanResources from "../auth/components/dashboard-components/contents/Hum
 import LoggedLayout from "../pages/layouts/LoggedLayout";
 import Users from "../pages/ControlPanel/Users/Users";
 import UserForm from "../pages/ControlPanel/Users/Form";
+import UsersList from "../pages/ControlPanel/List";
 
 import Test from "../pages/Test";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/users/create",
         element: <UserForm />,
+      },
+      {
+        path: "/users/list",
+        element: <UsersList />,
       },
     ],
   },

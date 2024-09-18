@@ -68,12 +68,3 @@ a {
 .forgot-password a {
   color: #14233b;
 }
-
-.btn-primary{
-  background-color: #14233b;
-  border-radius: 25px;
-}
-
-.btn-primary :hover{
-  background-color: #41526d;
-}
