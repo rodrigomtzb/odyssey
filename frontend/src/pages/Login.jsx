@@ -63,7 +63,7 @@ const Login = () => {
                             </FloatingLabel>
 
                             {error && <p style={{ color: 'red' }}>{error}</p>}
-                            <Button variant="primary" type="submit">Login</Button>
+                            <Button variant="gd" type="submit">Entrar</Button>
                         </Form>
                     </Card.Body>
                 </Card>

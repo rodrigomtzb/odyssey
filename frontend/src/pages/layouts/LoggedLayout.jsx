@@ -15,11 +15,11 @@ const LoggedLayout = () => {
       ];
 
     return (
-        <div>
-            <Sidebar menuItems={menuItems}/>
-            <div className="content p-5" style={{marginLeft: '250px'}}>
+        <div className="bg-general">
+            <Sidebar menuItems={menuItems} />
+            <main className="content p-3" style={{marginLeft: '250px'}}>
                 <Outlet />
-            </div>
+            </main>
         </div>
     );
 } 

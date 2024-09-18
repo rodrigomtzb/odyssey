@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
+import AppLogo from './AppLogo';
 
 const Sidebar = ({ menuItems }) => {
   const [openMenus, setOpenMenus] = useState({});
@@ -13,7 +14,8 @@ const Sidebar = ({ menuItems }) => {
   };
 
   return (
-    <div className="d-flex fixed-top flex-column vh-100 bg-black border-end" style={{ width: '250px' }}>
+    <aside className="d-flex fixed-top flex-column vh-100" style={{ width: '250px', backgroundColor: '#14233b' }}>
+      <AppLogo />
       <ul className="nav flex-column">
         {menuItems.map((menuItem, index) => (
           <li key={index} className="nav-item">
@@ -47,7 +49,7 @@ const Sidebar = ({ menuItems }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 };
 

@@ -39,6 +39,16 @@
   padding: 2em;
 }
 
+.btn-gd {
+  background-color: #14233b !important;
+  color: white !important;
+}
+.btn-gd:hover{
+  background-color: white !important;
+  color: #14233b !important;
+  border: 1px solid #14233b !important;
+}
+
 .read-the-docs {
   color: #888;
 }

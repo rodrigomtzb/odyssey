@@ -1,15 +1,24 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
 * {
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 .App {
   background-image: url("../assets/img/scene-construction-02.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bg-general {
+  background-image: url("../assets/img/scene-construction-01.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100vh;
 }
 h1,h2,h3,h4,h5,h6,label,span {
   font-weight: 500;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 body {
   margin: 0;

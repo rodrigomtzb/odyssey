@@ -7,13 +7,13 @@ const Users = () => {
             <Container>
                 <Row>
                     <Col>
-                        <Button variant='primary' href='/create'>Registro de Usuario</Button>
+                        <Button variant='gd' href='users/create'>Registro de Usuario</Button>
                     </Col>
                     <Col>
-                        <Button variant='primary' href='/create/masive'>Registro Masivo de Usuarios</Button>
+                        <Button variant='gd' href='users/create/masive'>Registro Masivo de Usuarios</Button>
                     </Col>
                     <Col>
-                        <Button variant='primary' href='/list'>Lista de Usuarios</Button>
+                        <Button variant='gd' href='users/list'>Lista de Usuarios</Button>
                     </Col>
                 </Row>
             </Container>
