@@ -4,10 +4,11 @@ import { Outlet } from "react-router-dom";
 const LoggedLayout = () => {
     const token = localStorage.getItem('token');
     const menuItems = [
-        { title: 'Inicio', path: '/' },
-        { title: 'Recursos Humanos', path: '/hr' },
+        { title: 'Inicio', icon: 'grid-fill', path: '/' },
+        { title: 'Recursos Humanos', icon: 'people-fill', path: '/hr' },
         {
           title: 'Panel de Control',
+          icon: 'dpad-fill',
           subItems: [
             { title: 'Usuarios', path: '/users' },
           ],
