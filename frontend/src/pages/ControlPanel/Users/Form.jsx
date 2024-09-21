@@ -1,4 +1,4 @@
-import { Card, Form, FloatingLabel, Button, Stack } from "react-bootstrap";
+import { Card, Form, Button, Stack, Col, Row } from "react-bootstrap";
 import CancelButton from "../../../components/CancelButton";
 import { useParams } from "react-router-dom";
 
@@ -14,7 +14,9 @@ const UserForm = () => {
           className="bg-gd d-flex align-items-center p-2 mb-4 rounded"
           style={{ width: "fit-content" }}
         >
-          <h5 className="m-0">{ id ? 'Informacion de Usuario' : 'Información de Registro' }</h5>
+          <h5 className="m-0">
+            {id ? "Informacion de Usuario" : "Información de Registro"}
+          </h5>
         </div>
         <Form>
           <Form.Group className="mb-3" controlId="names">
@@ -26,33 +28,33 @@ const UserForm = () => {
               required
             />
           </Form.Group>
-          <Stack direction="horizontal" gap={2}>
-            <Form.Group className="mb-3" controlId="firstLastName">
-              <Form.Label>Apellido Paterno</Form.Label>
-              <Form.Control
-                className="form-input"
-                type="text"
-                placeholder="Ingresa el apellido paterno"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="secondLastName">
-              <Form.Label>Apellido Materno</Form.Label>
-              <Form.Control
-                className="form-input"
-                type="text"
-                placeholder="Ingresa el apellido materno"
-                required
-              />
-            </Form.Group>
-          </Stack>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="firstLastName">
+                <Form.Label>Apellido Paterno</Form.Label>
+                <Form.Control
+                  className="form-input"
+                  type="text"
+                  placeholder="Ingresa el apellido paterno"
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3" controlId="secondLastName">
+                <Form.Label>Apellido Materno</Form.Label>
+                <Form.Control
+                  className="form-input"
+                  type="text"
+                  placeholder="Ingresa el apellido materno"
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Form.Group className="mb-3" controlId="birthDate">
             <Form.Label>Fecha de Nacimiento</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="date"
-              required
-            />
+            <Form.Control className="form-input" type="date" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Correo Electronico</Form.Label>
@@ -84,7 +86,9 @@ const UserForm = () => {
           <Form.Group className="mb-3" controlId="rol">
             <Form.Label>Rol</Form.Label>
             <Form.Select className="form-input">
-              <option value="" disabled>Selecciona una opción</option>
+              <option value="" disabled>
+                Selecciona una opción
+              </option>
               {roles.map((rol, index) => (
                 <option key={index} value={rol}>
                   {rol}
@@ -93,8 +97,9 @@ const UserForm = () => {
             </Form.Select>
           </Form.Group>
           <Stack direction="horizontal" gap={2}>
-            <CancelButton className="ms-auto" />
-            <Button variant="gd">{ id ? 'Actualizar' : 'Registrar' }</Button>
+            <Button variant="gd" className="ms-auto">
+              {id ? "Actualizar" : "Registrar"}
+            </Button>
           </Stack>
         </Form>
       </Card>

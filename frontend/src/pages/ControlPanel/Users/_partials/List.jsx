@@ -2,7 +2,7 @@ import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const UsersList = ({users}) => {
+const UsersList = ({ users }) => {
   const navigate = useNavigate();
   // const users = [
   //   {
@@ -31,9 +31,9 @@ const UsersList = ({users}) => {
   };
 
   return (
-    <Card>
+    <Card className="mt-3">
       <h1></h1>
-      <MDBTable align="middle" bordered hover>
+      <MDBTable align="middle" striped responsive hover>
         <MDBTableHead>
           <tr>
             <th scope="col">ID</th>
@@ -43,7 +43,7 @@ const UsersList = ({users}) => {
             <th scope="col">Acciones</th>
           </tr>
         </MDBTableHead>
-        <MDBTableBody>
+        <MDBTableBody className="table-group-divider">
           {users.map((user) => (
             <tr key={user.id}>
               <td scope="col">{user.id}</td>
