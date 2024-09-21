@@ -19,7 +19,6 @@ const UsersList = ({ users }) => {
   //   },
   // ];
 
-
   //Por volver utilities
   const handleDelete = (id) => {
     alert("Borrar " + id);
