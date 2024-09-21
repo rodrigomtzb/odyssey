@@ -19,6 +19,8 @@ const UsersList = ({ users }) => {
   //   },
   // ];
 
+
+  //Por volver utilities
   const handleDelete = (id) => {
     alert("Borrar " + id);
   };
@@ -32,7 +34,6 @@ const UsersList = ({ users }) => {
 
   return (
     <Card className="mt-3">
-      <h1></h1>
       <MDBTable align="middle" striped responsive hover>
         <MDBTableHead>
           <tr>

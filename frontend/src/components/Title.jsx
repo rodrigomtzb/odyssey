@@ -1,7 +1,7 @@
 const Title = ({ title }) => {
   return (
     <>
-      <h2 className="text-decoration-underline">{title}</h2>
+      <h2 className="text-decoration-underline" style={{color: '#14233b'}}>{title}</h2>
       <hr />
     </>
   );
