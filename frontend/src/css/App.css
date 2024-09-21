@@ -37,6 +37,7 @@
 
 .card {
   padding: 2em;
+  border: 1px solid #14233b !important;
 }
 
 .btn-gd {
@@ -44,9 +45,14 @@
   color: white !important;
 }
 .btn-gd:hover{
-  background-color: white !important;
-  color: #14233b !important;
-  border: 1px solid #14233b !important;
+  background-color: #2d405e !important;
+}
+.bg-gd {
+  background-color: #14233b !important;
+  color: white;
+}
+.form-input {
+  background-color: #c9cfd7 !important;
 }
 .nav-link:hover{
   background-color: white !important;

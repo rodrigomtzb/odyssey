@@ -1,41 +1,86 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
-import Login from "../pages/Login";
-import HumanResources from "../auth/components/dashboard-components/contents/HumanResources";
-import LoggedLayout from "../pages/layouts/LoggedLayout";
-import Users from "../pages/ControlPanel/Users/Users";
-import UserForm from "../pages/ControlPanel/Users/Form";
-import UsersList from "../pages/ControlPanel/List";
+const Login = React.lazy(() => import("../pages/Login"));
+const HumanResources = React.lazy(() =>
+  import("../auth/components/dashboard-components/contents/HumanResources")
+);
+const LoggedLayout = React.lazy(() => import("../pages/layouts/LoggedLayout"));
+const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
+const UserForm = React.lazy(() => import("../pages/ControlPanel/Users/Form"));
+const UsersList = React.lazy(() => import("../pages/ControlPanel/Users/_partials/List"));
+const UserDetails = React.lazy(() =>
+  import("../pages/ControlPanel/Users/User")
+);
 
 import Test from "../pages/Test";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Login />
+      </Suspense>
+    ),
   },
   {
     path: "/",
-    element: <LoggedLayout />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoggedLayout />
+      </Suspense>
+    ),
     children: [
       {
         path: "/hr",
-        element: <HumanResources />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <HumanResources />
+          </Suspense>
+        ),
       },
       {
         path: "/users",
-        element: <Users />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Users />
+          </Suspense>
+        ),
       },
       {
         path: "/users/create",
-        element: <UserForm />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserForm />
+          </Suspense>
+        ),
       },
       {
         path: "/users/list",
-        element: <UsersList />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <UsersList />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/users/:id/edit",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserForm />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/users/:id",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserDetails />,
+          </Suspense>
+        ),
       },
     ],
   },

@@ -1,7 +1,22 @@
 import React from "react"
 import { Card, Container, Row, Col, Button } from "react-bootstrap"
+import UsersList from "./_partials/List";
 
 const Users = () => {
+    const users = [
+        {
+          id: 1,
+          names: "Alfredo Alexis",
+          lastNames: "Fiesco Venegas",
+          email: "alfredo.alexis30@gmail.com",
+        },
+        {
+          id: 2,
+          names: "Karina Lizette",
+          lastNames: "Vilchis Carbajal",
+          email: "karina.vilchis.carbajal@gmail.com",
+        },
+      ];
     return (
         <Card>
             <Container>
@@ -16,6 +31,7 @@ const Users = () => {
                         <Button variant='gd' href='users/list'>Lista de Usuarios</Button>
                     </Col>
                 </Row>
+                <UsersList users={users} />
             </Container>
         </Card>
     );
