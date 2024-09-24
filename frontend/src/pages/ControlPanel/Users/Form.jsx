@@ -9,7 +9,8 @@ const UserForm = () => {
 
   return (
     <Card
-      style={{ border: "none", backgroundColor: "rgb(170, 179, 191, 0.6)" }}
+      className="mt-3 border border-0"
+      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
     >
       <Card>
         <div
