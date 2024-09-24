@@ -36,14 +36,14 @@ const LoggedLayout = () => {
           left: 0,
           width: "100%-250px",
           height: "100%-250px",
-          backgroundColor: "rgba(255, 255, 255, 0.2)",
+          backgroundColor: "rgba(255, 255, 255, 0.4)",
           zIndex: 1,
           marginLeft: "250px",
         }}
       />
       <Sidebar menuItems={menuItems} />
       <main
-        className="content p-3"
+        className="content p-4"
         style={{ marginLeft: "250px", position: "relative", zIndex: 2 }}
       >
         <Outlet />

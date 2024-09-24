@@ -8,7 +8,9 @@ const UserForm = () => {
   const { id } = useParams();
 
   return (
-    <Card style={{ border: "none", backgroundColor: "#AAB3BF" }}>
+    <Card
+      style={{ border: "none", backgroundColor: "rgb(170, 179, 191, 0.6)" }}
+    >
       <Card>
         <div
           className="bg-gd d-flex align-items-center p-2 mb-4 rounded"
@@ -96,6 +98,17 @@ const UserForm = () => {
               ))}
             </Form.Select>
           </Form.Group>
+          {id ? (
+            <Form.Group className="mb-3" controlId="status">
+              <Form.Label>Rol</Form.Label>
+              <Form.Select className="form-input">
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
+              </Form.Select>
+            </Form.Group>
+          ) : (
+            ""
+          )}
           <Stack direction="horizontal" gap={2}>
             <Button variant="gd" className="ms-auto">
               {id ? "Actualizar" : "Registrar"}
