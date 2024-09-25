@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppLogo from "./AppLogo";
+import axios from "axios";
 
 const Sidebar = ({ menuItems }) => {
   const [openMenus, setOpenMenus] = useState({});
+  const navigate = useNavigate();
 
   const toggleMenu = (menuIndex) => {
     setOpenMenus((prevState) => ({
@@ -12,7 +14,19 @@ const Sidebar = ({ menuItems }) => {
       [menuIndex]: !prevState[menuIndex],
     }));
   };
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout"
+      );
 
+      if (response.status == 200) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
   return (
     <aside
       className="d-flex fixed-top flex-column vh-100"
@@ -68,6 +82,15 @@ const Sidebar = ({ menuItems }) => {
           </li>
         ))}
       </ul>
+      <div className="mt-auto p-3">
+        <button
+          className="btn btn-gd w-100 d-flex align-items-center justify-content-start"
+          onClick={handleLogout}
+        >
+          <i className="bi bi-box-arrow-right fs-4 me-2" />
+          Salir
+        </button>
+      </div>
     </aside>
   );
 };

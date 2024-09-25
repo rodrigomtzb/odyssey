@@ -44,7 +44,7 @@ const UsersList = () => {
 
   return (
     <Card
-      className="mt-3 border border-0"
+      className="mt-3 border border-0 p-4"
       style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
     >
       <Card>

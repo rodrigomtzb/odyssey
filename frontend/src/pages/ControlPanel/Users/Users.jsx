@@ -7,7 +7,7 @@ import CardButton from "../../../components/CardButton";
 const Users = () => {
   return (
     <Card
-      className="mt-3 border border-0"
+      className="mt-3 border border-0 p-4"
       style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
     >
       <Container className="py-5">
@@ -24,6 +24,14 @@ const Users = () => {
             <CardButton
               icon="person-lines-fill"
               text="Lista de Usuarios"
+              to="list"
+              section="Panel de Control"
+            />
+          </Col>
+          <Col>
+            <CardButton
+              icon="person-video2"
+              text="Sesiones"
               to="list"
               section="Panel de Control"
             />
