@@ -21,7 +21,7 @@ const Sidebar = ({ menuItems }) => {
       );
 
       if (response.status == 200) {
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error: ", error);

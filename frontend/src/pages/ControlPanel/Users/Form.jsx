@@ -3,10 +3,13 @@ import CancelButton from "../../../components/CancelButton";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { Input, Select, CheckboxGroup } from "../../../components/Form";
+import { TitleSection } from "../../../components/Form";
 
 const UserForm = () => {
   const { id } = useParams();
   const roles = ["admin", "mod", "user"];
+  const status = ["ACTIVO", "INACTIVO"];
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -23,21 +26,19 @@ const UserForm = () => {
         email: value,
         username: value,
       });
-    } else if (name === "role") {
-      const roles = Array.from(
-        e.target.selectedOptions,
-        (option) => option.value
-      );
-      setFormData({
-        ...formData,
-        role: roles,
-      });
     } else {
       setFormData({
         ...formData,
         [name]: value,
       });
     }
+  };
+
+  const handleRolesChange = (updatedRoles) => {
+    setFormData({
+      ...formData,
+      role: updatedRoles,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -63,115 +64,50 @@ const UserForm = () => {
       style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
     >
       <Card>
-        <div
-          className="bg-gd d-flex align-items-center p-2 mb-4 rounded"
-          style={{ width: "fit-content" }}
-        >
-          <h5 className="m-0">
-            {id ? "Informacion de Usuario" : "Información de Registro"}
-          </h5>
-        </div>
+        <TitleSection
+          text={id ? "Informacion de Usuario" : "Información de Registro"}
+        />
         <Form onSubmit={handleSubmit}>
           {/* <Form.Group className="mb-3" controlId="names">
-            <Form.Label>Nombre(s)</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="text"
-              placeholder="Ingresa los nombres"
-              required
-            />
-          </Form.Group>
+          <Input label="Nombre(s)" name="names" placeholder="Ingresa los nombres" required />
           <Row>
             <Col>
-              <Form.Group className="mb-3" controlId="firstLastName">
-                <Form.Label>Apellido Paterno</Form.Label>
-                <Form.Control
-                  className="form-input"
-                  type="text"
-                  placeholder="Ingresa el apellido paterno"
-                  required
-                />
-              </Form.Group>
+              <Input label="Apellido Paterno" name="firstLastName" placeholder="Ingresa el apellido paterno" required />
             </Col>
             <Col>
-              <Form.Group className="mb-3" controlId="secondLastName">
-                <Form.Label>Apellido Materno</Form.Label>
-                <Form.Control
-                  className="form-input"
-                  type="text"
-                  placeholder="Ingresa el apellido materno"
-                  required
-                />
-              </Form.Group>
+              <Input label="Apellido Materno" name="secondLastName" placeholder="Ingresa el apellido materno" required />
             </Col>
           </Row>
-          <Form.Group className="mb-3" controlId="birthDate">
-            <Form.Label>Fecha de Nacimiento</Form.Label>
-            <Form.Control className="form-input" type="date" required />
-          </Form.Group> */}
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Correo Electronico</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="email"
-              name="email"
-              placeholder="ejemplo@gmail.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Contraseña</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="password"
-              name="password"
-              placeholder="Ingresa tu contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          {/* <Form.Group className="mb-3" controlId="telephone">
-            <Form.Label>Teléfono</Form.Label>
-            <Form.Control
-              className="form-input"
-              type="text"
-              placeholder="Ingresa el teléfono"
-              required
-            />
-          </Form.Group> */}
-          <Form.Group className="mb-3" controlId="role">
-            <Form.Label>Rol</Form.Label>
-            <Form.Select
-              className="form-input"
-              name="role"
-              multiple={true}
-              value={formData.role}
-              onChange={handleChange}
-            >
-              <option value="" disabled>
-                Selecciona una opción
-              </option>
-              {roles.map((rol, index) => (
-                <option key={index} value={rol}>
-                  {rol}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-          {id ? (
-            <Form.Group className="mb-3" controlId="status">
-              <Form.Label>Estado</Form.Label>
-              <Form.Select className="form-input">
-                <option value="ACTIVO">ACTIVO</option>
-                <option value="INACTIVO">INACTIVO</option>
-              </Form.Select>
-            </Form.Group>
-          ) : (
-            ""
-          )}
+          <Input label="Fecha de Nacimiento" name="birthDate" type="date" required />
+          */}
+          <Input
+            label="Correo Electronico"
+            type="email"
+            name="email"
+            placeholder="ejemplo@gmail.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            label="Contraseña"
+            type="password"
+            name="password"
+            placeholder="Ingresa tu contraseña"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          {/* 
+          <Input label="Teléfono" name="telephone" placeholder="Ingresa el teléfono" required />
+          */}
+          <CheckboxGroup
+            label="Roles"
+            options={roles}
+            selectedOptions={formData.role}
+            onChange={handleRolesChange}
+          />
+          {id ? <Select label="Estado" name="status" options={status} /> : ""}
           <Stack direction="horizontal" gap={2}>
             <Button variant="gd" className="ms-auto" type="submit">
               {id ? "Actualizar" : "Registrar"}
