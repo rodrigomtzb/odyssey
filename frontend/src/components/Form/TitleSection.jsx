@@ -1,13 +1,14 @@
-const TitleSection = ({text}) => {
+const TitleSection = ({ text, isFirst }) => {
   return (
-    <div
-      className="bg-gd d-flex align-items-center p-2 mb-4 rounded"
-      style={{ width: "fit-content" }}
-    >
-      <h5 className="m-0">
-        {text}
-      </h5>
-    </div>
+    <>
+      {!isFirst && <hr style={{ borderColor: "#14233b" }} />}
+      <div
+        className="bg-gd d-flex align-items-center p-2 mb-4 rounded"
+        style={{ width: "fit-content" }}
+      >
+        <h5 className="m-0">{text}</h5>
+      </div>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ const Sidebar = ({ menuItems }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout"
+        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout", {}, {withCredentials: true}
       );
 
       if (response.status == 200) {

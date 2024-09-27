@@ -1,10 +1,20 @@
 import { Card, Form, Button, Stack, Col, Row } from "react-bootstrap";
-import CancelButton from "../../../components/CancelButton";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
-import { Input, Select, CheckboxGroup } from "../../../components/Form";
-import { TitleSection } from "../../../components/Form";
+
+import {
+  Input,
+  Select,
+  CheckboxGroup,
+  TitleSection,
+} from "../../../components/Form";
+import {
+  handleEmailChange,
+  handleFormChange,
+  handleCheckboxChange,
+} from "../../../utils";
+import { post } from "../../../utils/apiServices";
+import CancelButton from "../../../components/CancelButton";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -17,40 +27,13 @@ const UserForm = () => {
     role: [],
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "email") {
-      setFormData({
-        ...formData,
-        email: value,
-        username: value,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleRolesChange = (updatedRoles) => {
-    setFormData({
-      ...formData,
-      role: updatedRoles,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post(
-        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signup",
-        formData
-      );
+      const response = await post("/auth/signup", formData);
 
-      if (response.status === 200) {
+      if (response === 200) {
         alert("Usuario creado con éxito");
       }
     } catch (error) {
@@ -86,7 +69,7 @@ const UserForm = () => {
             name="email"
             placeholder="ejemplo@gmail.com"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleEmailChange(formData, setFormData)}
             required
           />
           <Input
@@ -95,7 +78,7 @@ const UserForm = () => {
             name="password"
             placeholder="Ingresa tu contraseña"
             value={formData.password}
-            onChange={handleChange}
+            onChange={handleFormChange(formData, setFormData)}
             required
           />
           {/* 
@@ -105,7 +88,7 @@ const UserForm = () => {
             label="Roles"
             options={roles}
             selectedOptions={formData.role}
-            onChange={handleRolesChange}
+            onChange={handleCheckboxChange(formData, setFormData, "role")}
           />
           {id ? <Select label="Estado" name="status" options={status} /> : ""}
           <Stack direction="horizontal" gap={2}>
