@@ -17,12 +17,24 @@ const Sidebar = ({ menuItems }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout", {}, {withCredentials: true}
+        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
       );
 
-      if (response.status == 200) {
-        navigate("/login");
-      }
+      console.log(response.status);
+      console.log(response.data);
+      // if (response.status == 200) {
+      //   localStorage.removeItem("user");
+      //   navigate("/login");
+      // }
     } catch (error) {
       console.error("Error: ", error);
     }

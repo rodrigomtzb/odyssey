@@ -16,15 +16,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signin",
-        credentials
+        credentials,
+        {
+          withCredentials: true,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
       );
 
       if (response.status == 200) {
         navigate("/");
+        localStorage.setItem("user", JSON.stringify(response.data));
       }
     } catch (error) {
       console.log("Error: ", error);
