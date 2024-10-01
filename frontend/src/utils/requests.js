@@ -1,17 +1,19 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api",
+  baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin" : "*"
   },
+  withCredentials: true,
+  credentials: "incude"
 });
 
 export const post = async (endpoint, data) => {
   try {
-    const response = await api.post(endpoint, data);
-    return response.status;
+    return api.post(endpoint, data);
   } catch (error) {
     console.error("Error en el envio", error);
     throw error;

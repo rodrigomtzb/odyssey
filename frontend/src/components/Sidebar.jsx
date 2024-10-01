@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import AppLogo from "./AppLogo";
-import axios from "axios";
+import AuthService from "../services/auth.service";
 
 const Sidebar = ({ menuItems }) => {
   const [openMenus, setOpenMenus] = useState({});
@@ -16,25 +16,12 @@ const Sidebar = ({ menuItems }) => {
   };
   const handleLogout = async () => {
     try {
-      const response = await axios.post(
-        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signout",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      AuthService.logout().then((response) => {
+        if (response.status === 200) {
+          localStorage.removeItem("user");
+          navigate("/login");
         }
-      );
-
-      console.log(response.status);
-      console.log(response.data);
-      // if (response.status == 200) {
-      //   localStorage.removeItem("user");
-      //   navigate("/login");
-      // }
+      });
     } catch (error) {
       console.error("Error: ", error);
     }

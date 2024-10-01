@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
 import { Card, Form, FloatingLabel, Button } from "react-bootstrap";
 
+import AuthService from "../services/auth.service";
 import imgLogo from "../assets/img/logo02.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -17,23 +16,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://ec2-98-82-230-34.compute-1.amazonaws.com:8080/api/auth/signin",
-        credentials,
-        {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      AuthService.login(credentials.username, credentials.password).then(
+        (response) => {
+          if (response.status === 200) {
+            localStorage.setItem("user", JSON.stringify(response.data));
+            navigate("/");
+          }
         }
       );
-
-      if (response.status == 200) {
-        navigate("/");
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
     } catch (error) {
       console.log("Error: ", error);
     }

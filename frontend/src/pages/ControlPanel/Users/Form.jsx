@@ -13,8 +13,9 @@ import {
   handleFormChange,
   handleCheckboxChange,
 } from "../../../utils";
-import { post } from "../../../utils/apiServices";
+
 import CancelButton from "../../../components/CancelButton";
+import AuthService from "../../../services/auth.service";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -24,18 +25,18 @@ const UserForm = () => {
     email: "",
     username: "",
     password: "",
-    role: [],
+    roles: [],
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await post("/auth/signup", formData);
-
-      if (response === 200) {
-        alert("Usuario creado con éxito");
-      }
+      AuthService.register("/auth/signup", formData).then((response) => {
+        if (response.status === 200) {
+          alert("Usuario creado con exito");
+        }
+      });
     } catch (error) {
       console.error("Hubo un error al enviar el formulario:", error);
       alert("Error al crear el usuario");
@@ -49,6 +50,7 @@ const UserForm = () => {
       <Card>
         <TitleSection
           text={id ? "Informacion de Usuario" : "Información de Registro"}
+          isFirst
         />
         <Form onSubmit={handleSubmit}>
           {/* <Form.Group className="mb-3" controlId="names">
@@ -87,8 +89,8 @@ const UserForm = () => {
           <CheckboxGroup
             label="Roles"
             options={roles}
-            selectedOptions={formData.role}
-            onChange={handleCheckboxChange(formData, setFormData, "role")}
+            selectedOptions={formData.roles}
+            onChange={handleCheckboxChange(formData, setFormData, "roles")}
           />
           {id ? <Select label="Estado" name="status" options={status} /> : ""}
           <Stack direction="horizontal" gap={2}>
