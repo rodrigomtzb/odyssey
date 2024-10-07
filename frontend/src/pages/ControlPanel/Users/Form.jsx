@@ -1,6 +1,7 @@
 import { Card, Form, Button, Stack, Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import Swal from 'sweetalert2';
 
 import {
   Input,
@@ -14,27 +15,39 @@ import {
   handleCheckboxChange,
 } from "../../../utils";
 
-import CancelButton from "../../../components/CancelButton";
 import AuthService from "../../../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 const UserForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const roles = ["admin", "mod", "user"];
   const status = ["ACTIVO", "INACTIVO"];
+  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     username: "",
     password: "",
-    roles: [],
+    role: [],
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+    setValidated(true);
     try {
-      AuthService.register("/auth/signup", formData).then((response) => {
+      AuthService.register(formData).then((response) => {
         if (response.status === 200) {
-          alert("Usuario creado con exito");
+          Swal.fire({
+            icon: "success",
+            title: "Usuario registrado",
+            showConfirmButton: false,
+            timer: 3500,
+          });
+          navigate("/users");
         }
       });
     } catch (error) {
@@ -50,9 +63,9 @@ const UserForm = () => {
       <Card>
         <TitleSection
           text={id ? "Informacion de Usuario" : "Información de Registro"}
-          isFirst
+          isFirst withReturnButton
         />
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} noValidate validated={validated}>
           {/* <Form.Group className="mb-3" controlId="names">
           <Input label="Nombre(s)" name="names" placeholder="Ingresa los nombres" required />
           <Row>
@@ -89,8 +102,9 @@ const UserForm = () => {
           <CheckboxGroup
             label="Roles"
             options={roles}
-            selectedOptions={formData.roles}
-            onChange={handleCheckboxChange(formData, setFormData, "roles")}
+            selectedOptions={formData.role}
+            onChange={handleCheckboxChange(formData, setFormData, "role")}
+            required
           />
           {id ? <Select label="Estado" name="status" options={status} /> : ""}
           <Stack direction="horizontal" gap={2}>

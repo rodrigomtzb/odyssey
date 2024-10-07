@@ -5,24 +5,86 @@ const LoggedLayout = () => {
   const token = localStorage.getItem("token");
   const menuItems = [
     { title: "Inicio", icon: "grid-fill", path: "/" },
-    { title: "Recursos Humanos", icon: "people-fill", path: "/hr" },
-    {
-      title: "Tesoreria",
-      icon: "cash",
-      subItems: [{ title: "Pagos", path: "" }],
-    },
-    { title: "Proyectos", icon: "houses-fill", path: "" },
     {
       title: "Panel de Control",
       icon: "dpad-fill",
-      subItems: [{ title: "Usuarios", path: "/users" }],
+      subItems: [
+        { title: "Usuarios", path: "/users" },
+        { title: "Sesiones", path: "/" },
+        { title: "Control de Accesos", path: "/" },
+        { title: "Bitacora de Accesos", path: "/" },
+        { title: "Roles", path: "/" },
+      ],
+    },
+    {
+      title: "Recursos Humanos",
+      icon: "people-fill",
+      subItems: [
+        {
+          title: "Empleados",
+          path: "/",
+        },
+        { title: "Control de Asistencia", path: "/" },
+      ],
+    },
+    {
+      title: "Marketing",
+      icon: "shop",
+      subItems: [
+        {
+          title: "Campañas",
+          path: "/",
+        },
+        {
+          title: "Prospectos",
+          path: "/",
+        },
+        {
+          title: "Clientes",
+          path: "/",
+        },
+        {
+          title: "Reportes",
+          path: "/",
+        },
+      ],
+    },
+    {
+      title: "Proyectos",
+      icon: "houses-fill",
+      subItems: [
+        { title: "Obras", path: "/" },
+        { title: "Levantamientos", path: "/" },
+        { title: "Presupuestos", path: "/" },
+        { title: "Avances", path: "/" },
+      ],
     },
     {
       title: "Administración",
       icon: "person-lines-fill",
       subItems: [
         { title: "Provedores", path: "" },
-        { title: "Compras", path: "" },
+        { title: "Compras", path: "/purchases" },
+        { title: "Inventario Material", path: "/" },
+      ],
+    },
+    {
+      title: "Tesoreria",
+      icon: "cash",
+      subItems: [{ title: "Pagos", path: "" }],
+    },
+    {
+      title: "Finanzas",
+      icon: "cash",
+      subItems: [
+        {
+          title: "Control de Pagos",
+          path: "/",
+        },
+        {
+          title: "Fiscal",
+          path: "/",
+        },
       ],
     },
   ];

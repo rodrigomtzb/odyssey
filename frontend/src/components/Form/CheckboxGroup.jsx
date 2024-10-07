@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-const CheckboxGroup = ({ label, options, selectedOptions, onChange }) => {
+const CheckboxGroup = ({ label, options, selectedOptions, onChange, required }) => {
   const handleChange = (e) => {
     const { value, checked } = e.target;
     let updatedSelectedOptions = [...selectedOptions];
@@ -27,6 +27,7 @@ const CheckboxGroup = ({ label, options, selectedOptions, onChange }) => {
           value={option}
           checked={selectedOptions.includes(option)}
           onChange={handleChange}
+          required={required}
         />
       ))}
     </Form.Group>

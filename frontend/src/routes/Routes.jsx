@@ -18,6 +18,9 @@ const UserDetails = React.lazy(() =>
 
 import Test from "../pages/Test";
 import Loader from "../components/Loader";
+import DashboardPurchases from "../pages/Administration/Purchases/Dashboard";
+import PurchaseForm from "../pages/Administration/Purchases/Form";
+import PurchasesList from "../pages/Administration/Purchases/List";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,18 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserDetails />,
+      },
+      {
+        path: "/purchases",
+        element: <DashboardPurchases />
+      },
+      {
+        path: "/purchases/create",
+        element: <PurchaseForm />
+      },
+      {
+        path: "/purchases/list",
+        element: <PurchasesList />
       },
       {
         path: "/loader",

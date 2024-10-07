@@ -10,11 +10,17 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [validated, setValidated] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+    setValidated(true);
     try {
       AuthService.login(credentials.username, credentials.password).then(
         (response) => {
@@ -44,7 +50,7 @@ const Login = () => {
             <div className="cnt-img-lgn text-center mb-3">
               <img src={imgLogo} alt="Logo" className="img-fluid" />
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} noValidate validated={validated}>
               <FloatingLabel
                 controlId="floatingInput"
                 label="Correo Electrónico"

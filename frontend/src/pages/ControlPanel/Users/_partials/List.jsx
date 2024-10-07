@@ -4,10 +4,17 @@ import {
   MDBTableBody,
   MDBBadge,
 } from "mdb-react-ui-kit";
+import DataTable from "datatables.net-react";
+import DT from "datatables.net-bs5";
+import "datatables.net-select-dt";
+import "datatables.net-responsive-dt";
+
 import { Card, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../../../../components/Title";
 import imageProfileDefault from "../../../../assets/img/profile-default.png";
+
+DataTable.use(DT);
 
 const UsersList = () => {
   const navigate = useNavigate();
@@ -48,70 +55,75 @@ const UsersList = () => {
       style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
     >
       <Card>
-        <Title title="Usuarios" />
-        <MDBTable align="middle" striped responsive hover>
-          <MDBTableHead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Rol</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </MDBTableHead>
-          <MDBTableBody className="table-group-divider">
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td scope="col">{user.id}</td>
-                <td>
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={imageProfileDefault}
-                      alt=""
-                      style={{
-                        width: "45px",
-                        height: "45px",
-                        objectFit: "cover",
-                        objectPosition: "center",
-                      }}
-                      className="rounded-circle"
-                    />
-                    <div className="ms-3">
-                      <Link
-                        onClick={handleView}
-                        className="text-decoration-none text-body"
-                      >
-                        <p className="fw-bold mb-1">
-                          {user.names} {user.lastNames}
-                        </p>
-                      </Link>
-                      <p className="text-muted mb-0">{user.email}</p>
-                    </div>
-                  </div>
-                </td>
-                <td>{user.rol}</td>
-                <td>
-                  {user.status ? (
-                    <MDBBadge color="success" pill>
-                      Activo
-                    </MDBBadge>
-                  ) : (
-                    <MDBBadge color="danger" pill>
-                      Inactivo
-                    </MDBBadge>
-                  )}
-                </td>
-                <td>
-                  <div className="d-flex">
-                    <Button variant="link" onClick={() => handleEdit(user.id)}>
-                      <i className="bi bi-pencil-square" />
-                    </Button>
-                  </div>
-                </td>
+        <Title title="Usuarios" withReturnButton />
+        <div className="table-responsive">
+          <DataTable>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </MDBTableBody>
-        </MDBTable>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id}>
+                  <td scope="col">{user.id}</td>
+                  <td>
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={imageProfileDefault}
+                        alt=""
+                        style={{
+                          width: "45px",
+                          height: "45px",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        }}
+                        className="rounded-circle"
+                      />
+                      <div className="ms-3">
+                        <Link
+                          onClick={handleView}
+                          className="text-decoration-none text-body"
+                        >
+                          <p className="fw-bold mb-1">
+                            {user.names} {user.lastNames}
+                          </p>
+                        </Link>
+                        <p className="text-muted mb-0">{user.email}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{user.rol}</td>
+                  <td>
+                    {user.status ? (
+                      <MDBBadge color="success" pill>
+                        Activo
+                      </MDBBadge>
+                    ) : (
+                      <MDBBadge color="danger" pill>
+                        Inactivo
+                      </MDBBadge>
+                    )}
+                  </td>
+                  <td>
+                    <div className="d-flex">
+                      <Button
+                        variant="link"
+                        onClick={() => handleEdit(user.id)}
+                      >
+                        <i className="bi bi-pencil-square" />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </DataTable>
+        </div>
       </Card>
     </Card>
   );
