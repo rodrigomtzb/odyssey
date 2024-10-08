@@ -14,6 +14,7 @@ const Sidebar = ({ menuItems }) => {
       [menuIndex]: !prevState[menuIndex],
     }));
   };
+
   const handleLogout = async () => {
     try {
       AuthService.logout().then((response) => {
@@ -26,10 +27,62 @@ const Sidebar = ({ menuItems }) => {
       console.error("Error: ", error);
     }
   };
+
+  // Componente recursivo para sub-items
+  const renderSubItems = (subItems, parentIndex, level = 1) => {
+    return (
+      <ul className="list-unstyled ps-3">
+        {subItems.map((subItem, subIndex) => {
+          const currentIndex = `${parentIndex}-${subIndex}`;
+          const isFirstLevel = level === 1; // Nivel de primer sub-item
+          const icon = isFirstLevel
+            ? "bi-caret-right-fill" 
+            : "bi-caret-right"; 
+
+          return (
+            <li key={currentIndex}>
+              {subItem.subItems ? (
+                <>
+                  <button
+                    className="w-100 nav-link text-white d-flex justify-content-between align-items-center"
+                    onClick={() => toggleMenu(currentIndex)}
+                    aria-controls={`collapse-submenu-${currentIndex}`}
+                    aria-expanded={openMenus[currentIndex] || false}
+                  >
+                    <span className="d-flex align-items-center">
+                      <i className={`bi ${icon}`} />
+                      <span className="ms-2">{subItem.title}</span>
+                    </span>
+                    <i
+                      className={`bi ${
+                        openMenus[currentIndex]
+                          ? "bi-chevron-up"
+                          : "bi-chevron-down"
+                      } fs-5`}
+                    />
+                  </button>
+                  <Collapse in={openMenus[currentIndex]}>
+                    <ul id={`collapse-submenu-${currentIndex}`} className="ps-3">
+                      {renderSubItems(subItem.subItems, currentIndex, level + 1)}
+                    </ul>
+                  </Collapse>
+                </>
+              ) : (
+                <Link to={subItem.path} className="nav-link text-white">
+                  <i className={`bi ${icon}`} /> {subItem.title}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
   return (
     <aside
       className="d-flex fixed-top flex-column vh-100"
-      style={{ width: "250px", backgroundColor: "#14233b" }}
+      style={{ width: "280px", backgroundColor: "#14233b" }}
     >
       <AppLogo />
       {/* Contenedor botones del sidebar */}
@@ -46,7 +99,7 @@ const Sidebar = ({ menuItems }) => {
                     aria-expanded={openMenus[index] || false}
                   >
                     <span className="d-flex align-items-center">
-                      <i className={`bi bi-${menuItem.icon} fs-4`} />{" "}
+                      <i className={`bi bi-${menuItem.icon} fs-4`} />
                       <span className="ms-2">{menuItem.title}</span>
                     </span>
                     <i
@@ -56,21 +109,8 @@ const Sidebar = ({ menuItems }) => {
                     />
                   </button>
                   <Collapse in={openMenus[index]}>
-                    <ul
-                      id={`collapse-menu-${index}`}
-                      className="list-unstyled ps-3" // Adds indentation to sub-items
-                    >
-                      {menuItem.subItems.map((subItem, subIndex) => (
-                        <li key={subIndex}>
-                          <Link
-                            to={subItem.path}
-                            className="nav-link text-white"
-                          >
-                            <i className="bi bi-caret-right-fill" />{" "}
-                            {subItem.title}
-                          </Link>
-                        </li>
-                      ))}
+                    <ul id={`collapse-menu-${index}`} className="ps-3">
+                      {renderSubItems(menuItem.subItems, index)}
                     </ul>
                   </Collapse>
                 </>
@@ -87,7 +127,7 @@ const Sidebar = ({ menuItems }) => {
           ))}
         </ul>
       </div>
-      {/* Contenedor boton de logout POR CAMBIAR A SECCION USUARIO*/}
+      {/* Contenedor boton de logout POR CAMBIAR A SECCION USUARIO */}
       <div className="mt-auto p-3">
         <button
           className="btn btn-gd w-100 d-flex align-items-center justify-content-start"

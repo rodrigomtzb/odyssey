@@ -80,10 +80,21 @@ const LoggedLayout = () => {
         {
           title: "Control de Pagos",
           path: "/",
+          subItems: [
+            { title: "Solicitudes", path: "/" },
+            { title: "Autorizaciones", path: "/" },
+          ],
         },
         {
           title: "Fiscal",
           path: "/",
+          subItems: [
+            {
+              title: "Impuestos",
+              path: "/",
+            },
+            { title: "Facturas", path: "" },
+          ],
         },
       ],
     },
@@ -96,8 +107,8 @@ const LoggedLayout = () => {
           position: "absolute",
           top: 0,
           left: 0,
-          width: "100%-250px",
-          height: "100%-250px",
+          width: "100%-280px",
+          height: "100%",
           backgroundColor: "rgba(255, 255, 255, 0.4)",
           zIndex: 1,
           marginLeft: "250px",
@@ -106,7 +117,7 @@ const LoggedLayout = () => {
       <Sidebar menuItems={menuItems} />
       <main
         className="content p-4"
-        style={{ marginLeft: "250px", position: "relative", zIndex: 2 }}
+        style={{ marginLeft: "280px", position: "relative", zIndex: 2 }}
       >
         <Outlet />
       </main>
