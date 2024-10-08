@@ -29,14 +29,6 @@ const Users = () => {
               section="Panel de Control"
             />
           </Col>
-          <Col>
-            <CardButton
-              icon="person-video2"
-              text="Sesiones"
-              to="list"
-              section="Panel de Control"
-            />
-          </Col>
         </Row>
       </Container>
     </Card>
