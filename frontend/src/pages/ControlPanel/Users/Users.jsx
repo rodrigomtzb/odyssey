@@ -1,16 +1,12 @@
 import React from "react";
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
-import Title from "../../../components/Title";
-import CardButton from "../../../components/CardButton";
-import ReturnButton from "../../../components/ReturnButton";
+import { Container, Row, Col  } from "react-bootstrap";
+import { Title, MainCard } from "../../../components";
+import { CardButton } from "../../../components/Buttons";
 
 const Users = () => {
   return (
-    <Card
-      className="mt-3 border border-0 p-4"
-      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-    >
-      <Container className="pb-5">
+    <MainCard>
+      <Container className="">
         <Title title="Usuarios" isFirst />
         <Row>
           <Col>
@@ -31,7 +27,7 @@ const Users = () => {
           </Col>
         </Row>
       </Container>
-    </Card>
+    </MainCard>
   );
 };
 

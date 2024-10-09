@@ -1,4 +1,4 @@
-import ReturnButton from "./ReturnButton";
+import ReturnButton from "./Buttons/ReturnButton";
 
 const Title = ({ title, withReturnButton }) => {
   return (

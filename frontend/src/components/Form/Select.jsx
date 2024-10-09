@@ -9,6 +9,7 @@ const Select = ({
   className,
   defaultOption,
   required,
+  disabled,
 }) => {
   return (
     <Form.Group className="mb-3" controlId={name}>
@@ -19,13 +20,17 @@ const Select = ({
         value={value}
         onChange={onChange}
         required={required}
+        disabled={disabled}
       >
-        <option value="" disabled={required} >{defaultOption || "Seleccione una opción"}</option>
-        {options && options.map((option, index) => (
-          <option key={index} value={option.id || option}>
-            {option.name || option}
-          </option>
-        ))}
+        <option value="" disabled={required}>
+          {defaultOption || "Seleccione una opción"}
+        </option>
+        {options &&
+          options.map((option, index) => (
+            <option key={index} value={option.id || option}>
+              {option.name || option}
+            </option>
+          ))}
       </Form.Select>
     </Form.Group>
   );

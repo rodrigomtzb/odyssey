@@ -1,4 +1,4 @@
-import ReturnButton from "../ReturnButton";
+import ReturnButton from "../Buttons/ReturnButton";
 
 const TitleSection = ({ text, isFirst, withReturnButton }) => {
   return (

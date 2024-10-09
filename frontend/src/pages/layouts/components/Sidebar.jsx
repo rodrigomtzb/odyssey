@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import AppLogo from "./AppLogo";
-import AuthService from "../services/auth.service";
+import { AppLogo } from "../../../components";
+import AuthService from "../../../services/auth.service";
 
 const Sidebar = ({ menuItems }) => {
   const [openMenus, setOpenMenus] = useState({});
@@ -27,14 +27,13 @@ const Sidebar = ({ menuItems }) => {
       console.error("Error: ", error);
     }
   };
-
-  // Componente recursivo para sub-items
+  
   const renderSubItems = (subItems, parentIndex, level = 1) => {
     return (
       <ul className="list-unstyled ps-3">
         {subItems.map((subItem, subIndex) => {
           const currentIndex = `${parentIndex}-${subIndex}`;
-          const isFirstLevel = level === 1; // Nivel de primer sub-item
+          const isFirstLevel = level === 1;
           const icon = isFirstLevel
             ? "bi-caret-right-fill" 
             : "bi-caret-right"; 

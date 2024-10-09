@@ -1,27 +1,27 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { CardButton } from "../../../components/Buttons";
 import { Title, MainCard } from "../../../components";
+import { CardButton } from "../../../components/Buttons";
 
-const DashboardPurchases = () => {
+const DashboardWorks = () => {
   return (
     <MainCard>
       <Container className="pb-5">
-        <Title title="Compras" isFirst />
+        <Title title="Obras" isFirst />
         <Row>
           <Col>
             <CardButton
-              icon="cart-plus-fill"
-              text="Alta de Solicitud"
+              icon="house-add-fill"
+              text="Alta de Obra"
+              section="Obras"
               to="create"
-              section="Compras"
             />
           </Col>
           <Col>
             <CardButton
-              icon="clipboard2-check-fill"
-              text="Lista de Solicitud"
+              icon="list-ul"
+              text="Lista de Obras"
+              secion="Proveedores"
               to="list"
-              section="Compras"
             />
           </Col>
         </Row>
@@ -30,4 +30,4 @@ const DashboardPurchases = () => {
   );
 };
 
-export default DashboardPurchases;
+export default DashboardWorks;

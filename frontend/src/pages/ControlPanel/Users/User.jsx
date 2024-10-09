@@ -1,7 +1,6 @@
 import { Card } from "react-bootstrap";
-import Title from "../../../components/Title";
 import { useParams } from "react-router-dom";
-import DefinitionList from "../../../components/DefinitionList";
+import { Title, DefinitionList } from "../../../components";
 
 const UserDetails = () => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 
 const LoggedLayout = () => {
@@ -53,7 +53,8 @@ const LoggedLayout = () => {
       title: "Proyectos",
       icon: "houses-fill",
       subItems: [
-        { title: "Obras", path: "/" },
+        { title: "Proveedores", path: "/providers" },
+        { title: "Obras", path: "/works" },
         { title: "Levantamientos", path: "/" },
         { title: "Presupuestos", path: "/" },
         { title: "Avances", path: "/" },

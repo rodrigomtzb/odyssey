@@ -1,17 +1,12 @@
-import {
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
-  MDBBadge,
-} from "mdb-react-ui-kit";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-bs5";
 import "datatables.net-select-dt";
 import "datatables.net-responsive-dt";
 
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Badge } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import Title from "../../../../components/Title";
+
+import { MainCard, Title } from "../../../../components";
 import imageProfileDefault from "../../../../assets/img/profile-default.png";
 
 DataTable.use(DT);
@@ -50,10 +45,7 @@ const UsersList = () => {
   };
 
   return (
-    <Card
-      className="mt-3 border border-0 p-4"
-      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-    >
+    <MainCard>
       <Card>
         <Title title="Usuarios" withReturnButton />
         <div className="table-responsive">
@@ -100,13 +92,9 @@ const UsersList = () => {
                   <td>{user.rol}</td>
                   <td>
                     {user.status ? (
-                      <MDBBadge color="success" pill>
-                        Activo
-                      </MDBBadge>
+                      <Badge bg="success">Activo</Badge>
                     ) : (
-                      <MDBBadge color="danger" pill>
-                        Inactivo
-                      </MDBBadge>
+                      <Badge bg="danger">Inactivo</Badge>
                     )}
                   </td>
                   <td>
@@ -125,7 +113,7 @@ const UsersList = () => {
           </DataTable>
         </div>
       </Card>
-    </Card>
+    </MainCard>
   );
 };
 

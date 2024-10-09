@@ -16,11 +16,14 @@ const UserDetails = React.lazy(() =>
   import("../pages/ControlPanel/Users/User")
 );
 
-import Test from "../pages/Test";
 import Loader from "../components/Loader";
 import DashboardPurchases from "../pages/Administration/Purchases/Dashboard";
 import PurchaseForm from "../pages/Administration/Purchases/Form";
 import PurchasesList from "../pages/Administration/Purchases/List";
+import DashboardProviders from "../pages/Projects/Providers/Dashboard";
+import DashboardWorks from "../pages/Projects/Works/Dashboard";
+import ProviderForm from "../pages/Projects/Providers/Form";
+import WorkForm from "../pages/Projects/Works/Form";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +59,22 @@ const router = createBrowserRouter([
         element: <UserDetails />,
       },
       {
+        path: "/providers",
+        element: <DashboardProviders />
+      },
+      {
+        path: "/providers/create",
+        element: <ProviderForm />
+      },
+      {
+        path: "/works",
+        element: <DashboardWorks />
+      },
+      {
+        path: "/works/create",
+        element: <WorkForm />
+      },
+      {
         path: "/purchases",
         element: <DashboardPurchases />
       },
@@ -72,10 +91,6 @@ const router = createBrowserRouter([
         element: <Loader />,
       },
     ],
-  },
-  {
-    path: "test",
-    element: <Test />,
   },
 ]);
 
