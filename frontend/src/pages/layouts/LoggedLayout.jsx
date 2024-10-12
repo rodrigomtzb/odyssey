@@ -2,7 +2,6 @@ import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 
 const LoggedLayout = () => {
-  const token = localStorage.getItem("token");
   const menuItems = [
     { title: "Inicio", icon: "grid-fill", path: "/" },
     {
@@ -41,7 +40,7 @@ const LoggedLayout = () => {
         },
         {
           title: "Clientes",
-          path: "/",
+          path: "/clients",
         },
         {
           title: "Reportes",
@@ -53,7 +52,6 @@ const LoggedLayout = () => {
       title: "Proyectos",
       icon: "houses-fill",
       subItems: [
-        { title: "Proveedores", path: "/providers" },
         { title: "Obras", path: "/works" },
         { title: "Levantamientos", path: "/" },
         { title: "Presupuestos", path: "/" },
@@ -64,15 +62,10 @@ const LoggedLayout = () => {
       title: "Administración",
       icon: "person-lines-fill",
       subItems: [
-        { title: "Provedores", path: "" },
+        { title: "Proveedores", path: "/providers" },
         { title: "Compras", path: "/purchases" },
         { title: "Inventario Material", path: "/" },
       ],
-    },
-    {
-      title: "Tesoreria",
-      icon: "cash",
-      subItems: [{ title: "Pagos", path: "" }],
     },
     {
       title: "Finanzas",
@@ -103,18 +96,6 @@ const LoggedLayout = () => {
 
   return (
     <div className="bg-general">
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%-280px",
-          height: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.4)",
-          zIndex: 1,
-          marginLeft: "250px",
-        }}
-      />
       <Sidebar menuItems={menuItems} />
       <main
         className="content p-4"

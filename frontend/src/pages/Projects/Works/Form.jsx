@@ -13,9 +13,9 @@ const WorkForm = () => {
       <Card>
         <Form>
           <TitleSection text="Alta de Obra" isFirst withReturnButton />
+          <Select label="Cliente" />
           <Input label="Nombre de Obra" />
           <Select label="Encargado de Obra" />
-          <Select label="Cliente" />
           <AddressSection />
           <Stack direction="horizontal">
 

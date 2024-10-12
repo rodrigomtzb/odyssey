@@ -14,7 +14,7 @@
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 h1,h2,h3,h4,h5,h6,label,span {
@@ -33,17 +33,6 @@ a {
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
-.cnt-img-lgn {
-  width: 280px;
-  margin: auto;
-  margin-bottom: 10px;
-}
-
-.cnt-img-lgn>img {
-  width: 100%;
-  height: calc(100% - 60px);/*<-- Yo puse 60px porque más o menos es lo que mide la altura del título, pero tú coloca un número de pixeles que se ajuste*/
-  object-fit: contain;
-}
 
 .auth-wrapper .form-control:focus {
   border-color: #14233b;

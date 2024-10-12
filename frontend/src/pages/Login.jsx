@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div className="App d-flex justify-content-center align-items-center min-vh-100">
+    <div className="App d-flex justify-content-center align-items-center min-vh-100 h-100">
       <div className="align-self-center">
         <Card className="bg-white bg-opacity-50 rounded-4">
           <Card.Body className="m-4">

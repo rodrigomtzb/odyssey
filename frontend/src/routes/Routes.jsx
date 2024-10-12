@@ -24,6 +24,8 @@ import DashboardProviders from "../pages/Projects/Providers/Dashboard";
 import DashboardWorks from "../pages/Projects/Works/Dashboard";
 import ProviderForm from "../pages/Projects/Providers/Form";
 import WorkForm from "../pages/Projects/Works/Form";
+import DashboardClients from "../pages/Marketing/Clients/Dashboard";
+import ClientForm from "../pages/Marketing/Clients/Form";
 
 const router = createBrowserRouter([
   {
@@ -60,31 +62,42 @@ const router = createBrowserRouter([
       },
       {
         path: "/providers",
-        element: <DashboardProviders />
+        element: <DashboardProviders />,
       },
       {
         path: "/providers/create",
-        element: <ProviderForm />
+        element: <ProviderForm />,
       },
       {
         path: "/works",
-        element: <DashboardWorks />
+        element: <DashboardWorks />,
       },
       {
         path: "/works/create",
-        element: <WorkForm />
+        element: <WorkForm />,
       },
       {
         path: "/purchases",
-        element: <DashboardPurchases />
+        element: <DashboardPurchases />,
       },
       {
         path: "/purchases/create",
-        element: <PurchaseForm />
+        element: <PurchaseForm />,
       },
       {
         path: "/purchases/list",
-        element: <PurchasesList />
+        element: <PurchasesList />,
+      },
+      {
+        path: "/clients",
+        element: <DashboardClients />,
+      },
+      {
+        path: "/clients/create",
+        element: <ClientForm />
+      },
+      {
+        path: "/clients/list",
       },
       {
         path: "/loader",
@@ -98,7 +111,7 @@ const AppRoutes = () => {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
       </Suspense>
     </>
   );
