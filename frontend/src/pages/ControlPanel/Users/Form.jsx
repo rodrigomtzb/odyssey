@@ -66,7 +66,7 @@ const UserForm = () => {
           isFirst withReturnButton
         />
         <Form onSubmit={handleSubmit} noValidate validated={validated}>
-          {/* <Form.Group className="mb-3" controlId="names">
+          {/* <Form.Group className="mb-3" controlId="names"> */}
           <Input label="Nombre(s)" name="names" placeholder="Ingresa los nombres" required />
           <Row>
             <Col>
@@ -76,8 +76,9 @@ const UserForm = () => {
               <Input label="Apellido Materno" name="secondLastName" placeholder="Ingresa el apellido materno" required />
             </Col>
           </Row>
-          <Input label="Fecha de Nacimiento" name="birthDate" type="date" required />
-          */}
+          {/* Numero de telefono */}
+          {/* <Input label="Fecha de Nacimiento" name="birthDate" type="date" required /> */}
+         
           <Input
             label="Correo Electronico"
             type="email"

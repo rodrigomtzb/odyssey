@@ -64,7 +64,17 @@
 .text-gd{
   color: #14233b !important;
 }
+.cnt-img-lgn {
+  width: 280px;
+  margin: auto;
+  margin-bottom: 10px;
+}
 
+.cnt-img-lgn>img {
+  width: 100%;
+  height: calc(100% - 60px);/*<-- Yo puse 60px porque más o menos es lo que mide la altura del título, pero tú coloca un número de pixeles que se ajuste*/
+  object-fit: contain;
+}
 .scroll-gd {
   scrollbar-width: thin;
   scrollbar-color: #14233b #ffffff;

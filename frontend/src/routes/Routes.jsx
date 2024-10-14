@@ -26,6 +26,8 @@ import ProviderForm from "../pages/Projects/Providers/Form";
 import WorkForm from "../pages/Projects/Works/Form";
 import DashboardClients from "../pages/Marketing/Clients/Dashboard";
 import ClientForm from "../pages/Marketing/Clients/Form";
+import DashboardSessions from "../pages/ControlPanel/Sessions/Dashboard";
+import SessionsList from "../pages/ControlPanel/Sessions/List";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserDetails />,
+      },
+      {
+        path: "/sessions",
+        element: <DashboardSessions />
+      },
+      {
+        path: "/sessions/list",
+        element: <SessionsList />
       },
       {
         path: "/providers",

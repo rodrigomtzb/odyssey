@@ -9,7 +9,7 @@ const LoggedLayout = () => {
       icon: "dpad-fill",
       subItems: [
         { title: "Usuarios", path: "/users" },
-        { title: "Sesiones", path: "/" },
+        { title: "Sesiones", path: "/sessions" },
         { title: "Control de Accesos", path: "/" },
         { title: "Bitacora de Accesos", path: "/" },
         { title: "Roles", path: "/" },

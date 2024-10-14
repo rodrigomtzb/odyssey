@@ -1,15 +1,7 @@
 import { post } from "../utils/requests";
 
 const register = (data) => {
-  console.log(data);
-  const datos = {
-    username: data.username,
-    email: data.email,
-    password: data.password,
-    role: data.role
-  }
-  console.log(datos)
-  return post("auth/signup", datos);
+  return post("auth/signup", data);
 };
 
 const login = (username, password) => {

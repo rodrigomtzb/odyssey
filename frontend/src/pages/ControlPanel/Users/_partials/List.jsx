@@ -1,3 +1,4 @@
+import $ from "jquery";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-bs5";
 import "datatables.net-select-dt";
@@ -8,29 +9,33 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { MainCard, Title } from "../../../../components";
 import imageProfileDefault from "../../../../assets/img/profile-default.png";
+import axios from "axios";
+import UserService from "../../../../services/user.service";
+import { useEffect, useState } from "react";
 
 DataTable.use(DT);
 
 const UsersList = () => {
   const navigate = useNavigate();
-  const users = [
-    {
-      id: 1,
-      names: "Alfredo Alexis",
-      lastNames: "Fiesco Venegas",
-      email: "alfredo.alexis30@gmail.com",
-      rol: "manager",
-      status: true,
-    },
-    {
-      id: 2,
-      names: "Karina Lizette",
-      lastNames: "Vilchis Carbajal",
-      email: "karina.vilchis.carbajal@gmail.com",
-      rol: "user",
-      status: false,
-    },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    UserService.getUsersEnabled().then((response) => {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const table = $("#usersTable").DataTable();
+
+      return () => {
+        table.destroy();
+      };
+    }
+  }, [users]);
+  
 
   //Por volver utilities
   const handleDelete = (id) => {
@@ -49,7 +54,7 @@ const UsersList = () => {
       <Card>
         <Title title="Usuarios" withReturnButton />
         <div className="table-responsive">
-          <DataTable>
+          <table id="usersTable" className="display table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -91,7 +96,7 @@ const UsersList = () => {
                   </td>
                   <td>{user.rol}</td>
                   <td>
-                    {user.status ? (
+                    {user.enabled ? (
                       <Badge bg="success">Activo</Badge>
                     ) : (
                       <Badge bg="danger">Inactivo</Badge>
@@ -110,7 +115,7 @@ const UsersList = () => {
                 </tr>
               ))}
             </tbody>
-          </DataTable>
+          </table>
         </div>
       </Card>
     </MainCard>
