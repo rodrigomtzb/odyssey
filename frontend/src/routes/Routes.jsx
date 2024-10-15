@@ -36,7 +36,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <LoggedLayout />,
+    element: (
+      <PrivateRoute>
+        <LoggedLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/hr",
@@ -64,11 +68,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/sessions",
-        element: <DashboardSessions />
+        element: <DashboardSessions />,
       },
       {
         path: "/sessions/list",
-        element: <SessionsList />
+        element: <SessionsList />,
       },
       {
         path: "/providers",
@@ -104,7 +108,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/clients/create",
-        element: <ClientForm />
+        element: <ClientForm />,
       },
       {
         path: "/clients/list",
