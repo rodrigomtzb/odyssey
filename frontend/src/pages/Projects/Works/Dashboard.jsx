@@ -6,21 +6,21 @@ const DashboardWorks = () => {
   return (
     <MainCard>
       <Container className="pb-5">
-        <Title title="Obras" isFirst />
+        <Title title="Proyectos" isFirst />
         <Row>
           <Col>
             <CardButton
               icon="house-add-fill"
-              text="Alta de Obra"
-              section="Obras"
+              text="Alta de Proyeto"
+              section="Proyectos"
               to="create"
             />
           </Col>
           <Col>
             <CardButton
               icon="list-ul"
-              text="Lista de Obras"
-              secion="Proveedores"
+              text="Lista de Proyectos"
+              section="Proyectos"
               to="list"
             />
           </Col>

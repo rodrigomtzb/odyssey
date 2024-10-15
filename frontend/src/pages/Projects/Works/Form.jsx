@@ -12,10 +12,11 @@ const WorkForm = () => {
     <MainCard>
       <Card>
         <Form>
-          <TitleSection text="Alta de Obra" isFirst withReturnButton />
+          
+          <TitleSection text="Alta de Proyecto" isFirst withReturnButton />
+          <Select label="Encargado de Proyecto" />
           <Select label="Cliente" />
-          <Input label="Nombre de Obra" />
-          <Select label="Encargado de Obra" />
+          <Input label="Nombre de Proyecto" placeholder="Edificio Munguia" />
           <AddressSection />
           <Stack direction="horizontal">
 
