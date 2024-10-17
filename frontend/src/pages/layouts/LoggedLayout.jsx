@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 
@@ -52,7 +54,7 @@ const LoggedLayout = () => {
       title: "Proyectos",
       icon: "houses-fill",
       subItems: [
-        { title: "Obras", path: "/works" },
+        { title: "Proyectos", path: "/works" },
         { title: "Levantamientos", path: "/" },
         { title: "Presupuestos", path: "/" },
         { title: "Avances", path: "/" },
@@ -96,9 +98,10 @@ const LoggedLayout = () => {
 
   return (
     <div className="bg-general">
+      <Header/>
       <Sidebar menuItems={menuItems} />
       <main
-        className="content p-4"
+        className="content p-4 main"
         style={{ marginLeft: "280px", position: "relative", zIndex: 2 }}
       >
         <Outlet />

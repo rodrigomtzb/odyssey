@@ -80,7 +80,7 @@ const Sidebar = ({ menuItems }) => {
 
   return (
     <aside
-      className="d-flex fixed-top flex-column vh-100"
+      className="d-none d-md-flex fixed-top flex-column vh-100"
       style={{ width: "280px", backgroundColor: "#14233b" }}
     >
       <AppLogo />

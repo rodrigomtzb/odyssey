@@ -29,6 +29,8 @@ import ClientForm from "../pages/Marketing/Clients/Form";
 import DashboardSessions from "../pages/ControlPanel/Sessions/Dashboard";
 import SessionsList from "../pages/ControlPanel/Sessions/List";
 import LoggedRoute from "./LoggedRoute";
+import TableLoader from "../loaders/TableLoader";
+import Timeline from "../pages/Timeline";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,7 @@ const router = createBrowserRouter([
       {
         path: "/users/list",
         element: <UsersList />,
+        // loader: <TableLoader />
       },
       {
         path: "/users/:id/edit",
@@ -122,6 +125,10 @@ const router = createBrowserRouter([
         path: "/loader",
         element: <Loader />,
       },
+      {
+        path:"/timeline",
+        element: <Timeline />
+      }
     ],
   },
 ]);
