@@ -43,11 +43,11 @@ const Login = () => {
   };
 
   return (
-    <div className="App d-flex justify-content-center align-items-center min-vh-100 h-100">
-      <div className="align-self-center">
+    <div className="App d-flex justify-content-center align-items-center max-vh-100 h-100">
+      <div className="align-self-center p-3">
         <Card className="bg-white bg-opacity-50 rounded-4">
           <Card.Body className="m-4">
-            <div className="cnt-img-lgn text-center mb-3">
+            <div className="text-center mb-3 p-2 logo">
               <img src={imgLogo} alt="Logo" className="img-fluid" />
             </div>
             <Form onSubmit={handleSubmit} noValidate validated={validated}>
