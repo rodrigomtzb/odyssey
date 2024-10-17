@@ -6,8 +6,8 @@ const isLogged = () => {
 };
 
 const LoggedRoute = ({ children }) => {
-  const isLogged = isAuthenticated(); 
-  return isAuth ? children : <Navigate to="/login" />;
+  const isLog = isLogged(); 
+  return isLog ? children : <Navigate to="/" />;
 };
 
 export default LoggedRoute;

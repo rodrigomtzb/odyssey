@@ -72,7 +72,7 @@
 
 .cnt-img-lgn>img {
   width: 100%;
-  height: calc(100% - 60px);/*<-- Yo puse 60px porque más o menos es lo que mide la altura del título, pero tú coloca un número de pixeles que se ajuste*/
+  height: calc(100% - 60px);
   object-fit: contain;
 }
 .scroll-gd {

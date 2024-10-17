@@ -28,11 +28,16 @@ import DashboardClients from "../pages/Marketing/Clients/Dashboard";
 import ClientForm from "../pages/Marketing/Clients/Form";
 import DashboardSessions from "../pages/ControlPanel/Sessions/Dashboard";
 import SessionsList from "../pages/ControlPanel/Sessions/List";
+import LoggedRoute from "./LoggedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <LoggedRoute>
+        <Login />
+      </LoggedRoute>
+    ),
   },
   {
     path: "/",
