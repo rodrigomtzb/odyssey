@@ -1,5 +1,5 @@
 import { Button, Card, Form, Stack } from "react-bootstrap";
-import { MainCard } from "../../../components";
+import { MainCard, Title } from "../../../components";
 import {
   AddressSection,
   Input,
@@ -11,9 +11,9 @@ const WorkForm = () => {
   return (
     <MainCard>
       <Card>
+        <Title title="Alta de Proyecto" withReturnButton />
         <Form>
-          
-          <TitleSection text="Alta de Proyecto" isFirst withReturnButton />
+          <TitleSection text="Datos Generales" />
           <Select label="Encargado de Proyecto" />
           <Select label="Cliente" />
           <Input label="Nombre de Proyecto" placeholder="Edificio Munguia" />

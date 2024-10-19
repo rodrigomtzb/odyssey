@@ -6,7 +6,7 @@ import Select from "./Select";
 const AddressSection = ({ withoutTitle }) => {
   return (
     <>
-      {!withoutTitle ?? <TitleSection text="Domicilio" />}
+      {!withoutTitle && <TitleSection text="Domicilio" />}
       <Row>
         <Col sm={12} md={6}>
           <Input label="Calle" placeholder="Jabillos" />

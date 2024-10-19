@@ -19,12 +19,10 @@ const PurchaseForm = () => {
         <Form>
           <TitleSection text="Datos de Obra" isFirst />
           <Select
-            label="Obra"
-            defaultOption="Selecciona una Obra"
+            label="Proyecto"
+            defaultOption="Selecciona un proyecto"
             name="works"
           />
-          <AddressSection withoutTitle />
-          <Select label="Responsable" options={users} required />
 
           <TitleSection text="Materiales" />
           <Row>
@@ -41,13 +39,13 @@ const PurchaseForm = () => {
               <Input label="Total" name="subtotal" />
             </Col>
           </Row>
+          <hr />
           <Stack direction="horizontal" gap={2}>
             <Button variant="gd" className="ms-auto" type="submit">
               {id ? "Actualizar" : "Registrar"}
             </Button>
           </Stack>
         </Form>
-        <TitleSection text="Estatus de la solicitud" />
       </Card>
     </Card>
   );

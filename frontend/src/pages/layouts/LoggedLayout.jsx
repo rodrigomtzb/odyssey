@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
+import AlertBubble from "../../components/AlertBubble";
 
 const LoggedLayout = () => {
   const menuItems = [
@@ -105,6 +106,7 @@ const LoggedLayout = () => {
         style={{ marginLeft: "280px", position: "relative", zIndex: 2 }}
       >
         <Outlet />
+        <AlertBubble notificationCount={0} />
       </main>
     </div>
   );
