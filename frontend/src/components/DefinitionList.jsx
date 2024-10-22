@@ -1,6 +1,6 @@
 const DefinitionList = ({ definitions }) => {
   return (
-    <dl className="row">
+    <dl className="row px-4 py-2">
       {definitions.map((definition) => (
         <div className="d-flex">
           <div className="col-3">

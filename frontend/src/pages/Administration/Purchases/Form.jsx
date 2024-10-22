@@ -1,14 +1,38 @@
 import { Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
-import { AddressSection, Input, Select, TitleSection } from "../../../components/Form";
+import {
+  AddressSection,
+  Input,
+  Select,
+  TitleSection,
+} from "../../../components/Form";
 import { useParams } from "react-router-dom";
-import { Title } from "../../../components";
+import { DefinitionList, Title } from "../../../components";
+import { useState } from "react";
+import { handleFormChange } from "../../../utils";
+import MaterialForm from "../../../components/Form/MaterialForm";
 
 const PurchaseForm = () => {
-  const id = useParams();
-  const users = [
-    { id: 1, name: "Alfredo Alexis Fiesco Venegas" },
-    { id: 2, name: "Karina Lizette Vilchis Carbajal" },
+  const projects = [
+    {
+      id: 1,
+      name: "Hotel Treasure",
+    },
+    {
+      id: 2,
+      name: "Casa de Don Carmelo",
+    },
   ];
+  const projectData = [
+    { title: "Residente", description: "Alfredo Alexis Fiesco Venegas" },
+    { title: "Cliente", description: "Jazmine Hotels" },
+    { title: "Calle", description: "Av. Valparaiso" },
+    { title: "Número Exterior", description: "S/N" },
+    { title: "Colonia", description: "Lomas de Valparaíso" },
+    { title: "Código Postal", description: "65470" },
+    { title: "Municipio", description: "Acapulco de Juárez" },
+    { title: "Estado", description: "Guerrero" },
+  ];
+  const [formData, setFormData] = useState({ project: "" });
   return (
     <Card
       className="mt-3 border border-0 p-4"
@@ -21,30 +45,26 @@ const PurchaseForm = () => {
           <Select
             label="Proyecto"
             defaultOption="Selecciona un proyecto"
-            name="works"
+            name="project"
+            options={projects}
+            value={formData.project}
+            onChange={handleFormChange(formData, setFormData)}
           />
-
-          <TitleSection text="Materiales" />
-          <Row>
-            <Col sm={12} md={6}>
-              <Input label="Material" name="material" placeholder="Ingresa el nombre del material" />
-            </Col>
-            <Col sm={6} md={2}>
-              <Input label="Precio" name="price" placeholder="350" />
-            </Col>
-            <Col sm={6} md={2}>
-              <Input label="Unidad" name="unity" />
-            </Col>
-            <Col sm={12} md={2}>
-              <Input label="Total" name="subtotal" />
-            </Col>
-          </Row>
-          <hr />
-          <Stack direction="horizontal" gap={2}>
-            <Button variant="gd" className="ms-auto" type="submit">
-              {id ? "Actualizar" : "Registrar"}
-            </Button>
-          </Stack>
+          {formData.project ? (
+            <>
+              <DefinitionList definitions={projectData} />
+              <TitleSection text="Materiales" />
+              <MaterialForm />
+              <hr />
+              <Stack direction="horizontal" gap={2}>
+                <Button variant="gd" className="ms-auto" type="submit">
+                  Registrar
+                </Button>
+              </Stack>
+            </>
+          ) : (
+            ""
+          )}
         </Form>
       </Card>
     </Card>
