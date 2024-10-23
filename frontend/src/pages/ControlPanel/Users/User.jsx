@@ -1,6 +1,5 @@
-import { Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { Title, DefinitionList } from "../../../components";
+import { Title, DefinitionList, MainCard } from "../../../components";
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -32,18 +31,18 @@ const UserDetails = () => {
     },
     {
       title: "Fecha de nacimiento",
-      description: user.birthDate
+      description: user.birthDate,
     },
     {
       title: "Roles",
-      description: user.role
-    }
+      description: user.role,
+    },
   ];
   return (
-    <Card>
+    <>
       <Title title={`${user.name} ${user.lastNames}`} />
       <DefinitionList definitions={definitions} />
-    </Card>
+    </>
   );
 };
 

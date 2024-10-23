@@ -1,32 +1,30 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { CardButton } from "../../../components/Buttons";
-import { Title, MainCard } from "../../../components";
+import { Title } from "../../../components";
 
 const DashboardPurchases = () => {
   return (
-    <MainCard>
-      <Container className="pb-5">
-        <Title title="Compras" isFirst />
-        <Row>
-          <Col>
-            <CardButton
-              icon="cart-plus-fill"
-              text="Alta de Solicitud"
-              to="create"
-              section="Compras"
-            />
-          </Col>
-          <Col>
-            <CardButton
-              icon="clipboard2-check-fill"
-              text="Lista de Solicitud"
-              to="list"
-              section="Compras"
-            />
-          </Col>
-        </Row>
-      </Container>
-    </MainCard>
+    <>
+      <Title title="Compras" isFirst />
+      <Row>
+        <Col>
+          <CardButton
+            icon="cart-plus-fill"
+            text="Alta de Solicitud"
+            to="create"
+            section="Compras"
+          />
+        </Col>
+        <Col>
+          <CardButton
+            icon="clipboard2-check-fill"
+            text="Lista de Solicitud"
+            to="list"
+            section="Compras"
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 

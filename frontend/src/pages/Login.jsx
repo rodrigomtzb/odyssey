@@ -25,7 +25,8 @@ const Login = () => {
       AuthService.login(credentials.username, credentials.password).then(
         (response) => {
           if (response.status === 200) {
-            localStorage.setItem("user", JSON.stringify(response.data));
+            localStorage.setItem("accessToken", response.data.accessToken);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
             navigate("/");
           }
         }

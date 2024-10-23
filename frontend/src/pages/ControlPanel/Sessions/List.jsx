@@ -1,6 +1,6 @@
 import $ from "jquery";
-import { Button, Card } from "react-bootstrap";
-import { MainCard, Title } from "../../../components";
+import { Button } from "react-bootstrap";
+import { Title } from "../../../components";
 import { useEffect, useState } from "react";
 import SessionsService from "../../../services/session.service";
 import DataTable from "datatables.net-react";
@@ -29,48 +29,46 @@ const SessionsList = () => {
 
   const handleDelete = (id) => {
     SessionsService.destroySession(id).then((response) => {
-        if(response.status === 200){
-            window.location.reload();        
-        }
-    })
-  } 
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    });
+  };
   return (
-    <MainCard>
-      <Card>
-        <Title title="Lista de Sesiones" />
-        <div className="table-responsive">
-          <table id="sessionsTable" className="table display">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Expiracion</th>
-                <th>Acciones</th>
+    <>
+      <Title title="Lista de Sesiones" />
+      <div className="table-responsive">
+        <table id="sessionsTable" className="table display">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Expiracion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sessions.map((session) => (
+              <tr key={session.sessionId}>
+                <td>{session.sessionId}</td>
+                <td>{session.email}</td>
+                <td>{session.expiryDate}</td>
+                <td>
+                  <div className="d-flex">
+                    <Button
+                      variant="link"
+                      onClick={() => handleDelete(session.userId)}
+                    >
+                      <i className="bi bi-trash-fill" />
+                    </Button>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {sessions.map((session) => (
-                <tr key={session.sessionId}>
-                  <td>{session.sessionId}</td>
-                  <td>{session.email}</td>
-                  <td>{session.expiryDate}</td>
-                  <td>
-                    <div className="d-flex">
-                      <Button
-                        variant="link"
-                        onClick={() => handleDelete(session.userId)}
-                      >
-                        <i className="bi bi-trash-fill" />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
-    </MainCard>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 

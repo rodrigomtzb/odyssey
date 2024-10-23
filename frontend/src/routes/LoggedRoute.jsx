@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const isLogged = () => {
-  return localStorage.getItem('user') === null;
+  return localStorage.getItem('accessToken') === null;
 };
 
 const LoggedRoute = ({ children }) => {

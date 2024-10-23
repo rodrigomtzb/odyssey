@@ -3,7 +3,7 @@ import ReturnButton from "../Buttons/ReturnButton";
 const TitleSection = ({ text, isFirst, withReturnButton }) => {
   return (
     <>
-      {!isFirst && <hr style={{ borderColor: "#14233b" }} />}
+      {!isFirst ? <hr style={{ borderColor: "#14233b" }} /> : ""}
       <div className="d-flex justify-content-between mb-4">
         <div
           className="bg-gd d-flex align-items-center p-2 w-100"

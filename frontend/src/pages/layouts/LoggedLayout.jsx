@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import AlertBubble from "../../components/AlertBubble";
+import { MainCard } from "../../components";
 
 const LoggedLayout = () => {
   const menuItems = [
@@ -99,13 +100,15 @@ const LoggedLayout = () => {
 
   return (
     <div className="bg-general">
-      <Header/>
+      <Header />
       <Sidebar menuItems={menuItems} />
       <main
         className="content p-4 main"
         style={{ marginLeft: "280px", position: "relative", zIndex: 2 }}
       >
-        <Outlet />
+        <MainCard>
+          <Outlet />
+        </MainCard>
         <AlertBubble notificationCount={0} />
       </main>
     </div>

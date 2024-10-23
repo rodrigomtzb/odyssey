@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
+import { Button, Form, Stack } from "react-bootstrap";
 import {
   AddressSection,
   Input,
@@ -34,40 +34,35 @@ const PurchaseForm = () => {
   ];
   const [formData, setFormData] = useState({ project: "" });
   return (
-    <Card
-      className="mt-3 border border-0 p-4"
-      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-    >
-      <Card>
-        <Title title="Solicitud de compra" withReturnButton />
-        <Form>
-          <TitleSection text="Datos de Obra" isFirst />
-          <Select
-            label="Proyecto"
-            defaultOption="Selecciona un proyecto"
-            name="project"
-            options={projects}
-            value={formData.project}
-            onChange={handleFormChange(formData, setFormData)}
-          />
-          {formData.project ? (
-            <>
-              <DefinitionList definitions={projectData} />
-              <TitleSection text="Materiales" />
-              <MaterialForm />
-              <hr />
-              <Stack direction="horizontal" gap={2}>
-                <Button variant="gd" className="ms-auto" type="submit">
-                  Registrar
-                </Button>
-              </Stack>
-            </>
-          ) : (
-            ""
-          )}
-        </Form>
-      </Card>
-    </Card>
+    <>
+      <Title title="Solicitud de compra" withReturnButton />
+      <Form>
+        <TitleSection text="Datos de Obra" isFirst />
+        <Select
+          label="Proyecto"
+          defaultOption="Selecciona un proyecto"
+          name="project"
+          options={projects}
+          value={formData.project}
+          onChange={handleFormChange(formData, setFormData)}
+        />
+        {formData.project ? (
+          <>
+            <DefinitionList definitions={projectData} />
+            <TitleSection text="Materiales" />
+            <MaterialForm />
+            <hr />
+            <Stack direction="horizontal" gap={2}>
+              <Button variant="gd" className="ms-auto" type="submit">
+                Registrar
+              </Button>
+            </Stack>
+          </>
+        ) : (
+          ""
+        )}
+      </Form>
+    </>
   );
 };
 

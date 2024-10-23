@@ -9,18 +9,20 @@ const Input = ({
   value,
   onChange,
   required,
+  max,
 }) => {
   return (
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>{label}:</Form.Label>
       <Form.Control
-        className={`form-input ${className}`}
+        className={`form-input ${className} text-uppercase`}
         type={type || "text"}
         name={name}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         required={required}
+        maxLength={max}
       />
     </Form.Group>
   );
