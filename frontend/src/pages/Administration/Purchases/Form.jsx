@@ -1,4 +1,4 @@
-import { Button, Form, Stack } from "react-bootstrap";
+import { Button, Col, Form, Stack } from "react-bootstrap";
 import {
   AddressSection,
   Input,
@@ -10,6 +10,8 @@ import { DefinitionList, Title } from "../../../components";
 import { useState } from "react";
 import { handleFormChange } from "../../../utils";
 import MaterialForm from "../../../components/Form/MaterialForm";
+import { generatePurchaseTable } from "../../../utils/pdf/tablePdf";
+import ExportToExcel from "../../../utils/excel/exportExcel";
 
 const PurchaseForm = () => {
   const projects = [
@@ -62,6 +64,12 @@ const PurchaseForm = () => {
           ""
         )}
       </Form>
+      <Col md={3}>
+        <Button variant="gd" type="button" onClick={generatePurchaseTable}>
+          Generar tabla
+        </Button>
+        <ExportToExcel />
+      </Col>
     </>
   );
 };

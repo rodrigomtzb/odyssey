@@ -11,6 +11,7 @@ import { Title } from "../../../../components";
 import imageProfileDefault from "../../../../assets/img/profile-default.png";
 import UserService from "../../../../services/user.service";
 import { useEffect, useState } from "react";
+import { refreshToken } from "../../../../utils/requests";
 
 DataTable.use(DT);
 
@@ -50,6 +51,7 @@ const UsersList = () => {
   return (
     <>
       <Title title="Usuarios" withReturnButton />
+      <Button onClick={refreshToken}>Refresh</Button>
       <div className="table-responsive">
         <table id="usersTable" className="display table">
           <thead>

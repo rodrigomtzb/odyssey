@@ -126,9 +126,9 @@ const router = createBrowserRouter([
         element: <Loader />,
       },
       {
-        path:"/timeline",
-        element: <Timeline />
-      }
+        path: "/timeline",
+        element: <Timeline />,
+      },
     ],
   },
 ]);

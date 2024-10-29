@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 import AlertBubble from "../../components/AlertBubble";
 import { MainCard } from "../../components";
+import requestPermission from "../../utils/permissions";
+import getRegistrationToken from "../../utils/token";
 
 const LoggedLayout = () => {
   const menuItems = [
@@ -97,7 +99,10 @@ const LoggedLayout = () => {
       ],
     },
   ];
-
+  useEffect(() => {
+    requestPermission();
+    getRegistrationToken();
+  }, []);
   return (
     <div className="bg-general">
       <Header />

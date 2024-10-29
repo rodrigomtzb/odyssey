@@ -17,6 +17,7 @@ import {
 
 import AuthService from "../../../services/auth.service";
 import { useNavigate } from "react-router-dom";
+import { Title } from "../../../components";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -57,12 +58,12 @@ const UserForm = () => {
   };
   return (
     <>
-      <TitleSection
-        text={id ? "Informacion de Usuario" : "Información de Registro"}
-        isFirst
+      <Title
+        title={id ? "Informacion de Usuario" : "Información de Registro"}
         withReturnButton
       />
       <Form onSubmit={handleSubmit} noValidate validated={validated}>
+        <TitleSection text="Datos Generales" isFirst />
         {/* <Form.Group className="mb-3" controlId="names"> */}
         <Input
           label="Nombre(s)"
