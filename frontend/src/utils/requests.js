@@ -5,6 +5,7 @@ const api = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
   withCredentials: true,
 });
@@ -14,12 +15,11 @@ const getAccessToken = () => localStorage.getItem("accessToken");
 export const refreshToken = async () => {
   const token = getAccessToken();
   try {
-    api.defaults.headers["Authorization"] = `Bearer ${token}`;
     const response = await api.post("/auth/refreshtoken", {
-      refreshToken: localStorage.getItem("refreshToken"), 
+      refreshToken: localStorage.getItem("refreshToken"),
     });
     const newAccessToken = response.data.accessToken;
-    localStorage.setItem("accessToken", newAccessToken); // Almacena el nuevo token
+    localStorage.setItem("accessToken", newAccessToken);
     return newAccessToken;
   } catch (error) {
     console.error("Error al refrescar el token", error);
@@ -37,7 +37,7 @@ api.interceptors.response.use(
         const newAccessToken = await refreshToken();
         api.defaults.headers["Authorization"] = `Bearer ${newAccessToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        
+
         return api(originalRequest);
       } catch (refreshError) {
         console.error("No se pudo refrescar el token", refreshError);
@@ -82,6 +82,16 @@ export const destroy = async (endpoint) => {
     return await api.delete(endpoint);
   } catch (error) {
     console.error("Error al utilizar la consulta tipo DELETE", error);
+    throw error;
+  }
+};
+
+export const put = async (endpoint, data) => {
+  try {
+    setAuthorizationHeader();
+    return await api.put(endpoint, data);
+  } catch (error) {
+    console.error("Error al utilizar la consulta de tipo PUT", error);
     throw error;
   }
 };

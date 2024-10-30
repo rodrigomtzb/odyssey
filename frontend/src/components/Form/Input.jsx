@@ -15,7 +15,7 @@ const Input = ({
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>{label}:</Form.Label>
       <Form.Control
-        className={`form-input ${className} text-uppercase`}
+        className={`form-input ${className}`}
         type={type || "text"}
         name={name}
         placeholder={placeholder}

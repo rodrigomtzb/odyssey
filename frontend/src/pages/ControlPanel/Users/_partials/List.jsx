@@ -11,7 +11,6 @@ import { Title } from "../../../../components";
 import imageProfileDefault from "../../../../assets/img/profile-default.png";
 import UserService from "../../../../services/user.service";
 import { useEffect, useState } from "react";
-import { refreshToken } from "../../../../utils/requests";
 
 DataTable.use(DT);
 
@@ -51,7 +50,6 @@ const UsersList = () => {
   return (
     <>
       <Title title="Usuarios" withReturnButton />
-      <Button onClick={refreshToken}>Refresh</Button>
       <div className="table-responsive">
         <table id="usersTable" className="display table">
           <thead>
@@ -66,7 +64,9 @@ const UsersList = () => {
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td scope="col">{user.id}</td>
+                <td className="d-flex align-items-center justify-content-center">
+                  {user.id}
+                </td>
                 <td>
                   <div className="d-flex align-items-center">
                     <img
@@ -82,11 +82,12 @@ const UsersList = () => {
                     />
                     <div className="ms-3">
                       <Link
-                        onClick={handleView}
+                        onClick={() => handleView(user.id)}
                         className="text-decoration-none text-body"
                       >
                         <p className="fw-bold mb-1">
-                          {user.names} {user.lastNames}
+                          {user.firstName} {user.middleName}{" "}
+                          {user.fatherLastName} {user.motherLastName}
                         </p>
                       </Link>
                       <p className="text-muted mb-0">{user.email}</p>

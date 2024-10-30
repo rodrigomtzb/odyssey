@@ -1,8 +1,8 @@
 function requestPermission() {
-  console.log("Requesting permission...");
+  // console.log("Requesting permission...");
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
-      console.log("Notification permission granted.");
+      // console.log("Notification permission granted.");
     }
   });
 }

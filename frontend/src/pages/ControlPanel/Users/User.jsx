@@ -1,38 +1,38 @@
 import { useParams } from "react-router-dom";
 import { Title, DefinitionList, MainCard } from "../../../components";
+import { useEffect, useState } from "react";
+import UserService from "../../../services/user.service";
 
 const UserDetails = () => {
   const { id } = useParams();
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    UserService.getUser(id).then((response) => setUser(response.data));
+  }, []);
 
-  const user = {
-    name: "Alfredo Alexis",
-    lastNames: "Fiesco Venegas",
-    email: "alfredo.alexis30@gmail.com",
-    telephone: "5547168746",
-    birthDate: "20-07-1998",
-    role: ["manager", "mod"],
-  };
+  console.log(user);
+
   const definitions = [
     {
       title: "Nombre(s)",
-      description: user.name,
+      description: `${user.firstName} ${user.middleName}`,
     },
     {
       title: "Apellidos",
-      description: user.lastNames,
+      description: `${user.fatherLastName} ${user.motherLastName}`,
     },
     {
       title: "Correo Electronico",
       description: user.email,
     },
-    {
-      title: "Telefono",
-      description: user.telephone,
-    },
-    {
-      title: "Fecha de nacimiento",
-      description: user.birthDate,
-    },
+    // {
+    //   title: "Telefono",
+    //   description: user.telephone,
+    // },
+    // {
+    //   title: "Fecha de nacimiento",
+    //   description: user.birthDate,
+    // },
     {
       title: "Roles",
       description: user.role,
@@ -40,7 +40,9 @@ const UserDetails = () => {
   ];
   return (
     <>
-      <Title title={`${user.name} ${user.lastNames}`} />
+      <Title
+        title={`${user.firstName} ${user.middleName} ${user.fatherLastName} ${user.motherLastName}`}
+      />
       <DefinitionList definitions={definitions} />
     </>
   );
