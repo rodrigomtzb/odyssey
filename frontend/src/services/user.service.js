@@ -21,7 +21,7 @@ const editUserEmail = (id, data) => {
 const editUserPassword = (id, data) => {
   return put(`users/${id}/password`, data);
 };
-const editUserEnabled = (id, data) => {
+const toggleUserStatus = (id, data) => {
   return put(`users/${id}/enabled`, data);
 };
 const UserService = {
@@ -32,7 +32,7 @@ const UserService = {
   editUserData,
   editUserEmail,
   editUserPassword,
-  editUserEnabled,
+  toggleUserStatus,
 };
 
 export default UserService;

@@ -19,7 +19,6 @@ import AuthService from "../../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { Title } from "../../../components";
 import UserService from "../../../services/user.service";
-import { error } from "jquery";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -50,6 +49,54 @@ const UserForm = () => {
       });
     }
   }, [id]);
+  const toggleUserStatus = async () => {
+    let countdown = 5;
+    let title = formData.enabled ? "Deshabilitar" : "Habilitar";
+    let text = formData.enabled ? "deshabilitará" : "habilitará";
+    let confirm = formData.enabled ? "deshabilitado" : "habilitado";
+
+    Swal.fire({
+      title: `¿${title} usuario?`,
+      text: `Esta acción ${text} el usuario.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: `Confirmar (${countdown})`,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        confirmButton.disabled = true;
+
+        const timerInterval = setInterval(() => {
+          countdown -= 1;
+          confirmButton.textContent = `Confirmar (${countdown})`;
+
+          if (countdown === 0) {
+            clearInterval(timerInterval);
+            confirmButton.disabled = false;
+            confirmButton.textContent = "Confirmar";
+          }
+        }, 1000);
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        UserService.toggleUserStatus(id, {
+          id: id,
+          enabled: !formData.enabled,
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: `Usuario ${confirm}`,
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            navigate("/users/list");
+          });
+        });
+      }
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     // const form = e.currentTarget;
@@ -57,52 +104,76 @@ const UserForm = () => {
     //   e.stopPropagation();
     // }
     // setValidated(true);
-    try {
-      if (id) {
-        UserService.editUserData(id, {
-          id: id,
-          firstName: formData.firstName,
-          middleName: formData.middleName,
-          fatherLastName: formData.fatherLastName,
-          motherLastName: formData.motherLastName,
-        }).catch((error) =>
-          console.error("Error al editar datos generales: ", error)
-        );
-        UserService.editUserEmail(id, {
-          id: id,
-          email: formData.email,
-        }).catch((error) => {
-          console.error("Error al editar email: ", error);
-        });
-        UserService.editUserPassword(id, {
-          id: id,
-          password: formData.password,
-        }).catch((error) => {
-          console.error("Error al editar contraseña: ", error);
-        });
-        UserService.editUserEnabled(id, {
-          id: id,
-          enabled: formData.enabled,
-        }).catch((error) => {
-          console.error("Error al cambiar disponibilidad: ", error);
-        });
-      } else {
-        AuthService.register(formData).then((response) => {
-          if (response.status === 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Usuario registrado",
-              showConfirmButton: false,
-              timer: 3500,
+    Swal.fire({
+      title: "¿Estás seguro de la información del usuario?",
+      text: "Podrás cambiarlo después",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          if (id) {
+            UserService.editUserData(id, {
+              id: id,
+              firstName: formData.firstName,
+              middleName: formData.middleName,
+              fatherLastName: formData.fatherLastName,
+              motherLastName: formData.motherLastName,
+            })
+              .then(() => {
+                UserService.editUserEmail(id, {
+                  id: id,
+                  email: formData.email,
+                })
+                  .then(() => {
+                    if (formData.password) {
+                      UserService.editUserPassword(id, {
+                        id: id,
+                        password: formData.password,
+                      }).catch((error) => {
+                        console.error("Error al editar contraseña: ", error);
+                      });
+                    }
+                    Swal.fire({
+                      icon: "success",
+                      title: "Usuario actualizado",
+                      showConfirmButton: false,
+                      timer: 3500,
+                    }).then(() => {
+                      navigate("/users/list");
+                    });
+                  })
+                  .catch((error) => {
+                    console.error("Error al editar email: ", error);
+                  });
+              })
+              .catch((error) =>
+                console.error("Error al editar datos generales: ", error)
+              );
+          } else {
+            AuthService.register(formData).then((response) => {
+              if (response.status === 200) {
+                Swal.fire({
+                  icon: "success",
+                  title: "Usuario registrado",
+                  showConfirmButton: false,
+                  timer: 3500,
+                }).then(() => {
+                  navigate("/users/list");
+                });
+              }
             });
-            navigate("/users");
           }
-        });
+        } catch (error) {
+          console.error("Hubo un error al enviar el formulario:", error);
+          alert("Error al crear el usuario");
+        }
       }
-    } catch (error) {
-      console.error("Hubo un error al enviar el formulario:", error);
-      alert("Error al crear el usuario");
-    }
+    });
   };
   return (
     <>
@@ -208,6 +279,36 @@ const UserForm = () => {
           </Button>
         </Stack>
       </Form>
+      {id ? (
+        <>
+          <hr />
+          <div
+            className={`mt-2 px-4 py-3 ${
+              formData.enabled ? "bg-danger-subtle" : "bg-success-subtle"
+            }`}
+          >
+            <Row className="align-items-center">
+              <Col>
+                <p className="m-0">
+                  {formData.enabled ? "Usuario Activo" : "Usuario Inactivo"}
+                </p>
+              </Col>
+              <Col className="justify-content-end">
+                <Button
+                  variant={formData.enabled ? "danger" : "success"}
+                  onClick={toggleUserStatus}
+                >
+                  {formData.enabled
+                    ? "Deshabilitar usuario"
+                    : "Habilitar usuario"}
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 };

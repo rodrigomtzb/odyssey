@@ -6,6 +6,7 @@ import {
   Select,
   TitleSection,
 } from "../../../components/Form";
+import AddressSection2 from "../../../components/Form/Address2";
 
 const WorkForm = () => {
   return (

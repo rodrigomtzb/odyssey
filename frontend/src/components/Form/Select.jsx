@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 
 const Select = ({
@@ -6,11 +7,21 @@ const Select = ({
   value,
   onChange,
   options,
+  optionValue = "id",
+  optionLabel = "name",
   className,
   defaultOption,
   required,
   disabled,
 }) => {
+
+  useEffect(() => {
+    if (options && options.length == 1) {
+      const singleOptionValue = options[0][optionValue] || options[0];
+      onChange({ target: { name, value: singleOptionValue } });
+    }
+  }, [options]);
+
   return (
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>{label}:</Form.Label>
@@ -27,8 +38,8 @@ const Select = ({
         </option>
         {options &&
           options.map((option, index) => (
-            <option key={index} value={option.id || option}>
-              {option.name || option}
+            <option key={index} value={option[optionValue] || option}>
+              {option[optionLabel] || option}
             </option>
           ))}
       </Form.Select>
