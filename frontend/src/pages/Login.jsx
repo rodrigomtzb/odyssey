@@ -4,6 +4,7 @@ import { Card, Form, FloatingLabel, Button } from "react-bootstrap";
 import AuthService from "../services/auth.service";
 import imgLogo from "../assets/img/logo02.png";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -25,9 +26,16 @@ const Login = () => {
       AuthService.login(credentials.username, credentials.password).then(
         (response) => {
           if (response.status === 200) {
-            localStorage.setItem("accessToken", response.data.accessToken);
-            localStorage.setItem("refreshToken", response.data.refreshToken);
-            navigate("/");
+            Swal.fire({
+              title: `Bienvenido`,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              localStorage.setItem("accessToken", response.data.accessToken);
+              localStorage.setItem("refreshToken", response.data.refreshToken);
+              navigate("/");
+            });
           }
         }
       );
