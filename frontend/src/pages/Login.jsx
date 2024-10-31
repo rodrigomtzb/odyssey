@@ -5,8 +5,11 @@ import AuthService from "../services/auth.service";
 import imgLogo from "../assets/img/logo02.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Loader } from "../components";
+import { useLoader } from "../context/Loader/LoaderProvider";
 
 const Login = () => {
+  const { isLoading } = useLoader();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -52,53 +55,55 @@ const Login = () => {
   };
 
   return (
-    <div className="App d-flex justify-content-center align-items-center max-vh-100 h-100">
-      <div className="align-self-center p-3">
-        <Card className="bg-white bg-opacity-50 rounded-4">
-          <Card.Body className="m-4">
-            <div className="text-center mb-3 p-2 logo">
-              <img src={imgLogo} alt="Logo" className="img-fluid" />
-            </div>
-            <Form onSubmit={handleSubmit} noValidate validated={validated}>
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Correo Electrónico"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="email"
-                  placeholder="name@example.com"
-                  name="username"
-                  value={credentials.username}
-                  onChange={handleChange}
-                  required
-                />
-              </FloatingLabel>
+    <>
+      <div className="App d-flex justify-content-center align-items-center max-vh-100 h-100">
+        <div className="align-self-center p-3">
+          <Card className="bg-white bg-opacity-50 rounded-4">
+            <Card.Body className="m-4">
+              <div className="text-center mb-3 p-2 logo">
+                <img src={imgLogo} alt="Logo" className="img-fluid" />
+              </div>
+              <Form onSubmit={handleSubmit} noValidate validated={validated}>
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Correo Electrónico"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="email"
+                    placeholder="name@example.com"
+                    name="username"
+                    value={credentials.username}
+                    onChange={handleChange}
+                    required
+                  />
+                </FloatingLabel>
 
-              <FloatingLabel
-                controlId="floatingPassword"
-                label="Contraseña"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={credentials.password}
-                  onChange={handleChange}
-                  required
-                />
-              </FloatingLabel>
+                <FloatingLabel
+                  controlId="floatingPassword"
+                  label="Contraseña"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={credentials.password}
+                    onChange={handleChange}
+                    required
+                  />
+                </FloatingLabel>
 
-              {error && <p style={{ color: "red" }}>{error}</p>}
-              <Button variant="gd" type="submit" className="w-100">
-                Entrar
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <Button variant="gd" type="submit" className="w-100">
+                  Entrar
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

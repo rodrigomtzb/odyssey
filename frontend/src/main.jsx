@@ -5,9 +5,12 @@ import "./css/index.css";
 import "./css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { LoaderProvider } from "./context/Loader/LoaderProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <LoaderProvider>
       <AppRoutes />
+    </LoaderProvider>
   </React.StrictMode>
 );

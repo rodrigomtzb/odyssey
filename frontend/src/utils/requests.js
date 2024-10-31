@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useLoader } from "../context/Loader/LoaderProvider";
 
 const api = axios.create({
   baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
@@ -13,7 +14,6 @@ const api = axios.create({
 const getAccessToken = () => localStorage.getItem("accessToken");
 
 export const refreshToken = async () => {
-  const token = getAccessToken();
   try {
     const response = await api.post("/auth/refreshtoken", {
       refreshToken: localStorage.getItem("refreshToken"),
@@ -27,9 +27,22 @@ export const refreshToken = async () => {
   }
 };
 
+// api.interceptors.request.use((config) => {
+//   const { setIsLoading } = useLoader();
+//   setIsLoading(true);
+//   return config;
+// });
+
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // const { setIsLoading } = useLoader();
+    // setIsLoading(false);
+    return response;
+  },
   async (error) => {
+    // const { setIsLoading } = useLoader();
+    // setIsLoading(false);
+
     const originalRequest = error.config;
 
     if (error.response && error.response.status === 408) {
