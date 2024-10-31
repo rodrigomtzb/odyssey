@@ -26,8 +26,8 @@ const Login = () => {
     }
     setValidated(true);
     try {
-      AuthService.login(credentials.username, credentials.password).then(
-        (response) => {
+      AuthService.login(credentials.username, credentials.password)
+        .then((response) => {
           if (response.status === 200) {
             Swal.fire({
               title: `Bienvenido`,
@@ -40,8 +40,18 @@ const Login = () => {
               navigate("/");
             });
           }
-        }
-      );
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            Swal.fire({
+              title: "Error",
+              text: "Credenciales erroneas",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
     } catch (error) {
       console.log("Error: ", error);
     }
