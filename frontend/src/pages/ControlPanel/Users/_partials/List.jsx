@@ -4,7 +4,7 @@ import DT from "datatables.net-bs5";
 import "datatables.net-select-dt";
 import "datatables.net-responsive-dt";
 
-import { Button, Badge } from "react-bootstrap";
+import { Button, Badge, DropdownButton, Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Title } from "../../../../components";
@@ -17,20 +17,33 @@ DataTable.use(DT);
 const UsersList = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState("enabled");
 
   useEffect(() => {
-    UserService.getUsersEnabled().then((response) => {
-      console.log(response.data);
+    fetchUsers();
+  }, [filter]);
+
+  const fetchUsers = () => {
+    const apiCall =
+      filter === "enabled"
+        ? UserService.getUsersEnabled()
+        : filter === "disabled"
+        ? UserService.getUsersDisabled()
+        : UserService.getUsers();
+
+    apiCall.then((response) => {
       setUsers(response.data);
     });
-  }, []);
+  };
 
   useEffect(() => {
     if (users.length > 0) {
       const table = $("#usersTable").DataTable();
 
       return () => {
-        table.destroy();
+        if ($.fn.dataTable.isDataTable("#usersTable")) {
+          table.destroy();
+        }
       };
     }
   }, [users]);
@@ -50,6 +63,33 @@ const UsersList = () => {
   return (
     <>
       <Title title="Usuarios" withReturnButton />
+      <div className="d-flex align-items-center mb-3">
+        <DropdownButton
+          id="userFilterDropdown"
+          title={
+            <>
+              <i className="bi bi-funnel-fill me-2" />
+              {filter === "enabled"
+                ? "Habilitados"
+                : filter === "disabled"
+                ? "Deshabilitados"
+                : "Todos"}
+            </>
+          }
+          onSelect={(eventKey) => setFilter(eventKey)}
+          variant={
+            filter == "enabled"
+              ? "success"
+              : filter == "disabled"
+              ? "danger"
+              : "primary"
+          }
+        >
+          <Dropdown.Item eventKey="enabled">Habilitados</Dropdown.Item>
+          <Dropdown.Item eventKey="disabled">Deshabilitados</Dropdown.Item>
+          <Dropdown.Item eventKey="all">Todos</Dropdown.Item>
+        </DropdownButton>
+      </div>
       <div className="table-responsive">
         <table id="usersTable" className="display table">
           <thead>
