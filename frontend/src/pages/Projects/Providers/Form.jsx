@@ -6,74 +6,235 @@ import {
   Select,
   TitleSection,
 } from "../../../components/Form";
-import { Title } from "../../../components";
-import { useState } from "react";
+import { DefinitionList, Title } from "../../../components";
+import { useEffect, useState } from "react";
 import TagInput from "../../../components/Form/TagInput";
+import { handleFormChange } from "../../../utils";
+import Swal from "sweetalert2";
+import SupplierService from "../../../services/supplier.service";
 
 const ProviderForm = () => {
-  const [tradeName, setTradeName] = useState();
-  const [rfcType, setRfcType] = useState();
-  const [rfc, setRfc] = useState();
-
   const id = useParams();
-  const users = [
-    { id: 1, name: "Alfredo Alexis Fiesco Venegas" },
-    { id: 2, name: "Karina Lizette Vilchis Carbajal" },
-  ];
+  const [supplier, setSupplier] = useState();
+  const [supplierList, setSupplierList] = useState();
+  const [formData, setFormData] = useState({
+    personType: "",
+    enabled: true,
+    address: [],
+    contactMethods: [],
+    tagsDescription: [],
+  });
+  const [legalPerson, setLegalPerson] = useState({
+    legalName: "", //legal
+    businessName: "", //legal
+    mxRfcCompany: "", //legal
+  });
+  const [naturalPerson, setNatualPerson] = useState({
+    fullName: "", //natural
+    mxRfc: "", //natural
+  });
+
+  const handleSubmitData = async (e) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: "¿Estás seguro de la información del proveedor?",
+      text: "Podrás cambiarlo después",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          let data;
+          if (formData.personType == "F") {
+            data = {
+              ...naturalPerson,
+              personType: formData.personType,
+            };
+          } else {
+            data = {
+              ...legalPerson,
+              personType: formData.personType,
+            };
+          }
+          SupplierService.createSupplier(data).then((response) => {
+            console.log(response.data);
+            setSupplier(response.data);
+          });
+        } catch (error) {
+          console.error("Error al registrar proveedor: ", error);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (supplier) {
+      setSupplierList([
+        {
+          title: "Razon social",
+          description: supplier.legalName,
+        },
+        {
+          title: "Nombre Comercial",
+          description: supplier.businessName,
+        },
+        {
+          title: "RFC",
+          description: supplier.mxRfcCompany,
+        },
+        {
+          title: "Nombre Completo",
+          description: supplier.fullName,
+        },
+        {
+          title: "RFC",
+          description: supplier.mxRfc,
+        },
+      ]);
+    }
+  }, [supplier]);
+
   return (
     <>
       <Title title="Alta de Proveedor" withReturnButton />
-      <Form>
-        <TitleSection text="Datos Generales" isFirst />
-        <Input
-          label="Nombre Comercial"
-          name="name"
-          placeholder="Smart Innovation"
-        />
-        <Input label="Razón Social" name="name" placeholder="Razón Social" />
-        <Row>
-          <Col sm={12} md={7}>
-            <Input label="RFC" name="rfc" placeholder="X1X1X1X1X1X1X1X1" />
-          </Col>
-          {/* <Col sm={12} md={5} className="d-flex align-items-end">
-            <div key="rfcType" className="pb-4">
-              <Form.Check
-                inline
-                label="Persona Física"
-                name="rfcType"
-                type="radio"
-                id="naturalPerson"
+      <TitleSection text="Datos Generales" isFirst>
+        {supplier ? (
+          <>{supplierList && <DefinitionList definitions={supplierList} />}</>
+        ) : (
+          <>
+            <Form>
+              <Row className="mb-3">
+                <Col sm={6} className="d-flex align-items-end">
+                  <Form.Check
+                    inline
+                    label="Persona Física"
+                    name="personType"
+                    type="radio"
+                    id="naturalPerson"
+                    value="F"
+                    onChange={handleFormChange(formData, setFormData)}
+                  />
+                </Col>
+                <Col sm={6} className="d-flex-align-items-end">
+                  <Form.Check
+                    inline
+                    label="Persona Moral"
+                    name="personType"
+                    type="radio"
+                    id="legalPerson"
+                    value="M"
+                    onChange={handleFormChange(formData, setFormData)}
+                  />
+                </Col>
+              </Row>
+              {formData.personType == "M" ? (
+                <>
+                  <Input
+                    label="Razon Social"
+                    name="legalName"
+                    placeholder="Ingresa la Razon Social"
+                    value={legalPerson.legalName}
+                    onChange={handleFormChange(legalPerson, setLegalPerson)}
+                  />
+                  <Input
+                    label="Nombre Comercial"
+                    name="businessName"
+                    placeholder="Ingresa el nombre comercial"
+                    value={legalPerson.businessName}
+                    onChange={handleFormChange(legalPerson, setLegalPerson)}
+                  />
+                  <Row>
+                    <Col sm={12} md={7}>
+                      <Input
+                        label="RFC"
+                        name="mxRfcCompany"
+                        placeholder="X1X1X1X1X1X1X1X1"
+                        max={12}
+                        value={legalPerson.mxRfcCompany}
+                        onChange={handleFormChange(legalPerson, setLegalPerson)}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              ) : formData.personType == "F" ? (
+                <>
+                  <Input
+                    label="Nombre Completo"
+                    name="fullName"
+                    placeholder="Ingresa el nombre completo"
+                    value={naturalPerson.fullName}
+                    onChange={handleFormChange(naturalPerson, setNatualPerson)}
+                  />
+                  <Row>
+                    <Col sm={12} md={7}>
+                      <Input
+                        label="RFC"
+                        name="mxRfc"
+                        placeholder="X1X1X1X1X1X1X1X1"
+                        max={13}
+                        value={naturalPerson.mxRfc}
+                        onChange={handleFormChange(
+                          naturalPerson,
+                          setNatualPerson
+                        )}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="gd"
+                type="submit"
+                disabled={!formData.personType}
+                onClick={handleSubmitData}
+              >
+                Registrar
+              </Button>
+            </Form>
+          </>
+        )}
+      </TitleSection>
+      {supplier && (
+        <>
+          <Form>
+            <AddressSection />
+            <TitleSection text="Contacto">
+              <Input
+                label="Nombre de Contacto"
+                placeholder="Fernando Fernandez"
               />
-              <Form.Check
-                inline
-                label="Persona Moral"
-                name="rfcType"
-                type="radio"
-                id="legalPerson"
-              />
-            </div>
-          </Col> */}
-        </Row>
-        <AddressSection />
-        <TitleSection text="Contacto" />
-        <Input label="Nombre de Contacto" placeholder="Fernando Fernandez" />
-        <Row>
-          <Col sm={12} md={8}>
-            <Input label="Correo Electrónico" placeholder="ejemplo@gmail.com" />
-          </Col>
-          <Col sm={12} md={4}>
-            <Input label="Teléfono" placeholder="5512345678" />
-          </Col>
-        </Row>
-        <TitleSection text="Tags" />
-        <TagInput />
-        <hr />
-        <Stack direction="horizontal" gap={2}>
-          <Button variant="gd" className="ms-auto" type="submit">
-            Registrar
-          </Button>
-        </Stack>
-      </Form>
+              <Row>
+                <Col sm={12} md={8}>
+                  <Input
+                    label="Correo Electrónico"
+                    placeholder="ejemplo@gmail.com"
+                  />
+                </Col>
+                <Col sm={12} md={4}>
+                  <Input label="Teléfono" placeholder="5512345678" />
+                </Col>
+              </Row>
+              <Button variant="gd">Registrar</Button>
+            </TitleSection>
+            <TitleSection text="Tags">
+              <TagInput />
+            </TitleSection>
+            {/* <hr />
+            <Stack direction="horizontal" gap={2}>
+              <Button variant="gd" className="ms-auto" type="submit">
+                Registrar
+              </Button>
+            </Stack> */}
+          </Form>
+        </>
+      )}
     </>
   );
 };

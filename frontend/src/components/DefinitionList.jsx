@@ -1,16 +1,18 @@
 const DefinitionList = ({ definitions }) => {
   return (
-    <dl className="row px-4 py-2">
-      {definitions.map((definition) => (
-        <div className="d-flex">
-          <div className="col-3">
-            <dt className="col-auto">{definition.title}:</dt>
+    <dl className="row">
+      {definitions
+        .filter((definition) => definition.description)
+        .map((definition) => (
+          <div className="d-flex" key={definition.title}>
+            <div className="col-4">
+              <dt className="col-auto">{definition.title}:</dt>
+            </div>
+            <div className="col-8">
+              <dd className="col">{definition.description}</dd>
+            </div>
           </div>
-          <div className="col-9">
-            <dd className="col">{definition.description}</dd>
-          </div>
-        </div>
-      ))}
+        ))}
     </dl>
   );
 };

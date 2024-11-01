@@ -1,4 +1,4 @@
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import Input from "./Input";
 import TitleSection from "./TitleSection";
 import Select from "./Select";
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AddressService from "../../services/address.service";
 import { handleFormChange } from "../../utils";
 
-const AddressSection = ({ withoutTitle }) => {
+const AddressSection = ({ withoutTitle, formData, setFormData }) => {
   const [states, setStates] = useState();
   const [towns, setTowns] = useState();
   const [neighborhoods, setNeighborhoods] = useState();
@@ -64,8 +64,7 @@ const AddressSection = ({ withoutTitle }) => {
   };
 
   return (
-    <>
-      {!withoutTitle && <TitleSection text="Domicilio" />}
+    <TitleSection text="Domicilio">
       <Row>
         <Col sm={12} md={6}>
           <Input label="Calle" placeholder="Jabillos" />
@@ -131,7 +130,13 @@ const AddressSection = ({ withoutTitle }) => {
           />
         </Col>
       </Row>
-    </>
+      <Button
+        variant="gd"
+        // type="submit"
+      >
+        Registrar
+      </Button>
+    </TitleSection>
   );
 };
 

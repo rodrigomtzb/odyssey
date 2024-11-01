@@ -63,3 +63,30 @@
   right: -8px;
   font-size: 14px !important;
 }
+
+.rotate-open {
+  transform: rotate(0deg);
+}
+.rotate-close {
+  transform: rotate(-180deg);
+}
+
+
+/* Title Section Animation */
+
+.toggle-content {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+  max-height: 0;
+  padding: 0;
+}
+
+.toggle-content.open {
+  max-height: 500px;
+}
+
+.content-inner {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
