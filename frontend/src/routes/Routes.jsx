@@ -31,6 +31,7 @@ import SessionsList from "../pages/ControlPanel/Sessions/List";
 import LoggedRoute from "./LoggedRoute";
 import TableLoader from "../loaders/TableLoader";
 import Timeline from "../pages/Timeline";
+import SupplierList from "../pages/Projects/Providers/List";
 
 const router = createBrowserRouter([
   {
@@ -44,9 +45,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      // <PrivateRoute>
-      <LoggedLayout />
-      // </PrivateRoute>
+      <PrivateRoute>
+        <LoggedLayout />
+      </PrivateRoute>
     ),
     children: [
       {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "/providers",
         element: <DashboardProviders />,
+      },
+      {
+        path: "/providers/list",
+        element: <SupplierList />,
       },
       {
         path: "/providers/create",

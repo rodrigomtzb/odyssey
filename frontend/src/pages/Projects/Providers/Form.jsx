@@ -17,6 +17,7 @@ const ProviderForm = () => {
   const id = useParams();
   const [supplier, setSupplier] = useState();
   const [supplierList, setSupplierList] = useState();
+  const [addressList, setAddressList] = useState();
   const [formData, setFormData] = useState({
     personType: "",
     enabled: true,
@@ -74,28 +75,61 @@ const ProviderForm = () => {
 
   useEffect(() => {
     if (supplier) {
-      setSupplierList([
-        {
-          title: "Razon social",
-          description: supplier.legalName,
-        },
-        {
-          title: "Nombre Comercial",
-          description: supplier.businessName,
-        },
-        {
-          title: "RFC",
-          description: supplier.mxRfcCompany,
-        },
-        {
-          title: "Nombre Completo",
-          description: supplier.fullName,
-        },
-        {
-          title: "RFC",
-          description: supplier.mxRfc,
-        },
-      ]);
+      //Dividir por persona fisica y persona moral
+      switch (supplier.personType) {
+        case "F":
+          setSupplierList([
+            {
+              title: "Nombre Completo",
+              description: supplier.fullName,
+            },
+            {
+              title: "RFC",
+              description: supplier.mxRfc,
+            },
+          ]);
+          break;
+        case "M":
+          setSupplierList([
+            {
+              title: "Razon social",
+              description: supplier.legalName,
+            },
+            {
+              title: "Nombre Comercial",
+              description: supplier.businessName,
+            },
+            {
+              title: "RFC",
+              description: supplier.mxRfcCompany,
+            },
+          ]);
+          break;
+        default:
+          setSupplierList([]);
+          break;
+      }
+      if (supplier.address && supplier.address.length > 0) {
+        const address = supplier.address[0];
+        setAddressList([
+          { title: "Calle", description: address.street },
+          { title: "N° Ext.", description: address.number },
+          { title: "N° Int.", description: address.apartmentNumber },
+          { title: "Colonia", description: address.neighborhoodId },
+          { title: "Municipio", description: address.townId },
+          { title: "Estado", description: address.statemxId },
+          { title: "Codigo Postal", description: address.zipCode },
+          {
+            title: "Primera Calle Referencia",
+            description: address.firstStreet,
+          },
+          {
+            title: "Segunda Calle Referencia",
+            description: address.secondStreet,
+          },
+          { title: "Referencia", description: address.description },
+        ]);
+      }
     }
   }, [supplier]);
 
@@ -203,9 +237,23 @@ const ProviderForm = () => {
       </TitleSection>
       {supplier && (
         <>
-          <Form>
-            <AddressSection />
-            <TitleSection text="Contacto">
+          {supplier.address ? (
+            <>
+              <TitleSection text="Domicilio">
+                {/* <DefinitionList definitions={addressList} /> */}
+              </TitleSection>
+            </>
+          ) : (
+            <>
+              <AddressSection
+                id={supplier.id}
+                setFormData={setSupplier}
+                to="supplier"
+              />
+            </>
+          )}
+          <TitleSection text="Contacto">
+            <Form>
               <Input
                 label="Nombre de Contacto"
                 placeholder="Fernando Fernandez"
@@ -222,17 +270,17 @@ const ProviderForm = () => {
                 </Col>
               </Row>
               <Button variant="gd">Registrar</Button>
-            </TitleSection>
-            <TitleSection text="Tags">
-              <TagInput />
-            </TitleSection>
-            {/* <hr />
-            <Stack direction="horizontal" gap={2}>
-              <Button variant="gd" className="ms-auto" type="submit">
-                Registrar
-              </Button>
-            </Stack> */}
-          </Form>
+            </Form>
+          </TitleSection>
+          <TitleSection text="Tags">
+            <TagInput />
+          </TitleSection>
+          {/* <hr />
+              <Stack direction="horizontal" gap={2}>
+                <Button variant="gd" className="ms-auto" type="submit">
+                  Registrar
+                </Button>
+              </Stack> */}
         </>
       )}
     </>
