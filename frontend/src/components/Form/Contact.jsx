@@ -1,0 +1,106 @@
+import { useEffect, useState } from "react";
+import CatalogsService from "../../services/catalogs.service";
+import Select from "./Select";
+import { handleFormChange } from "../../utils";
+import TitleSection from "./TitleSection";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import Input from "./Input";
+import SupplierService from "../../services/supplier.service";
+
+const ContactSection = ({id, setFormData, to}) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [phoneType, setPhoneType] = useState([
+    {
+      id: 1,
+      name: "Celular",
+    },
+    {
+      id: 2,
+      name: "Fijo",
+    },
+  ]);
+  const [contact, setContact] = useState({
+    personName: "",
+    email: "",
+    phoneNumber: "",
+    phoneTypeId: "",
+  });
+
+  const handleSubmitContact = async (e) => {
+    e.preventDefault();
+    console.log(to)
+    try {
+      switch (to) {
+        case "supplier":
+          console.log(contact);
+          SupplierService.addContact(id, contact).then((response) => {
+            console.log(response.data);
+            setFormData(response.data);
+            setContact({
+              personName: "",
+              email: "",
+              phoneNumber: "",
+              phoneTypeId: "",
+            });
+            setIsOpen(false);
+          });
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
+  //   useEffect(() => {
+  //     CatalogsService.getPhoneType().then((response) =>
+  //       setPhoneType(response.data)
+  //     );
+  //   }, []);
+
+  return (
+    <TitleSection text="Contacto" state={isOpen}>
+      <Form>
+        <Input
+          label="Nombre de Contacto"
+          placeholder="Fernando Fernandez"
+          name="personName"
+          value={contact.personName}
+          onChange={handleFormChange(contact, setContact)}
+        />
+        <Input
+          label="Correo Electrónico"
+          placeholder="ejemplo@gmail.com"
+          name="email"
+          value={contact.email}
+          onChange={handleFormChange(contact, setContact)}
+        />
+        <Row>
+          <Col sm={12} md={6}>
+            <Input
+              label="Teléfono"
+              placeholder="5512345678"
+              name="phoneNumber"
+              value={contact.phoneNumber}
+              onChange={handleFormChange(contact, setContact)}
+            />
+          </Col>
+          <Col sm={12} md={6}>
+            <Select
+              label="Tipo Telefono"
+              name="phoneTypeId"
+              options={phoneType}
+              value={contact.phoneTypeId}
+              onChange={handleFormChange(contact, setContact)}
+            />
+          </Col>
+        </Row>
+        <Button variant="gd" onClick={handleSubmitContact}>
+          Registrar
+        </Button>
+      </Form>
+    </TitleSection>
+  );
+};
+
+export default ContactSection;

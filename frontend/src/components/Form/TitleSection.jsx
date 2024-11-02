@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReturnButton from "../Buttons/ReturnButton";
 
-const TitleSection = ({ text, isFirst, withReturnButton, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const TitleSection = ({
+  text,
+  isFirst,
+  withReturnButton,
+  children,
+  state = true,
+}) => {
+  const [isOpen, setIsOpen] = useState(state);
 
   const toggleContent = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    setIsOpen(state);
+  }, [state]);
 
   return (
     <>

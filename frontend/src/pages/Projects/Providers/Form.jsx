@@ -12,12 +12,15 @@ import TagInput from "../../../components/Form/TagInput";
 import { handleFormChange } from "../../../utils";
 import Swal from "sweetalert2";
 import SupplierService from "../../../services/supplier.service";
+import ContentCard from "../../../components/ContentCard";
+import ContactSection from "../../../components/Form/Contact";
 
 const ProviderForm = () => {
   const id = useParams();
   const [supplier, setSupplier] = useState();
   const [supplierList, setSupplierList] = useState();
   const [addressList, setAddressList] = useState();
+  const [contactList, setContactList] = useState();
   const [formData, setFormData] = useState({
     personType: "",
     enabled: true,
@@ -65,6 +68,16 @@ const ProviderForm = () => {
           SupplierService.createSupplier(data).then((response) => {
             console.log(response.data);
             setSupplier(response.data);
+            setLegalPerson({
+              legalName: "",
+              businessName: "",
+              mxRfcCompany: "",
+            });
+            setNatualPerson({
+              fullName: "",
+              mxRfc: "",
+            });
+            setIsOpenData(false);
           });
         } catch (error) {
           console.error("Error al registrar proveedor: ", error);
@@ -75,7 +88,6 @@ const ProviderForm = () => {
 
   useEffect(() => {
     if (supplier) {
-      //Dividir por persona fisica y persona moral
       switch (supplier.personType) {
         case "F":
           setSupplierList([
@@ -110,8 +122,8 @@ const ProviderForm = () => {
           break;
       }
       if (supplier.address && supplier.address.length > 0) {
-        const address = supplier.address[0];
-        setAddressList([
+        let addresses = supplier.address;
+        const addressList = addresses.map((address) => [
           { title: "Calle", description: address.street },
           { title: "N° Ext.", description: address.number },
           { title: "N° Int.", description: address.apartmentNumber },
@@ -129,6 +141,16 @@ const ProviderForm = () => {
           },
           { title: "Referencia", description: address.description },
         ]);
+        setAddressList(addressList);
+      }
+      if (supplier.contactMethods && supplier.contactMethods.length > 0) {
+        let contacts = supplier.contactMethods;
+        const contactList = contacts.map((contact) => [
+          { title: "Nombre Completo", description: contact.personName },
+          { title: "Correo Electrónico", description: contact.email },
+          { title: "Número de Teléfono", description: contact.phoneNumber },
+        ]);
+        setContactList(contactList);
       }
     }
   }, [supplier]);
@@ -136,11 +158,54 @@ const ProviderForm = () => {
   return (
     <>
       <Title title="Alta de Proveedor" withReturnButton />
-      <TitleSection text="Datos Generales" isFirst>
-        {supplier ? (
-          <>{supplierList && <DefinitionList definitions={supplierList} />}</>
-        ) : (
-          <>
+      {supplier ? (
+        <>
+          <ContentCard>
+            {supplierList && <DefinitionList definitions={supplierList} />}
+            {addressList &&
+              addressList.map((list, index) => (
+                <>
+                  <hr />
+                  <div key={index}>
+                    <h5>Dirección {index + 1}</h5>
+                    <DefinitionList definitions={list} />
+                  </div>
+                </>
+              ))}
+            {contactList &&
+              contactList.map((list, index) => (
+                <>
+                  <hr />
+                  <div key={index}>
+                    <h5>Contacto {index + 1}</h5>
+                    <DefinitionList definitions={list} />
+                  </div>
+                </>
+              ))}
+          </ContentCard>
+          <AddressSection
+            id={supplier.id}
+            setFormData={setSupplier}
+            to="supplier"
+          />
+          <ContactSection
+            id={supplier.id}
+            setFormData={setSupplier}
+            to="supplier"
+          />
+          <TitleSection text="Tags">
+            <TagInput />
+          </TitleSection>
+          {/* <hr />
+            <Stack direction="horizontal" gap={2}>
+              <Button variant="gd" className="ms-auto" type="submit">
+                Registrar
+              </Button>
+            </Stack> */}
+        </>
+      ) : (
+        <>
+          <TitleSection text="Datos Generales" isFirst>
             <Form>
               <Row className="mb-3">
                 <Col sm={6} className="d-flex align-items-end">
@@ -232,55 +297,7 @@ const ProviderForm = () => {
                 Registrar
               </Button>
             </Form>
-          </>
-        )}
-      </TitleSection>
-      {supplier && (
-        <>
-          {supplier.address ? (
-            <>
-              <TitleSection text="Domicilio">
-                {/* <DefinitionList definitions={addressList} /> */}
-              </TitleSection>
-            </>
-          ) : (
-            <>
-              <AddressSection
-                id={supplier.id}
-                setFormData={setSupplier}
-                to="supplier"
-              />
-            </>
-          )}
-          <TitleSection text="Contacto">
-            <Form>
-              <Input
-                label="Nombre de Contacto"
-                placeholder="Fernando Fernandez"
-              />
-              <Row>
-                <Col sm={12} md={8}>
-                  <Input
-                    label="Correo Electrónico"
-                    placeholder="ejemplo@gmail.com"
-                  />
-                </Col>
-                <Col sm={12} md={4}>
-                  <Input label="Teléfono" placeholder="5512345678" />
-                </Col>
-              </Row>
-              <Button variant="gd">Registrar</Button>
-            </Form>
           </TitleSection>
-          <TitleSection text="Tags">
-            <TagInput />
-          </TitleSection>
-          {/* <hr />
-              <Stack direction="horizontal" gap={2}>
-                <Button variant="gd" className="ms-auto" type="submit">
-                  Registrar
-                </Button>
-              </Stack> */}
         </>
       )}
     </>

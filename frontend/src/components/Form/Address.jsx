@@ -12,6 +12,7 @@ const AddressSection = ({ id, setFormData, to }) => {
   const [states, setStates] = useState();
   const [towns, setTowns] = useState();
   const [neighborhoods, setNeighborhoods] = useState();
+  const [isOpen, setIsOpen] = useState(true);
   const [addressTypes, setAddressTypes] = useState([
     {
       id: 1,
@@ -74,6 +75,22 @@ const AddressSection = ({ id, setFormData, to }) => {
           SupplierService.addAddress(id, address).then((response) => {
             console.log(response.data);
             setFormData(response.data);
+            setAddress({
+              street: "",
+              number: "",
+              apartmentNumber: "",
+              zipCode: "",
+              neighborhoodId: "",
+              townId: "",
+              statemxId: "",
+              firstStreet: "",
+              secondStreet: "",
+              description: "",
+              latitude: "",
+              longitude: "",
+              addressTypeId: "",
+            });
+            setIsOpen(false);
           });
           break;
 
@@ -111,8 +128,19 @@ const AddressSection = ({ id, setFormData, to }) => {
   // }, []);
 
   return (
-    <TitleSection text="Domicilio">
+    <TitleSection text="Domicilio" state={isOpen}>
       <Form>
+        <Row>
+          <Col sm={6}>
+            <Select
+              label="Tipo de Domicilio"
+              name="addressTypeId"
+              value={address.addressTypeId}
+              options={addressTypes}
+              onChange={handleFormChange(address, setAddress)}
+            />
+          </Col>
+        </Row>
         <Row>
           <Col sm={12} md={6}>
             <Input
@@ -200,7 +228,7 @@ const AddressSection = ({ id, setFormData, to }) => {
           <Col sm={12} md={6}>
             <Input
               label="Primer Calle Referencia"
-              placeholder=""
+              placeholder="Entre calle"
               name="firstStreet"
               value={address.firstStreet}
               onChange={handleFormChange(address, setAddress)}
@@ -209,7 +237,7 @@ const AddressSection = ({ id, setFormData, to }) => {
           <Col sm={12} md={6}>
             <Input
               label="Segunda Calle Referencia"
-              placeholder=""
+              placeholder="Y calle"
               name="secondStreet"
               value={address.secondStreet}
               onChange={handleFormChange(address, setAddress)}
@@ -218,23 +246,12 @@ const AddressSection = ({ id, setFormData, to }) => {
         </Row>
         <Input
           label="Referencia"
-          placeholder=""
+          placeholder="Saguan negro"
           name="description"
           value={address.description}
           onChange={handleFormChange(address, setAddress)}
         />
-        <Row>
-          <Col sm={4}>
-            <Select
-              label="Tipo de Domicilio"
-              name="addressTypeId"
-              value={address.addressTypeId}
-              options={addressTypes}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-        </Row>
-        <Button variant="gd" type="submit" onClick={handleSubmitAddress}>
+        <Button variant="gd" onClick={handleSubmitAddress}>
           Registrar
         </Button>
       </Form>
