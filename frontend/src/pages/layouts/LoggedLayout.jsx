@@ -18,42 +18,42 @@ const LoggedLayout = () => {
       subItems: [
         { title: "Usuarios", path: "/users" },
         { title: "Sesiones", path: "/sessions" },
-        { title: "Control de Accesos", path: "/" },
-        { title: "Bitacora de Accesos", path: "/" },
-        { title: "Roles", path: "/" },
+        // { title: "Control de Accesos", path: "/" },
+        // { title: "Bitacora de Accesos", path: "/" },
+        // { title: "Roles", path: "/" },
       ],
     },
-    {
-      title: "Recursos Humanos",
-      icon: "people-fill",
-      subItems: [
-        {
-          title: "Empleados",
-          path: "/",
-        },
-        { title: "Control de Asistencia", path: "/" },
-      ],
-    },
+    // {
+    //   title: "Recursos Humanos",
+    //   icon: "people-fill",
+    //   subItems: [
+    //     {
+    //       title: "Empleados",
+    //       path: "/",
+    //     },
+    //     { title: "Control de Asistencia", path: "/" },
+    //   ],
+    // },
     {
       title: "Marketing",
       icon: "shop",
       subItems: [
-        {
-          title: "Campañas",
-          path: "/",
-        },
-        {
-          title: "Prospectos",
-          path: "/",
-        },
+        // {
+        //   title: "Campañas",
+        //   path: "/",
+        // },
+        // {
+        //   title: "Prospectos",
+        //   path: "/",
+        // },
         {
           title: "Clientes",
           path: "/clients",
         },
-        {
-          title: "Reportes",
-          path: "/",
-        },
+        // {
+        //   title: "Reportes",
+        //   path: "/",
+        // },
       ],
     },
     {
@@ -61,9 +61,9 @@ const LoggedLayout = () => {
       icon: "houses-fill",
       subItems: [
         { title: "Proyectos", path: "/works" },
-        { title: "Levantamientos", path: "/" },
-        { title: "Presupuestos", path: "/" },
-        { title: "Avances", path: "/" },
+        // { title: "Levantamientos", path: "/" },
+        // { title: "Presupuestos", path: "/" },
+        // { title: "Avances", path: "/" },
       ],
     },
     {
@@ -72,34 +72,34 @@ const LoggedLayout = () => {
       subItems: [
         { title: "Proveedores", path: "/providers" },
         { title: "Compras", path: "/purchases" },
-        { title: "Inventario Material", path: "/" },
+        // { title: "Inventario Material", path: "/" },
       ],
     },
-    {
-      title: "Finanzas",
-      icon: "cash",
-      subItems: [
-        {
-          title: "Control de Pagos",
-          path: "/",
-          subItems: [
-            { title: "Solicitudes", path: "/" },
-            { title: "Autorizaciones", path: "/" },
-          ],
-        },
-        {
-          title: "Fiscal",
-          path: "/",
-          subItems: [
-            {
-              title: "Impuestos",
-              path: "/",
-            },
-            { title: "Facturas", path: "" },
-          ],
-        },
-      ],
-    },
+    // {
+    //   title: "Finanzas",
+    //   icon: "cash",
+    //   subItems: [
+    //     {
+    //       title: "Control de Pagos",
+    //       path: "/",
+    //       subItems: [
+    //         { title: "Solicitudes", path: "/" },
+    //         { title: "Autorizaciones", path: "/" },
+    //       ],
+    //     },
+    //     {
+    //       title: "Fiscal",
+    //       path: "/",
+    //       subItems: [
+    //         {
+    //           title: "Impuestos",
+    //           path: "/",
+    //         },
+    //         { title: "Facturas", path: "" },
+    //       ],
+    //     },
+    //   ],
+    // },
   ];
   useEffect(() => {
     requestPermission();
