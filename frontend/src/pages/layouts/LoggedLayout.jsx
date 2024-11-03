@@ -7,9 +7,11 @@ import { Loader, MainCard } from "../../components";
 import requestPermission from "../../utils/permissions";
 import getRegistrationToken from "../../utils/token";
 import { useLoader } from "../../context/Loader/LoaderProvider";
+import { Offcanvas } from "react-bootstrap";
 
 const LoggedLayout = () => {
   const { isLoading } = useLoader();
+  const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const menuItems = [
     { title: "Inicio", icon: "grid-fill", path: "/" },
     {
@@ -101,18 +103,41 @@ const LoggedLayout = () => {
     //   ],
     // },
   ];
+
+  const toggleSidebar = () => {
+    setIsVisibleSidebar(!isVisibleSidebar);
+  };
+
   useEffect(() => {
     requestPermission();
     getRegistrationToken();
   }, []);
+
   return (
     <div className="bg-general">
       {isLoading && <Loader />}
-      <Header />
-      <Sidebar menuItems={menuItems} />
+      <Header onToggleSidebar={toggleSidebar} />
+      <Offcanvas
+        show={isVisibleSidebar}
+        onHide={toggleSidebar}
+        responsive="md"
+        placement="start"
+        style={{width: "280px"}}
+      >
+        <Sidebar
+          menuItems={menuItems}
+          onToggleSidebar={toggleSidebar}
+        />
+      </Offcanvas>
+      {isVisibleSidebar && (
+        <div
+          className="overlay w-100 h-100 md:hidden fixed inset-0 bg-black bg-opacity-50"
+          onClick={toggleSidebar}
+        ></div>
+      )}
       <main
-        className="content p-4 main"
-        style={{ marginLeft: "280px", position: "relative", zIndex: 2 }}
+        className="content p-4 margin-left-md main"
+        style={{ position: "relative", zIndex: 2 }}
       >
         <MainCard>
           <Outlet />

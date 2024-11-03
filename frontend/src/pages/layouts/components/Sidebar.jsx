@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppLogo } from "../../../components";
 import AuthService from "../../../services/auth.service";
 
-const Sidebar = ({ menuItems }) => {
+const Sidebar = ({ menuItems, onToggleSidebar }) => {
   const [openMenus, setOpenMenus] = useState({});
   const navigate = useNavigate();
 
@@ -28,16 +28,14 @@ const Sidebar = ({ menuItems }) => {
       console.error("Error: ", error);
     }
   };
-  
+
   const renderSubItems = (subItems, parentIndex, level = 1) => {
     return (
       <ul className="list-unstyled ps-3">
         {subItems.map((subItem, subIndex) => {
           const currentIndex = `${parentIndex}-${subIndex}`;
           const isFirstLevel = level === 1;
-          const icon = isFirstLevel
-            ? "bi-caret-right-fill" 
-            : "bi-caret-right"; 
+          const icon = isFirstLevel ? "bi-caret-right-fill" : "bi-caret-right";
 
           return (
             <li key={currentIndex}>
@@ -62,8 +60,15 @@ const Sidebar = ({ menuItems }) => {
                     />
                   </button>
                   <Collapse in={openMenus[currentIndex]}>
-                    <ul id={`collapse-submenu-${currentIndex}`} className="ps-3">
-                      {renderSubItems(subItem.subItems, currentIndex, level + 1)}
+                    <ul
+                      id={`collapse-submenu-${currentIndex}`}
+                      className="ps-3"
+                    >
+                      {renderSubItems(
+                        subItem.subItems,
+                        currentIndex,
+                        level + 1
+                      )}
                     </ul>
                   </Collapse>
                 </>
@@ -81,7 +86,7 @@ const Sidebar = ({ menuItems }) => {
 
   return (
     <aside
-      className="d-none d-md-flex fixed-top flex-column vh-100"
+      className={"fixed-top flex-column vh-100 d-flex"}
       style={{ width: "280px", backgroundColor: "#14233b" }}
     >
       <AppLogo />

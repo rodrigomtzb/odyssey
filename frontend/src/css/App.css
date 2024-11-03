@@ -64,6 +64,17 @@
   font-size: 14px !important;
 }
 
+.margin-left-md {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .margin-left-md {
+    margin-left: 280px; 
+  }
+}
+
+
 .rotate-open {
   transform: rotate(0deg);
 }
