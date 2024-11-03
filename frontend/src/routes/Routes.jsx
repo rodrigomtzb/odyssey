@@ -16,22 +16,42 @@ const UserDetails = React.lazy(() =>
   import("../pages/ControlPanel/Users/User")
 );
 
-import Loader from "../components/Loader";
-import DashboardPurchases from "../pages/Administration/Purchases/Dashboard";
-import PurchaseForm from "../pages/Administration/Purchases/Form";
-import PurchasesList from "../pages/Administration/Purchases/List";
-import DashboardProviders from "../pages/Projects/Providers/Dashboard";
-import DashboardWorks from "../pages/Projects/Works/Dashboard";
-import ProviderForm from "../pages/Projects/Providers/Form";
-import WorkForm from "../pages/Projects/Works/Form";
-import DashboardClients from "../pages/Marketing/Clients/Dashboard";
-import ClientForm from "../pages/Marketing/Clients/Form";
-import DashboardSessions from "../pages/ControlPanel/Sessions/Dashboard";
-import SessionsList from "../pages/ControlPanel/Sessions/List";
-import LoggedRoute from "./LoggedRoute";
-import TableLoader from "../loaders/TableLoader";
-import Timeline from "../pages/Timeline";
-import SupplierList from "../pages/Projects/Providers/List";
+const Loader = React.lazy(() => import("../components/Loader"));
+const DashboardPurchases = React.lazy(() =>
+  import("../pages/Administration/Purchases/Dashboard")
+);
+const PurchaseForm = React.lazy(() =>
+  import("../pages/Administration/Purchases/Form")
+);
+const PurchasesList = React.lazy(() =>
+  import("../pages/Administration/Purchases/List")
+);
+const DashboardProviders = React.lazy(() =>
+  import("../pages/Projects/Providers/Dashboard")
+);
+const DashboardWorks = React.lazy(() =>
+  import("../pages/Projects/Works/Dashboard")
+);
+const ProviderForm = React.lazy(() =>
+  import("../pages/Projects/Providers/Form")
+);
+const WorkForm = React.lazy(() => import("../pages/Projects/Works/Form"));
+const DashboardClients = React.lazy(() =>
+  import("../pages/Marketing/Clients/Dashboard")
+);
+const ClientForm = React.lazy(() => import("../pages/Marketing/Clients/Form"));
+const DashboardSessions = React.lazy(() =>
+  import("../pages/ControlPanel/Sessions/Dashboard")
+);
+const SessionsList = React.lazy(() =>
+  import("../pages/ControlPanel/Sessions/List")
+);
+const LoggedRoute = React.lazy(() => import("./LoggedRoute"));
+const TableLoader = React.lazy(() => import("../loaders/TableLoader"));
+const Timeline = React.lazy(() => import("../pages/Timeline"));
+const SupplierList = React.lazy(() =>
+  import("../pages/Projects/Providers/List")
+);
 
 const router = createBrowserRouter([
   {
