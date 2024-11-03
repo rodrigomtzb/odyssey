@@ -45,15 +45,19 @@ api.interceptors.response.use(
 
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 408) {
+    if (error.response && error.response.status === 403) {
       try {
         const newAccessToken = await refreshToken();
         api.defaults.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        originalRequest.defaults.headers[
+          "Authorization"
+        ] = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
       } catch (refreshError) {
         console.error("No se pudo refrescar el token", refreshError);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         return Promise.reject(refreshError);
       }
     }
