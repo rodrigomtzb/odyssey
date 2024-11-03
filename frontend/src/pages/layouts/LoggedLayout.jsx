@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { Outlet } from "react-router-dom";
+import { useOutlet } from "react-router-dom";
 import AlertBubble from "../../components/AlertBubble";
 import { Loader, MainCard } from "../../components";
 import requestPermission from "../../utils/permissions";
@@ -10,6 +10,7 @@ import { useLoader } from "../../context/Loader/LoaderProvider";
 import { Offcanvas } from "react-bootstrap";
 
 const LoggedLayout = () => {
+  const outletContent = useOutlet(); 
   const { isLoading } = useLoader();
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const menuItems = [
@@ -23,6 +24,15 @@ const LoggedLayout = () => {
         // { title: "Control de Accesos", path: "/" },
         // { title: "Bitacora de Accesos", path: "/" },
         // { title: "Roles", path: "/" },
+      ],
+    },
+    {
+      title: "Administración",
+      icon: "person-lines-fill",
+      subItems: [
+        { title: "Proveedores", path: "/providers" },
+        { title: "Compras", path: "/purchases" },
+        // { title: "Inventario Material", path: "/" },
       ],
     },
     // {
@@ -66,15 +76,6 @@ const LoggedLayout = () => {
         // { title: "Levantamientos", path: "/" },
         // { title: "Presupuestos", path: "/" },
         // { title: "Avances", path: "/" },
-      ],
-    },
-    {
-      title: "Administración",
-      icon: "person-lines-fill",
-      subItems: [
-        { title: "Proveedores", path: "/providers" },
-        { title: "Compras", path: "/purchases" },
-        // { title: "Inventario Material", path: "/" },
       ],
     },
     // {
@@ -122,12 +123,9 @@ const LoggedLayout = () => {
         onHide={toggleSidebar}
         responsive="md"
         placement="start"
-        style={{width: "280px"}}
+        style={{ width: "280px" }}
       >
-        <Sidebar
-          menuItems={menuItems}
-          onToggleSidebar={toggleSidebar}
-        />
+        <Sidebar menuItems={menuItems} onToggleSidebar={toggleSidebar} />
       </Offcanvas>
       {isVisibleSidebar && (
         <div
@@ -135,15 +133,17 @@ const LoggedLayout = () => {
           onClick={toggleSidebar}
         ></div>
       )}
-      <main
-        className="content p-4 margin-left-md main"
-        style={{ position: "relative", zIndex: 2 }}
-      >
-        <MainCard>
-          <Outlet />
-        </MainCard>
-        <AlertBubble notificationCount={0} />
-      </main>
+      {outletContent && (
+        <main
+          className="content p-4 margin-left-md main"
+          style={{ position: "relative", zIndex: 2 }}
+        >
+          <MainCard>
+            {outletContent}
+          </MainCard>
+          <AlertBubble notificationCount={0} />
+        </main>
+      )}
     </div>
   );
 };
