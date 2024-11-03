@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
+import SupplierDetails from "../pages/Projects/Providers/Supplier";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "/providers",
         element: <DashboardProviders />,
+      },
+      {
+        path: "/providers/:id",
+        element: <SupplierDetails />
       },
       {
         path: "/providers/list",

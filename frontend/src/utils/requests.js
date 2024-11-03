@@ -45,7 +45,7 @@ api.interceptors.response.use(
 
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 403) {
+    if (error.response && error.response.status === 401) {
       try {
         const newAccessToken = await refreshToken();
         api.defaults.headers["Authorization"] = `Bearer ${newAccessToken}`;
@@ -58,6 +58,7 @@ api.interceptors.response.use(
         console.error("No se pudo refrescar el token", refreshError);
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        
         return Promise.reject(refreshError);
       }
     }

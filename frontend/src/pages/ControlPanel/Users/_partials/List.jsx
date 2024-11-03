@@ -19,22 +19,34 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("enabled");
 
-  useEffect(() => {
-    fetchUsers();
-  }, [filter]);
-
+  
   const fetchUsers = () => {
     const apiCall =
-      filter === "enabled"
-        ? UserService.getUsersEnabled()
-        : filter === "disabled"
-        ? UserService.getUsersDisabled()
-        : UserService.getUsers();
-
+    filter === "enabled"
+    ? UserService.getUsersEnabled()
+    : filter === "disabled"
+    ? UserService.getUsersDisabled()
+    : UserService.getUsers();
+    
     apiCall.then((response) => {
       setUsers(response.data);
     });
   };
+  //Por volver utilities
+  const handleDelete = (id) => {
+    alert("Borrar " + id);
+  };
+  const handleEdit = (id) => {
+    navigate(`/users/${id}/edit`);
+  };
+
+  const handleView = (id) => {
+    navigate(`/users/${id}`);
+  };
+  
+  useEffect(() => {
+    fetchUsers();
+  }, [filter]);
 
   useEffect(() => {
     if (users.length > 0) {
@@ -47,18 +59,6 @@ const UsersList = () => {
       };
     }
   }, [users]);
-
-  //Por volver utilities
-  const handleDelete = (id) => {
-    alert("Borrar " + id);
-  };
-  const handleEdit = (id) => {
-    navigate(`/users/${id}/edit`);
-  };
-
-  const handleView = (id) => {
-    navigate(`/users/${id}`);
-  };
 
   return (
     <>
