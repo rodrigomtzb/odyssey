@@ -8,7 +8,7 @@ import { handleFormChange } from "../../utils";
 import SupplierService from "../../services/supplier.service";
 import CatalogsService from "../../services/catalogs.service";
 
-const AddressSection = ({ id, setFormData, to }) => {
+const AddressSection = ({ id, formData, setFormData, to }) => {
   const [states, setStates] = useState();
   const [towns, setTowns] = useState();
   const [neighborhoods, setNeighborhoods] = useState();
@@ -68,36 +68,70 @@ const AddressSection = ({ id, setFormData, to }) => {
   };
   const handleSubmitAddress = async (e) => {
     e.preventDefault();
-    try {
-      switch (to) {
-        case "supplier":
-          console.log(address);
-          SupplierService.addAddress(id, address).then((response) => {
-            console.log(response.data);
-            setFormData(response.data);
-            setAddress({
-              street: "",
-              number: "",
-              apartmentNumber: "",
-              zipCode: "",
-              neighborhoodId: "",
-              townId: "",
-              statemxId: "",
-              firstStreet: "",
-              secondStreet: "",
-              description: "",
-              latitude: "",
-              longitude: "",
-              addressTypeId: "",
-            });
-            setIsOpen(false);
-          });
-          break;
+    if (formData) {
+      try {
+        switch (to) {
+          case "supplier":
+            console.log(address);
+            SupplierService.editSupplierAddress(id, address).then(
+              (response) => {
+                setFormData(response.data);
+                setAddress({
+                  street: "",
+                  number: "",
+                  apartmentNumber: "",
+                  zipCode: "",
+                  neighborhoodId: "",
+                  townId: "",
+                  statemxId: "",
+                  firstStreet: "",
+                  secondStreet: "",
+                  description: "",
+                  latitude: "",
+                  longitude: "",
+                  addressTypeId: "",
+                });
+                setIsOpen(false);
+              }
+            );
+            break;
 
-        default:
-          break;
-      }
-    } catch (error) {}
+          default:
+            break;
+        }
+      } catch (error) {}
+    } else {
+      try {
+        switch (to) {
+          case "supplier":
+            console.log(address);
+            SupplierService.addAddress(id, address).then((response) => {
+              console.log(response.data);
+              setFormData(response.data);
+              setAddress({
+                street: "",
+                number: "",
+                apartmentNumber: "",
+                zipCode: "",
+                neighborhoodId: "",
+                townId: "",
+                statemxId: "",
+                firstStreet: "",
+                secondStreet: "",
+                description: "",
+                latitude: "",
+                longitude: "",
+                addressTypeId: "",
+              });
+              setIsOpen(false);
+            });
+            break;
+
+          default:
+            break;
+        }
+      } catch (error) {}
+    }
   };
 
   useEffect(() => {
@@ -121,6 +155,16 @@ const AddressSection = ({ id, setFormData, to }) => {
       });
     }
   }, [address.zipCode]);
+
+  useEffect(() => {
+    if (formData) {
+      setAddress({
+        ...formData,
+        addressTypeId: formData.addressType.id,
+        addressId: formData.id,
+      });
+    }
+  }, [formData]);
   // useEffect(() => {
   //   CatalogsService.getAddressType().then((response) =>
   //     setAddressTypes(response.data)
@@ -252,7 +296,7 @@ const AddressSection = ({ id, setFormData, to }) => {
           onChange={handleFormChange(address, setAddress)}
         />
         <Button variant="gd" onClick={handleSubmitAddress}>
-          Registrar
+          {formData ? "Actualizar" : "Añadir"}
         </Button>
       </Form>
     </TitleSection>

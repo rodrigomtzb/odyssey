@@ -7,7 +7,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./Input";
 import SupplierService from "../../services/supplier.service";
 
-const ContactSection = ({id, setFormData, to}) => {
+const ContactSection = ({ id, formData, setFormData, to }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [phoneType, setPhoneType] = useState([
     {
@@ -28,29 +28,62 @@ const ContactSection = ({id, setFormData, to}) => {
 
   const handleSubmitContact = async (e) => {
     e.preventDefault();
-    console.log(to)
-    try {
-      switch (to) {
-        case "supplier":
-          console.log(contact);
-          SupplierService.addContact(id, contact).then((response) => {
-            console.log(response.data);
-            setFormData(response.data);
-            setContact({
-              personName: "",
-              email: "",
-              phoneNumber: "",
-              phoneTypeId: "",
+    if (formData) {
+      try {
+        switch (to) {
+          case "supplier":
+            console.log(contact);
+            SupplierService.editSupplierContact(id, contact).then((response) => {
+              console.log(response.data);
+              setFormData(response.data);
+              setContact({
+                personName: "",
+                email: "",
+                phoneNumber: "",
+                phoneTypeId: "",
+              });
+              setIsOpen(false);
             });
-            setIsOpen(false);
-          });
-          break;
+            break;
 
-        default:
-          break;
-      }
-    } catch (error) {}
+          default:
+            break;
+        }
+      } catch (error) {}
+    } else {
+      try {
+        switch (to) {
+          case "supplier":
+            console.log(contact);
+            SupplierService.addContact(id, contact).then((response) => {
+              console.log(response.data);
+              setFormData(response.data);
+              setContact({
+                personName: "",
+                email: "",
+                phoneNumber: "",
+                phoneTypeId: "",
+              });
+              setIsOpen(false);
+            });
+            break;
+
+          default:
+            break;
+        }
+      } catch (error) {}
+    }
   };
+
+  useEffect(() => {
+    if (formData) {
+      setContact({
+        ...formData,
+        phoneTypeId: formData.phoneType.id,
+        contactId: formData.id,
+      });
+    }
+  }, [formData]);
 
   //   useEffect(() => {
   //     CatalogsService.getPhoneType().then((response) =>
@@ -96,7 +129,7 @@ const ContactSection = ({id, setFormData, to}) => {
           </Col>
         </Row>
         <Button variant="gd" onClick={handleSubmitContact}>
-          Registrar
+          {formData ? "Actualizar" : "Añadir"}
         </Button>
       </Form>
     </TitleSection>

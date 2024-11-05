@@ -21,13 +21,13 @@ const getSupplier = (id) => {
 };
 
 const editSupplierData = (id, data) => {
-  return put(`suppliers/${id}/data`);
+  return put(`suppliers/${id}/data`, data);
 };
 const editSupplierAddress = (id, data) => {
-  return put(`suppliers/${id}/address`);
+  return put(`suppliers/${id}/address`, data);
 };
 const editSupplierContact = (id, data) => {
-  return put(`suppliers/${id}/contact`);
+  return put(`suppliers/${id}/contact`, data);
 };
 
 const deleteSupplierAddress = (supplierId, addressId) => {

@@ -110,15 +110,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/providers/:id",
-        element: <SupplierDetails />
-      },
-      {
-        path: "/providers/list",
-        element: <SupplierList />,
+        element: <SupplierDetails />,
       },
       {
         path: "/providers/create",
         element: <ProviderForm />,
+      },
+      {
+        path: "/providers/:id/edit",
+        element: <ProviderForm />,
+      },
+      {
+        path: "/providers/list",
+        element: <SupplierList />,
       },
       {
         path: "/works",
