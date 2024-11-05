@@ -48,7 +48,15 @@ const Login = () => {
               text: "Credenciales erroneas",
               icon: "error",
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2500,
+            });
+          } else if(error.response.status === 409){
+            Swal.fire({
+              title: "Sesión activa",
+              text: "Cierra tu sesión anterior o llama al departamento de Sistemas",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 3500,
             });
           }
         });

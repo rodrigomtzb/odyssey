@@ -1,10 +1,10 @@
-const DefinitionList = ({ definitions }) => {
+const DefinitionList = ({ definitions, index = ""  }) => {
   return (
     <dl className="row">
       {definitions
         .filter((definition) => definition.description)
         .map((definition) => (
-          <div className="d-flex" key={definition.title}>
+          <div className="d-flex" key={definition.title + index}>
             <div className="col-4">
               <dt className="col-auto">{definition.title}:</dt>
             </div>

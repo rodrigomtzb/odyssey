@@ -133,7 +133,7 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
         </ul>
       </div>
       {/* Contenedor boton de logout POR CAMBIAR A SECCION USUARIO */}
-      <div className="mt-auto p-3">
+      <div className="mt-auto p-3 mb-5 mb-md-0">
         <button
           className="btn btn-gd w-100 d-flex align-items-center justify-content-start"
           onClick={handleLogout}

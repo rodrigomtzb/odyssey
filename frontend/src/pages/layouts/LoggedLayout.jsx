@@ -10,7 +10,7 @@ import { useLoader } from "../../context/Loader/LoaderProvider";
 import { Offcanvas } from "react-bootstrap";
 
 const LoggedLayout = () => {
-  const outletContent = useOutlet(); 
+  const outletContent = useOutlet();
   const { isLoading } = useLoader();
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const menuItems = [
@@ -109,10 +109,10 @@ const LoggedLayout = () => {
     setIsVisibleSidebar(!isVisibleSidebar);
   };
 
-  useEffect(() => {
-    requestPermission();
-    getRegistrationToken();
-  }, []);
+  // useEffect(() => {
+  //   requestPermission();
+  //   getRegistrationToken();
+  // }, []);
 
   return (
     <div className="bg-general">
@@ -135,12 +135,10 @@ const LoggedLayout = () => {
       )}
       {outletContent && (
         <main
-          className="content p-4 margin-left-md main"
+          className="content p-2 p-md-4 margin-left-md main"
           style={{ position: "relative", zIndex: 2 }}
         >
-          <MainCard>
-            {outletContent}
-          </MainCard>
+          <MainCard>{outletContent}</MainCard>
           <AlertBubble notificationCount={0} />
         </main>
       )}

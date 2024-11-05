@@ -7,7 +7,7 @@ const DashboardProviders = () => {
     <>
       <Title title="Proveedores" isFirst />
       <Row>
-        <Col>
+        <Col sm={12} md={6} className="mb-2 mb-md-0">
           <CardButton
             icon="bag-plus-fill"
             text="Alta de proveedor"
@@ -15,7 +15,7 @@ const DashboardProviders = () => {
             to="create"
           />
         </Col>
-        <Col>
+        <Col sm={12} md={6} className="mt-2 mt-md-0">
           <CardButton
             icon="list-ul"
             text="Lista de proveedores"

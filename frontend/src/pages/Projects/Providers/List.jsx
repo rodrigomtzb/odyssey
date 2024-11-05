@@ -60,6 +60,7 @@ const SupplierList = () => {
     <>
       <Title title="Lista de Proveedores" />
       <div className="table-responsive">
+        <h4>Personas Morales</h4>
         <table id="legalSuppliersTable" className="display table">
           <thead>
             <tr>
@@ -96,6 +97,7 @@ const SupplierList = () => {
       </div>
       <hr className="my-5" />
       <div className="table-responsive">
+        <h4>Personas Fisicas</h4>
         <table id="naturalSuppliersTable" className="display table">
           <thead>
             <tr>
