@@ -1,13 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import 'datatables.net-dt';
-@import 'datatables.net-responsive-dt';
-@import 'datatables.net-select-dt';
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "datatables.net-dt";
+@import "datatables.net-responsive-dt";
+@import "datatables.net-select-dt";
 
 #root {
   margin: 0 auto;
 }
+.sidebar {
+  width: 280px;
+}
+.mainCard {
+  margin-left: 280px;
+  margin-top: 0;
+}
+@media (max-width: 991.98px) {
+  .sidebar {
+    width: 230px;
+  }
+  .mainCard {
+    margin-top: 100px;
+    margin-left: 0;
+  }
+}
 
-.logo{
+.logo {
   max-width: 280px;
 }
 .card {
@@ -19,7 +35,7 @@
   background-color: #14233b !important;
   color: white !important;
 }
-.btn-gd:hover{
+.btn-gd:hover {
   background-color: #2d405e !important;
 }
 .bg-gd {
@@ -29,11 +45,11 @@
 .form-input {
   background-color: #c9cfd7 !important;
 }
-.nav-link:hover{
+.nav-link:hover {
   background-color: white !important;
   color: #14233b !important;
 }
-.text-gd{
+.text-gd {
   color: #14233b !important;
 }
 
@@ -64,24 +80,12 @@
   font-size: 14px !important;
 }
 
-.margin-left-md {
-  margin-left: 0;
-}
-
-@media (min-width: 768px) {
-  .margin-left-md {
-    margin-left: 280px; 
-  }
-}
-
-
 .rotate-open {
   transform: rotate(0deg);
 }
 .rotate-close {
   transform: rotate(-180deg);
 }
-
 
 /* Title Section Animation */
 

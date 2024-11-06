@@ -13,24 +13,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
   const [towns, setTowns] = useState();
   const [neighborhoods, setNeighborhoods] = useState();
   const [isOpen, setIsOpen] = useState(true);
-  const [addressTypes, setAddressTypes] = useState([
-    {
-      id: 1,
-      name: "Hogar",
-    },
-    {
-      id: 2,
-      name: "Oficina",
-    },
-    {
-      id: 3,
-      name: "Fiscal",
-    },
-    {
-      id: 4,
-      name: "Negocio",
-    },
-  ]);
+  const [addressTypes, setAddressTypes] = useState([]);
   const [address, setAddress] = useState({
     street: "",
     number: "",
@@ -46,6 +29,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
     longitude: "",
     addressTypeId: "",
   });
+
   const handleNeighborhoodChange = (e) => {
     const selectedNeighborhoodId = e.target.value;
     const selectedNeighborhood = neighborhoods.find(
@@ -165,11 +149,12 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
       });
     }
   }, [formData]);
-  // useEffect(() => {
-  //   CatalogsService.getAddressType().then((response) =>
-  //     setAddressTypes(response.data)
-  //   );
-  // }, []);
+  
+  useEffect(() => {
+    CatalogsService.getAddressType().then((response) =>
+      setAddressTypes(response.data)
+    );
+  }, []);
 
   return (
     <TitleSection text="Domicilio" state={isOpen}>
@@ -186,7 +171,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
           </Col>
         </Row>
         <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Input
               label="Calle"
               placeholder="Jabillos"
@@ -195,7 +180,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(address, setAddress)}
             />
           </Col>
-          <Col sm={6} md={3}>
+          <Col sm={6} lg={3}>
             <Input
               label="N° Ext"
               placeholder="182"
@@ -204,7 +189,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(address, setAddress)}
             />
           </Col>
-          <Col sm={6} md={3}>
+          <Col sm={6} lg={3}>
             <Input
               label="N° Int"
               placeholder="Depto 201"
@@ -213,7 +198,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(address, setAddress)}
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Input
               label="Código Postal"
               name="zipCode"
@@ -223,7 +208,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(address, setAddress)}
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Select
               label="Colonia"
               name="neighborhoodId"
@@ -237,7 +222,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleNeighborhoodChange}
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Select
               label="Municipio"
               name="townId"
@@ -252,7 +237,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               disabled
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Select
               label="Estado"
               name="statemxId"
@@ -269,7 +254,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
           </Col>
         </Row>
         <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Input
               label="Primer Calle Referencia"
               placeholder="Entre calle"
@@ -278,7 +263,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(address, setAddress)}
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Input
               label="Segunda Calle Referencia"
               placeholder="Y calle"

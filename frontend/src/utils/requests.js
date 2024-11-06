@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useLoader } from "../context/Loader/LoaderProvider";
+import Swal from "sweetalert2";
 
 const api = axios.create({
   baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
@@ -15,6 +16,7 @@ const getAccessToken = () => localStorage.getItem("accessToken");
 
 export const refreshToken = async () => {
   try {
+    localStorage.removeItem("accessToken");
     const response = await api.post("/auth/refreshtoken", {
       refreshToken: localStorage.getItem("refreshToken"),
     });
@@ -49,16 +51,16 @@ api.interceptors.response.use(
       try {
         const newAccessToken = await refreshToken();
         api.defaults.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        originalRequest.defaults.headers[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
-
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
         console.error("No se pudo refrescar el token", refreshError);
+        // Swal.fire({
+        //   title: "Sesion expirada"
+        // })
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        
+
         return Promise.reject(refreshError);
       }
     }

@@ -15,10 +15,14 @@ const logout = () => {
   return post("auth/signout");
 };
 
+const refreshToken = (data) => {
+  return post("auth/refreshtoken", data);
+};
 const AuthService = {
   register,
   login,
   logout,
+  refreshToken,
 };
 
 export default AuthService;

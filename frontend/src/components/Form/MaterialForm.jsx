@@ -63,7 +63,7 @@ const MaterialForm = () => {
   return (
     <div className="container mt-4">
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-lg-6">
           <Input
             type="text"
             className="form-control"
@@ -74,7 +74,7 @@ const MaterialForm = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="col-md-2">
+        <div className="col-lg-2">
           <Input
             type="number"
             className="form-control"
@@ -85,7 +85,7 @@ const MaterialForm = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="col-md-2">
+        <div className="col-lg-2">
           <Input
             type="number"
             className="form-control"
@@ -96,7 +96,7 @@ const MaterialForm = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="col-md-2 d-flex align-items-center justify-content-center">
+        <div className="col-lg-2 d-flex align-items-center justify-content-center">
           <button
             type="button"
             className="btn btn-success"

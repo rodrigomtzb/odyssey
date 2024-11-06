@@ -73,7 +73,11 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
                   </Collapse>
                 </>
               ) : (
-                <Link to={subItem.path} className="nav-link text-white">
+                <Link
+                  to={subItem.path}
+                  className="nav-link text-white"
+                  onClick={onToggleSidebar}
+                >
                   <i className={`bi ${icon}`} /> {subItem.title}
                 </Link>
               )}
@@ -86,8 +90,8 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
 
   return (
     <aside
-      className={"fixed-top flex-column vh-100 d-flex"}
-      style={{ width: "280px", backgroundColor: "#14233b" }}
+      className={"fixed-top flex-column vh-100 d-flex sidebar pe-1"}
+      style={{ backgroundColor: "#14233b" }}
     >
       <AppLogo />
       {/* Contenedor botones del sidebar */}
@@ -98,7 +102,7 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
               {menuItem.subItems ? (
                 <>
                   <button
-                    className="w-100 nav-link text-white d-flex justify-content-between align-items-center"
+                    className="w-100 nav-link text-white d-flex justify-content-between align-items-center pe-1"
                     onClick={() => toggleMenu(index)}
                     aria-controls={`collapse-menu-${index}`}
                     aria-expanded={openMenus[index] || false}
@@ -123,6 +127,7 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
                 <Link
                   to={menuItem.path}
                   className="nav-link text-white d-flex align-items-center"
+                  onClick={onToggleSidebar}
                 >
                   <i className={`bi bi-${menuItem.icon} fs-4`} />{" "}
                   <span className="ms-2">{menuItem.title}</span>
@@ -136,7 +141,10 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
       <div className="mt-auto p-3 mb-5 mb-md-0">
         <button
           className="btn btn-gd w-100 d-flex align-items-center justify-content-start"
-          onClick={handleLogout}
+          onClick={() => {
+            handleLogout();
+            onToggleSidebar();
+          }}
         >
           <i className="bi bi-box-arrow-right fs-4 me-2" />
           Salir

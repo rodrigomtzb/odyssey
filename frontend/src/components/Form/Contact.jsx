@@ -9,16 +9,7 @@ import SupplierService from "../../services/supplier.service";
 
 const ContactSection = ({ id, formData, setFormData, to }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [phoneType, setPhoneType] = useState([
-    {
-      id: 1,
-      name: "Celular",
-    },
-    {
-      id: 2,
-      name: "Fijo",
-    },
-  ]);
+  const [phoneType, setPhoneType] = useState([]);
   const [contact, setContact] = useState({
     personName: "",
     email: "",
@@ -33,17 +24,19 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
         switch (to) {
           case "supplier":
             console.log(contact);
-            SupplierService.editSupplierContact(id, contact).then((response) => {
-              console.log(response.data);
-              setFormData(response.data);
-              setContact({
-                personName: "",
-                email: "",
-                phoneNumber: "",
-                phoneTypeId: "",
-              });
-              setIsOpen(false);
-            });
+            SupplierService.editSupplierContact(id, contact).then(
+              (response) => {
+                console.log(response.data);
+                setFormData(response.data);
+                setContact({
+                  personName: "",
+                  email: "",
+                  phoneNumber: "",
+                  phoneTypeId: "",
+                });
+                setIsOpen(false);
+              }
+            );
             break;
 
           default:
@@ -85,11 +78,11 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
     }
   }, [formData]);
 
-  //   useEffect(() => {
-  //     CatalogsService.getPhoneType().then((response) =>
-  //       setPhoneType(response.data)
-  //     );
-  //   }, []);
+  useEffect(() => {
+    CatalogsService.getPhoneType().then((response) =>
+      setPhoneType(response.data)
+    );
+  }, []);
 
   return (
     <TitleSection text="Contacto" state={isOpen}>
@@ -109,7 +102,7 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
           onChange={handleFormChange(contact, setContact)}
         />
         <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Input
               label="Teléfono"
               placeholder="5512345678"
@@ -118,7 +111,7 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
               onChange={handleFormChange(contact, setContact)}
             />
           </Col>
-          <Col sm={12} md={6}>
+          <Col sm={12} lg={6}>
             <Select
               label="Tipo Telefono"
               name="phoneTypeId"

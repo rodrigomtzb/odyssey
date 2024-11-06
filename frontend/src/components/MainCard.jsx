@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 const MainCard = ({ children }) => {
   return (
     <Card
-      className="my-md-3 border border-0 p-2 p-md-4"
+      className="mainCard my-lg-3 border border-0 p-2 p-lg-4"
       style={{
         backgroundColor: "rgb(255, 255, 255, 0.6)",
         // height: "calc(100vh - 5rem)",

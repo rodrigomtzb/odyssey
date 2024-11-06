@@ -9,6 +9,9 @@ const addAddress = (id, data) => {
 const addContact = (id, data) => {
   return post(`suppliers/${id}/contact`, data);
 };
+const addTags = (id, data) => {
+  return post(`suppliers/${id}/tag-description`, data);
+};
 const toggleSupplierStatus = (id) => {
   return post(`suppliers/${id}/enabled`);
 };
@@ -41,6 +44,7 @@ const SupplierService = {
   createSupplier,
   addAddress,
   addContact,
+  addTags,
   toggleSupplierStatus,
   getSuppliers,
   getSupplier,

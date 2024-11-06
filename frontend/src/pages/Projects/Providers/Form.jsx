@@ -1,28 +1,28 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import {
   AddressSection,
   Input,
   Select,
   TitleSection,
+  TagInput,
+  ContactSection,
 } from "../../../components/Form";
-import { DefinitionList, Title } from "../../../components";
-import { useEffect, useState } from "react";
-import TagInput from "../../../components/Form/TagInput";
+import { DefinitionList, Title, ContentCard } from "../../../components";
 import { handleFormChange } from "../../../utils";
-import Swal from "sweetalert2";
 import SupplierService from "../../../services/supplier.service";
-import ContentCard from "../../../components/ContentCard";
-import ContactSection from "../../../components/Form/Contact";
 import AddressService from "../../../services/address.service";
+import CatalogsService from "../../../services/catalogs.service";
 
 const ProviderForm = () => {
   const { id } = useParams();
+  const [personType, setPersonType] = useState([]);
   const [dataVisible, setDataVisible] = useState(true);
   const [supplier, setSupplier] = useState();
   const [selectedAddress, setSelectAddress] = useState();
   const [selectedContact, setSelectContact] = useState();
-
   const [supplierData, setSupplierData] = useState();
   const [supplierAddresses, setSupplierAddresses] = useState();
   const [supplierContacts, setSupplierContacts] = useState();
@@ -100,7 +100,6 @@ const ProviderForm = () => {
       });
     } catch (error) {}
   };
-
   const handleEdit = (id, index, type) => {
     switch (type) {
       case "data":
@@ -178,29 +177,6 @@ const ProviderForm = () => {
       }
     });
   };
-
-  useEffect(() => {
-    const fetchSupplierData = async () => {
-      try {
-        setSupplierData(getSupplierData(supplier));
-
-        if (supplier.address && supplier.address.length > 0) {
-          const addresses = await fetchAddresses(supplier.address);
-          setSupplierAddresses(addresses);
-        }
-
-        if (supplier.contactMethods && supplier.contactMethods.length > 0) {
-          setSupplierContacts(getContactMethods(supplier.contactMethods));
-        }
-      } catch (error) {
-        console.error("Error fetching supplier data:", error);
-      }
-    };
-    if (supplier) {
-      fetchSupplierData();
-    }
-  }, [supplier]);
-
   const getSupplierData = (supplier) => {
     switch (supplier.personType) {
       case "F":
@@ -220,7 +196,6 @@ const ProviderForm = () => {
         return [];
     }
   };
-
   const fetchAddresses = async (addresses) => {
     return await Promise.all(
       addresses.map(async (address) => {
@@ -251,7 +226,6 @@ const ProviderForm = () => {
       })
     );
   };
-
   const getContactMethods = (contacts) => {
     return contacts.map((contact) => [
       { title: "Nombre Completo", description: contact.personName },
@@ -260,6 +234,28 @@ const ProviderForm = () => {
       { title: "Tipo de Telefono", description: contact.phoneType.name },
     ]);
   };
+
+  useEffect(() => {
+    const fetchSupplierData = async () => {
+      try {
+        setSupplierData(getSupplierData(supplier));
+
+        if (supplier.address && supplier.address.length > 0) {
+          const addresses = await fetchAddresses(supplier.address);
+          setSupplierAddresses(addresses);
+        }
+
+        if (supplier.contactMethods && supplier.contactMethods.length > 0) {
+          setSupplierContacts(getContactMethods(supplier.contactMethods));
+        }
+      } catch (error) {
+        console.error("Error fetching supplier data:", error);
+      }
+    };
+    if (supplier) {
+      fetchSupplierData();
+    }
+  }, [supplier]);
 
   useEffect(() => {
     if (id) {
@@ -271,6 +267,12 @@ const ProviderForm = () => {
       });
     }
   }, [id]);
+
+  useEffect(() => {
+    CatalogsService.getPersonType().then((response) =>
+      setPersonType(response.data)
+    );
+  }, []);
 
   return (
     <>
@@ -394,28 +396,23 @@ const ProviderForm = () => {
           <TitleSection text="Datos Generales" isFirst>
             <Form>
               <Row className="mb-3">
-                <Col sm={6} className="d-flex align-items-end">
-                  <Form.Check
-                    inline
-                    label="Persona Física"
-                    name="personType"
-                    type="radio"
-                    id="naturalPerson"
-                    value="F"
-                    onChange={handleFormChange(formData, setFormData)}
-                  />
-                </Col>
-                <Col sm={6} className="d-flex-align-items-end">
-                  <Form.Check
-                    inline
-                    label="Persona Moral"
-                    name="personType"
-                    type="radio"
-                    id="legalPerson"
-                    value="M"
-                    onChange={handleFormChange(formData, setFormData)}
-                  />
-                </Col>
+                {personType.map((type) => (
+                  <Col
+                    sm={6}
+                    className="d-flex align-items-end"
+                    key={type.type}
+                  >
+                    <Form.Check
+                      inline
+                      label={type.description}
+                      name="personType"
+                      type="radio"
+                      id={type.type == "F" ? "naturalPerson" : "legalPerson"}
+                      value={type.type}
+                      onChange={handleFormChange(formData, setFormData)}
+                    />
+                  </Col>
+                ))}
               </Row>
               {formData.personType == "M" ? (
                 <>
@@ -434,7 +431,7 @@ const ProviderForm = () => {
                     onChange={handleFormChange(legalPerson, setLegalPerson)}
                   />
                   <Row>
-                    <Col sm={12} md={7}>
+                    <Col sm={12} lg={7}>
                       <Input
                         label="RFC"
                         name="mxRfcCompany"
@@ -456,7 +453,7 @@ const ProviderForm = () => {
                     onChange={handleFormChange(naturalPerson, setNatualPerson)}
                   />
                   <Row>
-                    <Col sm={12} md={7}>
+                    <Col sm={12} lg={7}>
                       <Input
                         label="RFC"
                         name="mxRfc"

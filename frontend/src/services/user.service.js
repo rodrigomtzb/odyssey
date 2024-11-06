@@ -12,6 +12,7 @@ const getUsersDisabled = () => {
 const getUser = (id) => {
   return get(`users/${id}`);
 };
+
 const editUserData = (id, data) => {
   return put(`users/${id}/data`, data);
 };
@@ -24,6 +25,7 @@ const editUserPassword = (id, data) => {
 const toggleUserStatus = (id, data) => {
   return put(`users/${id}/enabled`, data);
 };
+
 const UserService = {
   getUsers,
   getUsersDisabled,

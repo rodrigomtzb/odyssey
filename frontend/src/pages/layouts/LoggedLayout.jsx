@@ -121,21 +121,21 @@ const LoggedLayout = () => {
       <Offcanvas
         show={isVisibleSidebar}
         onHide={toggleSidebar}
-        responsive="md"
+        responsive="lg"
         placement="start"
-        style={{ width: "280px" }}
+        style={{ width: "230px" }}
       >
         <Sidebar menuItems={menuItems} onToggleSidebar={toggleSidebar} />
       </Offcanvas>
       {isVisibleSidebar && (
         <div
-          className="overlay w-100 h-100 md:hidden fixed inset-0 bg-black bg-opacity-50"
+          className="overlay w-100 h-100 lg:hidden fixed inset-0 bg-black bg-opacity-50"
           onClick={toggleSidebar}
         ></div>
       )}
       {outletContent && (
         <main
-          className="content p-2 p-md-4 margin-left-md main"
+          className="content p-2 p-lg-4"
           style={{ position: "relative", zIndex: 2 }}
         >
           <MainCard>{outletContent}</MainCard>
