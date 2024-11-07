@@ -7,6 +7,7 @@ import AddressService from "../../services/address.service";
 import { handleFormChange } from "../../utils";
 import SupplierService from "../../services/supplier.service";
 import CatalogsService from "../../services/catalogs.service";
+import CustomerService from "../../services/customer.service";
 
 const AddressSection = ({ id, formData, setFormData, to }) => {
   const [states, setStates] = useState();
@@ -79,7 +80,29 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
               }
             );
             break;
-
+          case "customer":
+            CustomerService.editCustomerAddress(id, address).then(
+              (response) => {
+                setFormData(response.data);
+                setAddress({
+                  street: "",
+                  number: "",
+                  apartmentNumber: "",
+                  zipCode: "",
+                  neighborhoodId: "",
+                  townId: "",
+                  statemxId: "",
+                  firstStreet: "",
+                  secondStreet: "",
+                  description: "",
+                  latitude: "",
+                  longitude: "",
+                  addressTypeId: "",
+                });
+                setIsOpen(false);
+              }
+            );
+            break;
           default:
             break;
         }
@@ -88,9 +111,29 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
       try {
         switch (to) {
           case "supplier":
-            console.log(address);
             SupplierService.addAddress(id, address).then((response) => {
               console.log(response.data);
+              setFormData(response.data);
+              setAddress({
+                street: "",
+                number: "",
+                apartmentNumber: "",
+                zipCode: "",
+                neighborhoodId: "",
+                townId: "",
+                statemxId: "",
+                firstStreet: "",
+                secondStreet: "",
+                description: "",
+                latitude: "",
+                longitude: "",
+                addressTypeId: "",
+              });
+              setIsOpen(false);
+            });
+            break;
+          case "customer":
+            CustomerService.addAddress(id, address).then((response) => {
               setFormData(response.data);
               setAddress({
                 street: "",
@@ -149,7 +192,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
       });
     }
   }, [formData]);
-  
+
   useEffect(() => {
     CatalogsService.getAddressType().then((response) =>
       setAddressTypes(response.data)

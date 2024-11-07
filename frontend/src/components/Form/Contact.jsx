@@ -6,6 +6,7 @@ import TitleSection from "./TitleSection";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./Input";
 import SupplierService from "../../services/supplier.service";
+import CustomerService from "../../services/customer.service";
 
 const ContactSection = ({ id, formData, setFormData, to }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,10 +24,22 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
       try {
         switch (to) {
           case "supplier":
-            console.log(contact);
             SupplierService.editSupplierContact(id, contact).then(
               (response) => {
-                console.log(response.data);
+                setFormData(response.data);
+                setContact({
+                  personName: "",
+                  email: "",
+                  phoneNumber: "",
+                  phoneTypeId: "",
+                });
+                setIsOpen(false);
+              }
+            );
+            break;
+          case "customer":
+            CustomerService.editCustomerContact(id, contact).then(
+              (response) => {
                 setFormData(response.data);
                 setContact({
                   personName: "",
@@ -47,9 +60,19 @@ const ContactSection = ({ id, formData, setFormData, to }) => {
       try {
         switch (to) {
           case "supplier":
-            console.log(contact);
             SupplierService.addContact(id, contact).then((response) => {
-              console.log(response.data);
+              setFormData(response.data);
+              setContact({
+                personName: "",
+                email: "",
+                phoneNumber: "",
+                phoneTypeId: "",
+              });
+              setIsOpen(false);
+            });
+            break;
+          case "customer":
+            CustomerService.addContact(id, contact).then((response) => {
               setFormData(response.data);
               setContact({
                 personName: "",

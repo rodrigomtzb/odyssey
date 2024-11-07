@@ -59,6 +59,16 @@
   scrollbar-gutter: stable both-edges;
 }
 
+.suggestion-item {
+  background-color: #ffffff;
+  color: #14233b;
+  font-weight: bold;
+}
+.suggestions-list .suggestion-item.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
 .alert-bubble {
   right: 20px;
   bottom: 20px;

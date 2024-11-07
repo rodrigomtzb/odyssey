@@ -5,3 +5,4 @@ export { default as TitleSection } from "./TitleSection";
 export { default as AddressSection } from "./Address";
 export { default as ContactSection } from "./Contact";
 export { default as TagInput } from "./TagInput";
+export { default as TagList } from "./TagList";

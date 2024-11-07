@@ -8,6 +8,7 @@ import {
   Select,
   TitleSection,
   TagInput,
+  TagList,
   ContactSection,
 } from "../../../components/Form";
 import { DefinitionList, Title, ContentCard } from "../../../components";
@@ -26,6 +27,7 @@ const ProviderForm = () => {
   const [supplierData, setSupplierData] = useState();
   const [supplierAddresses, setSupplierAddresses] = useState();
   const [supplierContacts, setSupplierContacts] = useState();
+  const [supplierTags, setSupplierTags] = useState();
 
   const [formData, setFormData] = useState({
     personType: "",
@@ -234,6 +236,54 @@ const ProviderForm = () => {
       { title: "Tipo de Telefono", description: contact.phoneType.name },
     ]);
   };
+  const toggleSupplierStatus = async () => {
+    let countdown = 5;
+    let title = supplier.enabled ? "Deshabilitar" : "Habilitar";
+    let text = supplier.enabled ? "deshabilitará" : "habilitará";
+    let confirm = supplier.enabled ? "deshabilitado" : "habilitado";
+
+    Swal.fire({
+      title: `¿${title} proveedor?`,
+      text: `Esta acción ${text} el proveedor.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: `Confirmar (${countdown})`,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        confirmButton.disabled = true;
+
+        const timerInterval = setInterval(() => {
+          countdown -= 1;
+          confirmButton.textContent = `Confirmar (${countdown})`;
+
+          if (countdown === 0) {
+            clearInterval(timerInterval);
+            confirmButton.disabled = false;
+            confirmButton.textContent = "Confirmar";
+          }
+        }, 1000);
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        SupplierService.toggleSupplierStatus(id, {
+          id: id,
+          enabled: !supplier.enabled,
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: `Proveedor ${confirm}`,
+            showConfirmButton: false,
+            timer: 1500,
+          }).then((response) => {
+            setSupplier(response.data);
+          });
+        });
+      }
+    });
+  };
 
   useEffect(() => {
     const fetchSupplierData = async () => {
@@ -247,6 +297,9 @@ const ProviderForm = () => {
 
         if (supplier.contactMethods && supplier.contactMethods.length > 0) {
           setSupplierContacts(getContactMethods(supplier.contactMethods));
+        }
+        if (supplier.tagsDescription && supplier.tagsDescription.length > 0) {
+          setSupplierTags(supplier.tagsDescription);
         }
       } catch (error) {
         console.error("Error fetching supplier data:", error);
@@ -389,6 +442,13 @@ const ProviderForm = () => {
                 </Row>
               </>
             ))}
+
+          {supplierTags && (
+            <>
+              <hr />
+              <TagList tags={supplierTags} />
+            </>
+          )}
         </ContentCard>
       )}
       {dataVisible && (
@@ -502,15 +562,50 @@ const ProviderForm = () => {
             setFormData={setSupplier}
             to="supplier"
           />
-          <TitleSection text="Tags">
-            <TagInput />
-          </TitleSection>
+          <TagInput
+            id={supplier.id}
+            type="supplier"
+            tagsData={supplier.tagsDescription}
+            setFormData={setSupplier}
+          />
           {/* <hr />
             <Stack direction="horizontal" gap={2}>
               <Button variant="gd" className="ms-auto" type="submit">
                 Registrar
               </Button>
             </Stack> */}
+          {id ? (
+            <>
+              <hr />
+              <div
+                className={`mt-2 px-4 py-3 ${
+                  supplier.enabled ? "bg-danger-subtle" : "bg-success-subtle"
+                }`}
+              >
+                <Row className="align-items-center">
+                  <Col>
+                    <p className="m-0">
+                      {supplier.enabled
+                        ? "Proveedor Activo"
+                        : "Proveedor Inactivo"}
+                    </p>
+                  </Col>
+                  <Col className="justify-content-end">
+                    <Button
+                      variant={supplier.enabled ? "danger" : "success"}
+                      onClick={toggleSupplierStatus}
+                    >
+                      {supplier.enabled
+                        ? "Deshabilitar proveedor"
+                        : "Habilitar proveedor"}
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </>
       )}
     </>

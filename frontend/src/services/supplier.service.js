@@ -12,8 +12,8 @@ const addContact = (id, data) => {
 const addTags = (id, data) => {
   return post(`suppliers/${id}/tag-description`, data);
 };
-const toggleSupplierStatus = (id) => {
-  return post(`suppliers/${id}/enabled`);
+const toggleSupplierStatus = (id, data) => {
+  return post(`suppliers/${id}/enabled`, data);
 };
 
 const getSuppliers = () => {

@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
+import CustomerForm from "../pages/Marketing/Clients/Form";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -150,7 +151,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/clients/create",
-        element: <ClientForm />,
+        element: <CustomerForm />,
       },
       {
         path: "/clients/list",

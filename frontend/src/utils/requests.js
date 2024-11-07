@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useLoader } from "../context/Loader/LoaderProvider";
 import Swal from "sweetalert2";
+import AuthService from "../services/auth.service";
 
 const api = axios.create({
   baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
@@ -58,8 +59,11 @@ api.interceptors.response.use(
         // Swal.fire({
         //   title: "Sesion expirada"
         // })
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        AuthService.logout().then(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          window.location.reload();
+        })
 
         return Promise.reject(refreshError);
       }
