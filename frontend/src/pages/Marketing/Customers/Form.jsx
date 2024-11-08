@@ -6,11 +6,10 @@ import {
   AddressSection,
   Input,
   TitleSection,
-  TagList,
   ContactSection,
 } from "../../../components/Form";
 import { DefinitionList, Title, ContentCard } from "../../../components";
-import { handleFormChange } from "../../../utils";
+import { handleFormChange, scrollToSection, scrollToTop } from "../../../utils";
 import CustomerService from "../../../services/customer.service";
 import AddressService from "../../../services/address.service";
 import CatalogsService from "../../../services/catalogs.service";
@@ -25,7 +24,6 @@ const CustomerForm = () => {
   const [customerData, setCustomerData] = useState();
   const [customerAddresses, setCustomerAddresses] = useState();
   const [customerContacts, setCustomerContacts] = useState();
-  const [customerTags, setCustomerTags] = useState();
 
   const [formData, setFormData] = useState({
     personType: "",
@@ -71,6 +69,14 @@ const CustomerForm = () => {
             };
           }
           CustomerService.createCustomer(data).then((response) => {
+            scrollToTop();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Datos registrados correctamente",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             setCustomer(response.data);
             setLegalPerson({
               legalName: "",
@@ -95,12 +101,27 @@ const CustomerForm = () => {
         personType: formData.personType,
         ...legalPerson,
         ...naturalPerson,
+      }).then((response) => {
+        setCustomer(response.data);
+        scrollToTop();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Datos actualizados correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setDataVisible(false);
       });
     } catch (error) {}
   };
   const handleEdit = (id, index, type) => {
     switch (type) {
       case "data":
+        setFormData({
+          ...formData,
+          personType: customer.personType,
+        });
         setDataVisible(true);
         if (customer.personType === "F") {
           setNatualPerson({
@@ -116,12 +137,15 @@ const CustomerForm = () => {
             mxRfcCompany: customer.mxRfcCompany,
           });
         }
+        scrollToSection("dataSection");
         break;
       case "address":
         setSelectAddress(customer.address[index]);
+        scrollToSection("addressSection");
         break;
-      default:
+      case "contact":
         setSelectContact(customer.contactMethods[index]);
+        scrollToSection("contactSection");
         break;
     }
   };
@@ -154,7 +178,9 @@ const CustomerForm = () => {
             );
             break;
           case "contact":
-            let contactId = customer.contact[index].id;
+            console.log(customer);
+            let contactId = customer.contactMethods[index].id;
+            console.log(contactId);
             CustomerService.deleteCustomerContact(customer.id, contactId).then(
               (response) => {
                 Swal.fire({
@@ -179,12 +205,14 @@ const CustomerForm = () => {
     switch (customer.personType) {
       case "F":
         return [
+          { title: "ID", description: customer.id },
           { title: "Tipo de Persona", description: "Persona Fisica" },
           { title: "Nombre Completo", description: customer.fullName },
           { title: "RFC", description: customer.mxRfc },
         ];
       case "M":
         return [
+          { title: "ID", description: customer.id },
           { title: "Tipo de Persona", description: "Persona Moral" },
           { title: "Razon social", description: customer.legalName },
           { title: "Nombre Comercial", description: customer.businessName },
@@ -193,6 +221,14 @@ const CustomerForm = () => {
       default:
         return [];
     }
+  };
+  const getContactMethods = (contacts) => {
+    return contacts.map((contact) => [
+      { title: "Nombre Completo", description: contact.personName },
+      { title: "Correo Electrónico", description: contact.email },
+      { title: "Número de Teléfono", description: contact.phoneNumber },
+      { title: "Tipo de Telefono", description: contact.phoneType.name },
+    ]);
   };
   const fetchAddresses = async (addresses) => {
     return await Promise.all(
@@ -223,14 +259,6 @@ const CustomerForm = () => {
         ];
       })
     );
-  };
-  const getContactMethods = (contacts) => {
-    return contacts.map((contact) => [
-      { title: "Nombre Completo", description: contact.personName },
-      { title: "Correo Electrónico", description: contact.email },
-      { title: "Número de Teléfono", description: contact.phoneNumber },
-      { title: "Tipo de Telefono", description: contact.phoneType.name },
-    ]);
   };
   const toggleCustomerStatus = async () => {
     let countdown = 5;
@@ -309,7 +337,10 @@ const CustomerForm = () => {
 
       CustomerService.getCustomer(id).then((response) => {
         setCustomer(response.data);
-        console.log(response.data);
+        setFormData({
+          ...formData,
+          personType: response.data.personType,
+        });
       });
     }
   }, [id]);
@@ -438,7 +469,7 @@ const CustomerForm = () => {
         </ContentCard>
       )}
       {dataVisible && (
-        <>
+        <div id="dataSection">
           <TitleSection text="Datos Generales" isFirst>
             <Form>
               <Row className="mb-3">
@@ -455,6 +486,7 @@ const CustomerForm = () => {
                       type="radio"
                       id={type.type == "F" ? "naturalPerson" : "legalPerson"}
                       value={type.type}
+                      checked={formData.personType === type.type}
                       onChange={handleFormChange(formData, setFormData)}
                     />
                   </Col>
@@ -532,7 +564,7 @@ const CustomerForm = () => {
               )}
             </Form>
           </TitleSection>
-        </>
+        </div>
       )}
       {customer && (
         <>
@@ -541,12 +573,14 @@ const CustomerForm = () => {
             formData={selectedAddress}
             setFormData={setCustomer}
             to="customer"
+            state={id ? false : true}
           />
           <ContactSection
             id={customer.id}
             formData={selectedContact}
             setFormData={setCustomer}
             to="customer"
+            state={id ? false : true}
           />
           {/* <hr />
             <Stack direction="horizontal" gap={2}>
@@ -565,12 +599,10 @@ const CustomerForm = () => {
                 <Row className="align-items-center">
                   <Col>
                     <p className="m-0">
-                      {customer.enabled
-                        ? "Cliente Activo"
-                        : "Ciente Inactivo"}
+                      {customer.enabled ? "Cliente Activo" : "Ciente Inactivo"}
                     </p>
                   </Col>
-                  <Col className="justify-content-end">
+                  <Col className="d-flex justify-content-end">
                     <Button
                       variant={customer.enabled ? "danger" : "success"}
                       onClick={toggleCustomerStatus}

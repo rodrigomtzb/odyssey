@@ -2,9 +2,9 @@ import { destroy, get, post, put } from "../utils/requests";
 
 const createCustomer = (data) => {
   return post("customers", data);
-};
+}
 const addAddress = (id, data) => {
-  return post(`customers/${id}/addresss`, data);
+  return post(`customers/${id}/address`, data);
 };
 const addContact = (id, data) => {
   return post(`customers/${id}/contact`, data);

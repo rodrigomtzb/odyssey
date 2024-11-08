@@ -3,8 +3,9 @@ import { Button } from "react-bootstrap";
 import TagService from "../../services/tag.service";
 import SupplierService from "../../services/supplier.service";
 import TitleSection from "./TitleSection";
+import { scrollToTop } from "../../utils";
 
-const TagInput = ({ id, type, tagsData, setFormData }) => {
+const TagInput = ({ id, type, tagsData, setFormData, state }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [initialTags, setInitialTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -40,8 +41,8 @@ const TagInput = ({ id, type, tagsData, setFormData }) => {
       setSelectedIndex((prevIndex) => (prevIndex + 1) % suggestions.length);
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      setSelectedIndex(
-        (prevIndex) => (prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1)
+      setSelectedIndex((prevIndex) =>
+        prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1
       );
     }
   };
@@ -75,7 +76,9 @@ const TagInput = ({ id, type, tagsData, setFormData }) => {
 
   const handleSuggestionClick = (suggestion) => {
     if (
-      !tags.listAddTags.some((tag) => tag.description === suggestion.description)
+      !tags.listAddTags.some(
+        (tag) => tag.description === suggestion.description
+      )
     ) {
       setTags((prevTags) => ({
         ...prevTags,
@@ -111,6 +114,7 @@ const TagInput = ({ id, type, tagsData, setFormData }) => {
       case "supplier":
         SupplierService.addTags(id, tags).then((response) => {
           setFormData(response.data);
+          scrollToTop();
           setTags({
             componentId: id,
             listAddTags: [],
@@ -138,6 +142,10 @@ const TagInput = ({ id, type, tagsData, setFormData }) => {
     }
     setSelectedIndex(-1);
   }, [inputValue]);
+
+  useEffect(() => {
+    setIsOpen(state);
+  }, [state]);
 
   return (
     <TitleSection text="Tags" state={isOpen}>

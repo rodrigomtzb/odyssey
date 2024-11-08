@@ -60,7 +60,7 @@ const LoggedLayout = () => {
         // },
         {
           title: "Clientes",
-          path: "/clients",
+          path: "/customers",
         },
         // {
         //   title: "Reportes",

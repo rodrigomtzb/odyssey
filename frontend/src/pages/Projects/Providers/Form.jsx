@@ -5,14 +5,13 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import {
   AddressSection,
   Input,
-  Select,
   TitleSection,
   TagInput,
   TagList,
   ContactSection,
 } from "../../../components/Form";
 import { DefinitionList, Title, ContentCard } from "../../../components";
-import { handleFormChange } from "../../../utils";
+import { handleFormChange, scrollToSection, scrollToTop } from "../../../utils";
 import SupplierService from "../../../services/supplier.service";
 import AddressService from "../../../services/address.service";
 import CatalogsService from "../../../services/catalogs.service";
@@ -74,7 +73,14 @@ const ProviderForm = () => {
             };
           }
           SupplierService.createSupplier(data).then((response) => {
-            console.log(response.data);
+            scrollToTop();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Datos editados correctamente",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             setSupplier(response.data);
             setLegalPerson({
               legalName: "",
@@ -99,12 +105,25 @@ const ProviderForm = () => {
         personType: formData.personType,
         ...legalPerson,
         ...naturalPerson,
+      }).then(() => {
+        scrollToTop();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Contacto editado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
     } catch (error) {}
   };
   const handleEdit = (id, index, type) => {
     switch (type) {
       case "data":
+        setFormData({
+          ...formData,
+          personType: supplier.personType,
+        });
         setDataVisible(true);
         if (supplier.personType === "F") {
           setNatualPerson({
@@ -120,12 +139,15 @@ const ProviderForm = () => {
             mxRfcCompany: supplier.mxRfcCompany,
           });
         }
+        scrollToSection("dataSection");
         break;
       case "address":
         setSelectAddress(supplier.address[index]);
+        scrollToSection("addressSection");
         break;
-      default:
+      case "contact":
         setSelectContact(supplier.contactMethods[index]);
+        scrollToSection("contactSection");
         break;
     }
   };
@@ -158,7 +180,7 @@ const ProviderForm = () => {
             );
             break;
           case "contact":
-            let contactId = supplier.contact[index].id;
+            let contactId = supplier.contactMethods[index].id;
             SupplierService.deleteSupplierContact(supplier.id, contactId).then(
               (response) => {
                 Swal.fire({
@@ -183,12 +205,14 @@ const ProviderForm = () => {
     switch (supplier.personType) {
       case "F":
         return [
+          { title: "ID", description: supplier.id },
           { title: "Tipo de Persona", description: "Persona Fisica" },
           { title: "Nombre Completo", description: supplier.fullName },
           { title: "RFC", description: supplier.mxRfc },
         ];
       case "M":
         return [
+          { title: "ID", description: supplier.id },
           { title: "Tipo de Persona", description: "Persona Moral" },
           { title: "Razon social", description: supplier.legalName },
           { title: "Nombre Comercial", description: supplier.businessName },
@@ -197,6 +221,14 @@ const ProviderForm = () => {
       default:
         return [];
     }
+  };
+  const getContactMethods = (contacts) => {
+    return contacts.map((contact) => [
+      { title: "Nombre Completo", description: contact.personName },
+      { title: "Correo Electrónico", description: contact.email },
+      { title: "Número de Teléfono", description: contact.phoneNumber },
+      { title: "Tipo de Telefono", description: contact.phoneType.name },
+    ]);
   };
   const fetchAddresses = async (addresses) => {
     return await Promise.all(
@@ -227,14 +259,6 @@ const ProviderForm = () => {
         ];
       })
     );
-  };
-  const getContactMethods = (contacts) => {
-    return contacts.map((contact) => [
-      { title: "Nombre Completo", description: contact.personName },
-      { title: "Correo Electrónico", description: contact.email },
-      { title: "Número de Teléfono", description: contact.phoneNumber },
-      { title: "Tipo de Telefono", description: contact.phoneType.name },
-    ]);
   };
   const toggleSupplierStatus = async () => {
     let countdown = 5;
@@ -452,7 +476,7 @@ const ProviderForm = () => {
         </ContentCard>
       )}
       {dataVisible && (
-        <>
+        <div id="dataSection">
           <TitleSection text="Datos Generales" isFirst>
             <Form>
               <Row className="mb-3">
@@ -469,6 +493,7 @@ const ProviderForm = () => {
                       type="radio"
                       id={type.type == "F" ? "naturalPerson" : "legalPerson"}
                       value={type.type}
+                      checked={formData.personType === type.type}
                       onChange={handleFormChange(formData, setFormData)}
                     />
                   </Col>
@@ -546,7 +571,7 @@ const ProviderForm = () => {
               )}
             </Form>
           </TitleSection>
-        </>
+        </div>
       )}
       {supplier && (
         <>
@@ -555,18 +580,21 @@ const ProviderForm = () => {
             formData={selectedAddress}
             setFormData={setSupplier}
             to="supplier"
+            state={id ? false : true}
           />
           <ContactSection
             id={supplier.id}
             formData={selectedContact}
             setFormData={setSupplier}
             to="supplier"
+            state={id ? false : true}
           />
           <TagInput
             id={supplier.id}
             type="supplier"
             tagsData={supplier.tagsDescription}
             setFormData={setSupplier}
+            state={id ? false : true}
           />
           {/* <hr />
             <Stack direction="horizontal" gap={2}>

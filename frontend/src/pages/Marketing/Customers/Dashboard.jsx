@@ -2,7 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import { Title } from "../../../components";
 import { CardButton } from "../../../components/Buttons";
 
-const DashboardClients = () => {
+const DashboardCustomers = () => {
   return (
     <>
       <Title title="Clientes" />
@@ -28,4 +28,4 @@ const DashboardClients = () => {
   );
 };
 
-export default DashboardClients;
+export default DashboardCustomers;

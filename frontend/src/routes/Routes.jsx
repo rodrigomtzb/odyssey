@@ -3,7 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
-import CustomerForm from "../pages/Marketing/Clients/Form";
+import CustomerList from "../pages/Marketing/Customers/List";
+import CustomerDetails from "../pages/Marketing/Customers/Customer";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -38,10 +39,12 @@ const ProviderForm = React.lazy(() =>
   import("../pages/Projects/Providers/Form")
 );
 const WorkForm = React.lazy(() => import("../pages/Projects/Works/Form"));
-const DashboardClients = React.lazy(() =>
-  import("../pages/Marketing/Clients/Dashboard")
+const DashboardCustomers = React.lazy(() =>
+  import("../pages/Marketing/Customers/Dashboard")
 );
-const ClientForm = React.lazy(() => import("../pages/Marketing/Clients/Form"));
+const CustomerForm = React.lazy(() =>
+  import("../pages/Marketing/Customers/Form")
+);
 const DashboardSessions = React.lazy(() =>
   import("../pages/ControlPanel/Sessions/Dashboard")
 );
@@ -146,15 +149,24 @@ const router = createBrowserRouter([
         element: <PurchasesList />,
       },
       {
-        path: "/clients",
-        element: <DashboardClients />,
+        path: "/customers",
+        element: <DashboardCustomers />,
       },
       {
-        path: "/clients/create",
+        path: "/customers/create",
         element: <CustomerForm />,
       },
       {
-        path: "/clients/list",
+        path: "/customers/:id/edit",
+        element: <CustomerForm />
+      },
+      {
+        path: "/customers/list",
+        element: <CustomerList />,
+      },
+      {
+        path: "/customers/:id",
+        element: <CustomerDetails />,
       },
       {
         path: "/loader",

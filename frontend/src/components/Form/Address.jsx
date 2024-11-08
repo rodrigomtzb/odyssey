@@ -4,12 +4,13 @@ import TitleSection from "./TitleSection";
 import Select from "./Select";
 import { useEffect, useState } from "react";
 import AddressService from "../../services/address.service";
-import { handleFormChange } from "../../utils";
+import { handleFormChange, scrollToTop } from "../../utils";
 import SupplierService from "../../services/supplier.service";
 import CatalogsService from "../../services/catalogs.service";
 import CustomerService from "../../services/customer.service";
+import Swal from "sweetalert2";
 
-const AddressSection = ({ id, formData, setFormData, to }) => {
+const AddressSection = ({ id, formData, setFormData, to, state }) => {
   const [states, setStates] = useState();
   const [towns, setTowns] = useState();
   const [neighborhoods, setNeighborhoods] = useState();
@@ -60,6 +61,14 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
             console.log(address);
             SupplierService.editSupplierAddress(id, address).then(
               (response) => {
+                scrollToTop();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Dirección editada correctamente",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
                 setFormData(response.data);
                 setAddress({
                   street: "",
@@ -83,6 +92,14 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
           case "customer":
             CustomerService.editCustomerAddress(id, address).then(
               (response) => {
+                scrollToTop();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Dirección editada correctamente",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
                 setFormData(response.data);
                 setAddress({
                   street: "",
@@ -112,7 +129,14 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
         switch (to) {
           case "supplier":
             SupplierService.addAddress(id, address).then((response) => {
-              console.log(response.data);
+              scrollToTop();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Dirección añadida",
+                showConfirmButton: false,
+                timer: 1500,
+              });
               setFormData(response.data);
               setAddress({
                 street: "",
@@ -134,6 +158,14 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
             break;
           case "customer":
             CustomerService.addAddress(id, address).then((response) => {
+              scrollToTop();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Dirección añadida",
+                showConfirmButton: false,
+                timer: 1500,
+              });
               setFormData(response.data);
               setAddress({
                 street: "",
@@ -185,6 +217,7 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
 
   useEffect(() => {
     if (formData) {
+      setIsOpen(true);
       setAddress({
         ...formData,
         addressTypeId: formData.addressType.id,
@@ -194,140 +227,146 @@ const AddressSection = ({ id, formData, setFormData, to }) => {
   }, [formData]);
 
   useEffect(() => {
+    setIsOpen(state);
+  }, [state]);
+
+  useEffect(() => {
     CatalogsService.getAddressType().then((response) =>
       setAddressTypes(response.data)
     );
   }, []);
 
   return (
-    <TitleSection text="Domicilio" state={isOpen}>
-      <Form>
-        <Row>
-          <Col sm={6}>
-            <Select
-              label="Tipo de Domicilio"
-              name="addressTypeId"
-              value={address.addressTypeId}
-              options={addressTypes}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12} lg={6}>
-            <Input
-              label="Calle"
-              placeholder="Jabillos"
-              name="street"
-              value={address.street}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-          <Col sm={6} lg={3}>
-            <Input
-              label="N° Ext"
-              placeholder="182"
-              name="number"
-              value={address.number}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-          <Col sm={6} lg={3}>
-            <Input
-              label="N° Int"
-              placeholder="Depto 201"
-              name="apartmentNumber"
-              value={address.apartmentNumber}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-          <Col sm={12} lg={6}>
-            <Input
-              label="Código Postal"
-              name="zipCode"
-              placeholder="57820"
-              max={5}
-              value={address.zipCode}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-          <Col sm={12} lg={6}>
-            <Select
-              label="Colonia"
-              name="neighborhoodId"
-              defaultOption={
-                neighborhoods
-                  ? "Selecciona una colonia"
-                  : "Selecciona un codigo postal"
-              }
-              options={neighborhoods}
-              value={address.neighborhoodId}
-              onChange={handleNeighborhoodChange}
-            />
-          </Col>
-          <Col sm={12} lg={6}>
-            <Select
-              label="Municipio"
-              name="townId"
-              defaultOption={
-                neighborhoods
-                  ? "Selecciona una colonia"
-                  : "Selecciona un codigo postal"
-              }
-              options={towns}
-              value={address.townId}
-              onChange={handleFormChange(address, setAddress)}
-              disabled
-            />
-          </Col>
-          <Col sm={12} lg={6}>
-            <Select
-              label="Estado"
-              name="statemxId"
-              defaultOption={
-                neighborhoods
-                  ? "Selecciona una colonia"
-                  : "Selecciona un codigo postal"
-              }
-              options={states}
-              value={address.statemxId}
-              onChange={handleFormChange(address, setAddress)}
-              disabled
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12} lg={6}>
-            <Input
-              label="Primer Calle Referencia"
-              placeholder="Entre calle"
-              name="firstStreet"
-              value={address.firstStreet}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-          <Col sm={12} lg={6}>
-            <Input
-              label="Segunda Calle Referencia"
-              placeholder="Y calle"
-              name="secondStreet"
-              value={address.secondStreet}
-              onChange={handleFormChange(address, setAddress)}
-            />
-          </Col>
-        </Row>
-        <Input
-          label="Referencia"
-          placeholder="Saguan negro"
-          name="description"
-          value={address.description}
-          onChange={handleFormChange(address, setAddress)}
-        />
-        <Button variant="gd" onClick={handleSubmitAddress}>
-          {formData ? "Actualizar" : "Añadir"}
-        </Button>
-      </Form>
-    </TitleSection>
+    <div id="addressSection">
+      <TitleSection text="Domicilio" state={isOpen}>
+        <Form>
+          <Row>
+            <Col sm={6}>
+              <Select
+                label="Tipo de Domicilio"
+                name="addressTypeId"
+                value={address.addressTypeId}
+                options={addressTypes}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12} lg={6}>
+              <Input
+                label="Calle"
+                placeholder="Jabillos"
+                name="street"
+                value={address.street}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+            <Col sm={6} lg={3}>
+              <Input
+                label="N° Ext"
+                placeholder="182"
+                name="number"
+                value={address.number}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+            <Col sm={6} lg={3}>
+              <Input
+                label="N° Int"
+                placeholder="Depto 201"
+                name="apartmentNumber"
+                value={address.apartmentNumber}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+            <Col sm={12} lg={6}>
+              <Input
+                label="Código Postal"
+                name="zipCode"
+                placeholder="57820"
+                max={5}
+                value={address.zipCode}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+            <Col sm={12} lg={6}>
+              <Select
+                label="Colonia"
+                name="neighborhoodId"
+                defaultOption={
+                  neighborhoods
+                    ? "Selecciona una colonia"
+                    : "Selecciona un codigo postal"
+                }
+                options={neighborhoods}
+                value={address.neighborhoodId}
+                onChange={handleNeighborhoodChange}
+              />
+            </Col>
+            <Col sm={12} lg={6}>
+              <Select
+                label="Municipio"
+                name="townId"
+                defaultOption={
+                  neighborhoods
+                    ? "Selecciona una colonia"
+                    : "Selecciona un codigo postal"
+                }
+                options={towns}
+                value={address.townId}
+                onChange={handleFormChange(address, setAddress)}
+                disabled
+              />
+            </Col>
+            <Col sm={12} lg={6}>
+              <Select
+                label="Estado"
+                name="statemxId"
+                defaultOption={
+                  neighborhoods
+                    ? "Selecciona una colonia"
+                    : "Selecciona un codigo postal"
+                }
+                options={states}
+                value={address.statemxId}
+                onChange={handleFormChange(address, setAddress)}
+                disabled
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12} lg={6}>
+              <Input
+                label="Primer Calle Referencia"
+                placeholder="Entre calle"
+                name="firstStreet"
+                value={address.firstStreet}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+            <Col sm={12} lg={6}>
+              <Input
+                label="Segunda Calle Referencia"
+                placeholder="Y calle"
+                name="secondStreet"
+                value={address.secondStreet}
+                onChange={handleFormChange(address, setAddress)}
+              />
+            </Col>
+          </Row>
+          <Input
+            label="Referencia"
+            placeholder="Saguan negro"
+            name="description"
+            value={address.description}
+            onChange={handleFormChange(address, setAddress)}
+          />
+          <Button variant="gd" onClick={handleSubmitAddress}>
+            {formData ? "Actualizar" : "Añadir"}
+          </Button>
+        </Form>
+      </TitleSection>
+    </div>
   );
 };
 
