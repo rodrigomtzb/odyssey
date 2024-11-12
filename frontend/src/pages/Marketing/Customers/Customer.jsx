@@ -89,6 +89,7 @@ const CustomerDetails = () => {
 
   const getContactMethods = (contacts) => {
     return contacts.map((contact) => [
+      { title: "ID", description: contact.id },
       { title: "Nombre Completo", description: contact.personName },
       { title: "Correo Electrónico", description: contact.email },
       { title: "Número de Teléfono", description: contact.phoneNumber },
@@ -98,7 +99,7 @@ const CustomerDetails = () => {
 
   return (
     <>
-      <Title title="Datos de Customer" withReturnButton />
+      <Title title="Datos de Cliente" withReturnButton />
       <ContentCard>
         {customerData.length > 0 && (
           <DefinitionList definitions={customerData} />

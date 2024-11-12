@@ -7,7 +7,7 @@ const DashboardCustomers = () => {
     <>
       <Title title="Clientes" />
       <Row>
-        <Col>
+        <Col sm={12} md={6} className="mb-2 mb-md-0">
           <CardButton
             to="create"
             section="Clientes"
@@ -15,7 +15,7 @@ const DashboardCustomers = () => {
             icon="person-fill-add"
           />
         </Col>
-        <Col>
+        <Col sm={12} md={6} className="mt-2 mt-md-0">
           <CardButton
             to="list"
             section="Clientes"

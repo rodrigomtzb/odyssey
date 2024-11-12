@@ -71,7 +71,7 @@ const CustomerForm = () => {
           CustomerService.createCustomer(data).then((response) => {
             scrollToTop();
             Swal.fire({
-              position: "top-end",
+              position: "center",
               icon: "success",
               title: "Datos registrados correctamente",
               showConfirmButton: false,
@@ -105,7 +105,7 @@ const CustomerForm = () => {
         setCustomer(response.data);
         scrollToTop();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "Datos actualizados correctamente",
           showConfirmButton: false,
@@ -167,9 +167,9 @@ const CustomerForm = () => {
             CustomerService.deleteCustomerAddress(customer.id, addressId).then(
               (response) => {
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
-                  title: "Direccion eliminada",
+                  title: "Dirección eliminada correctamente",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -184,9 +184,9 @@ const CustomerForm = () => {
             CustomerService.deleteCustomerContact(customer.id, contactId).then(
               (response) => {
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
-                  title: "Contacto eliminado",
+                  title: "Contacto eliminado correctamente",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -201,12 +201,13 @@ const CustomerForm = () => {
       }
     });
   };
+  // Por volver util
   const getCustomerData = (customer) => {
     switch (customer.personType) {
       case "F":
         return [
           { title: "ID", description: customer.id },
-          { title: "Tipo de Persona", description: "Persona Fisica" },
+          { title: "Tipo de Persona", description: "Persona Física" },
           { title: "Nombre Completo", description: customer.fullName },
           { title: "RFC", description: customer.mxRfc },
         ];
@@ -214,7 +215,7 @@ const CustomerForm = () => {
         return [
           { title: "ID", description: customer.id },
           { title: "Tipo de Persona", description: "Persona Moral" },
-          { title: "Razon social", description: customer.legalName },
+          { title: "Razón social", description: customer.legalName },
           { title: "Nombre Comercial", description: customer.businessName },
           { title: "RFC", description: customer.mxRfcCompany },
         ];

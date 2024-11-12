@@ -8,7 +8,7 @@ const Users = () => {
     <>
       <Title title="Usuarios" isFirst />
       <Row>
-        <Col>
+        <Col sm={12} md={6} className="mb-2 mb-md-0">
           <CardButton
             icon="person-fill-add"
             text="Alta de usuario"
@@ -16,7 +16,7 @@ const Users = () => {
             section="Panel de Control"
           />
         </Col>
-        <Col>
+        <Col sm={12} md={6} className="mt-2 mt-md-0">
           <CardButton
             icon="person-lines-fill"
             text="Lista de Usuarios"

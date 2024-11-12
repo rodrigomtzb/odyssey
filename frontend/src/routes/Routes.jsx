@@ -5,6 +5,8 @@ import DashBoard from "../pages/DashBoard";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
 import CustomerList from "../pages/Marketing/Customers/List";
 import CustomerDetails from "../pages/Marketing/Customers/Customer";
+import ProjectsList from "../pages/Projects/Projects/List";
+import ProjectDetails from "../pages/Projects/Projects/Project";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -32,13 +34,13 @@ const PurchasesList = React.lazy(() =>
 const DashboardProviders = React.lazy(() =>
   import("../pages/Projects/Providers/Dashboard")
 );
-const DashboardWorks = React.lazy(() =>
-  import("../pages/Projects/Works/Dashboard")
+const DashboardProjects = React.lazy(() =>
+  import("../pages/Projects/Projects/Dashboard")
 );
 const ProviderForm = React.lazy(() =>
   import("../pages/Projects/Providers/Form")
 );
-const WorkForm = React.lazy(() => import("../pages/Projects/Works/Form"));
+const ProjectForm = React.lazy(() => import("../pages/Projects/Projects/Form"));
 const DashboardCustomers = React.lazy(() =>
   import("../pages/Marketing/Customers/Dashboard")
 );
@@ -79,6 +81,7 @@ const router = createBrowserRouter([
         path: "/hr",
         element: <HumanResources />,
       },
+      // Usuarios
       {
         path: "/users",
         element: <Users />,
@@ -100,6 +103,7 @@ const router = createBrowserRouter([
         path: "/users/:id",
         element: <UserDetails />,
       },
+      // Sesiones
       {
         path: "/sessions",
         element: <DashboardSessions />,
@@ -108,6 +112,7 @@ const router = createBrowserRouter([
         path: "/sessions/list",
         element: <SessionsList />,
       },
+      // Proveedores
       {
         path: "/providers",
         element: <DashboardProviders />,
@@ -128,14 +133,28 @@ const router = createBrowserRouter([
         path: "/providers/list",
         element: <SupplierList />,
       },
+      // Proyectos
       {
-        path: "/works",
-        element: <DashboardWorks />,
+        path: "/projects",
+        element: <DashboardProjects />,
       },
       {
-        path: "/works/create",
-        element: <WorkForm />,
+        path: "/projects/:id",
+        element: <ProjectDetails />,
       },
+      {
+        path: "/projects/create",
+        element: <ProjectForm />,
+      },
+      {
+        path: `/projects/:id/edit`,
+        element: <ProjectForm />,
+      },
+      {
+        path: "/projects/list",
+        element: <ProjectsList />,
+      },
+      // Compras
       {
         path: "/purchases",
         element: <DashboardPurchases />,
@@ -148,6 +167,7 @@ const router = createBrowserRouter([
         path: "/purchases/list",
         element: <PurchasesList />,
       },
+      // Clientes
       {
         path: "/customers",
         element: <DashboardCustomers />,
@@ -158,7 +178,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/customers/:id/edit",
-        element: <CustomerForm />
+        element: <CustomerForm />,
       },
       {
         path: "/customers/list",

@@ -40,12 +40,14 @@ const SupplierDetails = () => {
     switch (supplier.personType) {
       case "F":
         return [
+          { title: "ID", description: supplier.id },
           { title: "Tipo de Persona", description: "Persona Fisica" },
           { title: "Nombre Completo", description: supplier.fullName },
           { title: "RFC", description: supplier.mxRfc },
         ];
       case "M":
         return [
+          { title: "ID", description: supplier.id },
           { title: "Tipo de Persona", description: "Persona Moral" },
           { title: "Razon social", description: supplier.legalName },
           { title: "Nombre Comercial", description: supplier.businessName },

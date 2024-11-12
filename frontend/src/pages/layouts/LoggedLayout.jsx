@@ -72,7 +72,7 @@ const LoggedLayout = () => {
       title: "Proyectos",
       icon: "houses-fill",
       subItems: [
-        { title: "Proyectos", path: "/works" },
+        { title: "Proyectos", path: "/projects" },
         // { title: "Levantamientos", path: "/" },
         // { title: "Presupuestos", path: "/" },
         // { title: "Avances", path: "/" },

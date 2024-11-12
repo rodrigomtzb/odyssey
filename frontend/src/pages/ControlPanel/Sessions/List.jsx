@@ -36,7 +36,7 @@ const SessionsList = () => {
   };
   return (
     <>
-      <Title title="Lista de Sesiones" />
+      <Title title="Lista de Sesiones" withReturnButton/>
       <div className="table-responsive">
         <table id="sessionsTable" className="table display">
           <thead>

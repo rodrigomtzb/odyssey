@@ -9,6 +9,7 @@ import SupplierService from "../../services/supplier.service";
 import CatalogsService from "../../services/catalogs.service";
 import CustomerService from "../../services/customer.service";
 import Swal from "sweetalert2";
+import ProjectService from "../../services/project.service";
 
 const AddressSection = ({ id, formData, setFormData, to, state }) => {
   const [states, setStates] = useState();
@@ -52,6 +53,33 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
       setStates([]);
     }
   };
+  const endActions = (response) => {
+    setIsOpen(false);
+    setAddress({
+      street: "",
+      number: "",
+      apartmentNumber: "",
+      zipCode: "",
+      neighborhoodId: "",
+      townId: "",
+      statemxId: "",
+      firstStreet: "",
+      secondStreet: "",
+      description: "",
+      latitude: "",
+      longitude: "",
+      addressTypeId: "",
+    });
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Dirección editada correctamente",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    scrollToTop();
+    setFormData(response.data);
+  };
   const handleSubmitAddress = async (e) => {
     e.preventDefault();
     if (formData) {
@@ -61,64 +89,21 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
             console.log(address);
             SupplierService.editSupplierAddress(id, address).then(
               (response) => {
-                scrollToTop();
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Dirección editada correctamente",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                setFormData(response.data);
-                setAddress({
-                  street: "",
-                  number: "",
-                  apartmentNumber: "",
-                  zipCode: "",
-                  neighborhoodId: "",
-                  townId: "",
-                  statemxId: "",
-                  firstStreet: "",
-                  secondStreet: "",
-                  description: "",
-                  latitude: "",
-                  longitude: "",
-                  addressTypeId: "",
-                });
-                setIsOpen(false);
+                endActions(response);
               }
             );
             break;
           case "customer":
             CustomerService.editCustomerAddress(id, address).then(
               (response) => {
-                scrollToTop();
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Dirección editada correctamente",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                setFormData(response.data);
-                setAddress({
-                  street: "",
-                  number: "",
-                  apartmentNumber: "",
-                  zipCode: "",
-                  neighborhoodId: "",
-                  townId: "",
-                  statemxId: "",
-                  firstStreet: "",
-                  secondStreet: "",
-                  description: "",
-                  latitude: "",
-                  longitude: "",
-                  addressTypeId: "",
-                });
-                setIsOpen(false);
+                endActions(response);
               }
             );
+            break;
+          case "project":
+            ProjectService.editProjectAddress(id, address).then((response) => {
+              endActions(response);
+            });
             break;
           default:
             break;
@@ -131,9 +116,9 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
             SupplierService.addAddress(id, address).then((response) => {
               scrollToTop();
               Swal.fire({
-                position: "top-end",
+                position: "center",
                 icon: "success",
-                title: "Dirección añadida",
+                title: "Dirección añadida correctamente",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -160,9 +145,9 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
             CustomerService.addAddress(id, address).then((response) => {
               scrollToTop();
               Swal.fire({
-                position: "top-end",
+                position: "center",
                 icon: "success",
-                title: "Dirección añadida",
+                title: "Dirección añadida correctamente",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -185,7 +170,37 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
               setIsOpen(false);
             });
             break;
-
+          case "project":
+            ProjectService.addAddress(id, address).then(() => {
+              scrollToTop();
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Dirección añadida correctamente",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setAddress({
+                street: "",
+                number: "",
+                apartmentNumber: "",
+                zipCode: "",
+                neighborhoodId: "",
+                townId: "",
+                statemxId: "",
+                firstStreet: "",
+                secondStreet: "",
+                description: "",
+                latitude: "",
+                longitude: "",
+                addressTypeId: "",
+              });
+              setIsOpen(false);
+              ProjectService.getProject(id).then((response) => {
+                setFormData(response.data);
+              });
+            });
+            break;
           default:
             break;
         }

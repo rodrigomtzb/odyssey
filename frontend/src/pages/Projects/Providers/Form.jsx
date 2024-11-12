@@ -75,7 +75,7 @@ const ProviderForm = () => {
           SupplierService.createSupplier(data).then((response) => {
             scrollToTop();
             Swal.fire({
-              position: "top-end",
+              position: "center",
               icon: "success",
               title: "Datos editados correctamente",
               showConfirmButton: false,
@@ -108,7 +108,7 @@ const ProviderForm = () => {
       }).then(() => {
         scrollToTop();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "Contacto editado correctamente",
           showConfirmButton: false,
@@ -169,9 +169,9 @@ const ProviderForm = () => {
             SupplierService.deleteSupplierAddress(supplier.id, addressId).then(
               (response) => {
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
-                  title: "Direccion eliminada",
+                  title: "Dirección eliminada correctamente",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -184,9 +184,9 @@ const ProviderForm = () => {
             SupplierService.deleteSupplierContact(supplier.id, contactId).then(
               (response) => {
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
-                  title: "Contacto eliminado",
+                  title: "Contacto eliminado correctamente",
                   showConfirmButton: false,
                   timer: 1500,
                 });

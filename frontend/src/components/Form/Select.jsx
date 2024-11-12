@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Children, useEffect } from "react";
 import { Form } from "react-bootstrap";
 
 const Select = ({
@@ -13,8 +13,8 @@ const Select = ({
   defaultOption,
   required,
   disabled,
+  children,
 }) => {
-
   useEffect(() => {
     if (options && options.length == 1) {
       const singleOptionValue = options[0][optionValue] || options[0];
@@ -36,12 +36,18 @@ const Select = ({
         <option value="" disabled={required}>
           {defaultOption || "Seleccione una opción"}
         </option>
-        {options &&
-          options.map((option, index) => (
-            <option key={index} value={option[optionValue] || option}>
-              {option[optionLabel] || option}
-            </option>
-          ))}
+        {children ? (
+          children
+        ) : (
+          <>
+            {options &&
+              options.map((option, index) => (
+                <option key={index} value={option[optionValue] || option}>
+                  {option[optionLabel] || option}
+                </option>
+              ))}
+          </>
+        )}
       </Form.Select>
     </Form.Group>
   );

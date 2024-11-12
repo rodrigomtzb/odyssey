@@ -29,7 +29,7 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
               (response) => {
                 scrollToTop();
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
                   title: "Contacto editado correctamente",
                   showConfirmButton: false,
@@ -51,7 +51,7 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
               (response) => {
                 scrollToTop();
                 Swal.fire({
-                  position: "top-end",
+                  position: "center",
                   icon: "success",
                   title: "Contacto editado correctamente",
                   showConfirmButton: false,
@@ -80,9 +80,9 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
             SupplierService.addContact(id, contact).then((response) => {
               scrollToTop();
               Swal.fire({
-                position: "top-end",
+                position: "center",
                 icon: "success",
-                title: "Contacto agregado",
+                title: "Contacto agregado correctamenre",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -100,9 +100,9 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
             CustomerService.addContact(id, contact).then((response) => {
               scrollToTop();
               Swal.fire({
-                position: "top-end",
+                position: "center",
                 icon: "success",
-                title: "Contacto agregado",
+                title: "Contacto agregado correctamente",
                 showConfirmButton: false,
                 timer: 1500,
               });
