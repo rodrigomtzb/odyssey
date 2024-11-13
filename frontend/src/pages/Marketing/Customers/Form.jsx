@@ -496,7 +496,7 @@ const CustomerForm = () => {
               {formData.personType == "M" ? (
                 <>
                   <Input
-                    label="Razon Social"
+                    label="Razón Social"
                     name="legalName"
                     placeholder="Ingresa la Razon Social"
                     value={legalPerson.legalName}

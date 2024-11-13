@@ -502,16 +502,16 @@ const ProviderForm = () => {
               {formData.personType == "M" ? (
                 <>
                   <Input
-                    label="Razon Social"
+                    label="Razón Social"
                     name="legalName"
-                    placeholder="Ingresa la Razon Social"
+                    placeholder="Ingresa la Razón Social"
                     value={legalPerson.legalName}
                     onChange={handleFormChange(legalPerson, setLegalPerson)}
                   />
                   <Input
                     label="Nombre Comercial"
                     name="businessName"
-                    placeholder="Ingresa el nombre comercial"
+                    placeholder="Ingresa el Nombre Comercial"
                     value={legalPerson.businessName}
                     onChange={handleFormChange(legalPerson, setLegalPerson)}
                   />

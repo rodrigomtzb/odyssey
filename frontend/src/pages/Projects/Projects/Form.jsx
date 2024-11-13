@@ -172,17 +172,17 @@ const ProjectForm = () => {
         },
         {
           title: "Cliente",
+          description: `${customerName} ${
+            businessName ? `- ${businessName}` : ""
+          }`,
+        },
+        {
+          title: "Encargado",
           description: `${project.user.firstName} ${
             project.user.middleName || ""
           } ${project.user.fatherLastName || ""} ${
             project.user.motherLastName || ""
           }`.trim(),
-        },
-        {
-          title: "Encargado",
-          description: `${customerName} ${
-            businessName ? `- ${businessName}` : ""
-          }`,
         },
       ];
     }

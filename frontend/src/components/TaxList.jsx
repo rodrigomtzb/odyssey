@@ -50,7 +50,7 @@ const TaxList = ({ elements, type }) => {
         <table id="taxTable" className="display table">
           <thead>
             <tr>
-              <th>Razon Social/Nombre Comercial</th>
+              <th>Razón Social/Nombre Comercial</th>
               <th>RFC</th>
               <th>Tipo de Persona</th>
               <th>Estado</th>

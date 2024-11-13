@@ -175,7 +175,7 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
             </Col>
             <Col sm={12} lg={6}>
               <Select
-                label="Tipo Telefono"
+                label="Tipo Teléfono"
                 name="phoneTypeId"
                 options={phoneType}
                 value={contact.phoneTypeId}

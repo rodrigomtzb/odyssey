@@ -19,7 +19,7 @@ const DashboardProviders = () => {
           <CardButton
             icon="list-ul"
             text="Lista de proveedores"
-            secion="Proveedores"
+            section="Proveedores"
             to="list"
           />
         </Col>
