@@ -3,6 +3,7 @@ import { Card, Form, FloatingLabel, Button } from "react-bootstrap";
 
 import AuthService from "../services/auth.service";
 import imgLogo from "../assets/img/logo02.png";
+import odyssey from "../assets/img/Odyssey.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Loader } from "../components";
@@ -50,7 +51,7 @@ const Login = () => {
               showConfirmButton: false,
               timer: 2500,
             });
-          } else if(error.response.status === 409){
+          } else if (error.response.status === 409) {
             Swal.fire({
               title: "Sesión activa",
               text: "Cierra tu sesión anterior o llama al departamento de Sistemas",
@@ -77,7 +78,7 @@ const Login = () => {
       <div className="App d-flex justify-content-center align-items-center max-vh-100 h-100">
         <div className="align-self-center p-3">
           <Card className="bg-white bg-opacity-50 rounded-4">
-            <Card.Body className="m-4">
+            <Card.Body className="m-4 m-md-0">
               <div className="text-center mb-3 p-2 logo">
                 <img src={imgLogo} alt="Logo" className="img-fluid" />
               </div>
@@ -119,6 +120,9 @@ const Login = () => {
               </Form>
             </Card.Body>
           </Card>
+          <div className="text-center mt-3 mb-0 p-2">
+            <img src={odyssey} alt="Odyssey Logo" className="img-fluid" style={{height: "30px"}} />
+          </div>
         </div>
       </div>
     </>

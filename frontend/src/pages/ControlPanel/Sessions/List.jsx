@@ -43,7 +43,7 @@ const SessionsList = () => {
             <tr>
               <th>ID</th>
               <th>Email</th>
-              <th>Expiracion</th>
+              <th>Expiración</th>
               <th>Acciones</th>
             </tr>
           </thead>

@@ -33,7 +33,7 @@ const UserDetails = () => {
       description: `${user.fatherLastName} ${user.motherLastName}`,
     },
     {
-      title: "Correo Electronico",
+      title: "Correo Electrónico",
       description: user.email,
     },
     {
