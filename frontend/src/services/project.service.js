@@ -13,9 +13,6 @@ const toggleProjectStatus = (id, data) => {
 const getProjects = () => {
   return get("projects");
 };
-const getPojectsBySearch = () => {
-  return get("projects")
-}
 const getProject = (id) => {
   return get(`projects/${id}`);
 };

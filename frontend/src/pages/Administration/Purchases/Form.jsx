@@ -81,7 +81,7 @@ const PurchaseForm = () => {
           <DefinitionList definitions={projectData} />
         </ContentCard>
       )}
-      <TitleSection text="Datos de Obra" isFirst>
+      <TitleSection text="Datos de Proyecto" isFirst>
         <Form>
           <Select
             label="Proyecto"

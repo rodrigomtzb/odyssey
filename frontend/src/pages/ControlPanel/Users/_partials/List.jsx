@@ -19,15 +19,14 @@ const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("enabled");
 
-  
   const fetchUsers = () => {
     const apiCall =
-    filter === "enabled"
-    ? UserService.getUsersEnabled()
-    : filter === "disabled"
-    ? UserService.getUsersDisabled()
-    : UserService.getUsers();
-    
+      filter === "enabled"
+        ? UserService.getUsersEnabled()
+        : filter === "disabled"
+        ? UserService.getUsersDisabled()
+        : UserService.getUsers();
+
     apiCall.then((response) => {
       setUsers(response.data);
     });
@@ -43,7 +42,7 @@ const UsersList = () => {
   const handleView = (id) => {
     navigate(`/users/${id}`);
   };
-  
+
   useEffect(() => {
     fetchUsers();
   }, [filter]);
@@ -96,9 +95,8 @@ const UsersList = () => {
             <tr>
               <th>ID</th>
               <th>Nombre</th>
-              <th>Rol</th>
+              {/* <th>Rol</th> */}
               <th>Estado</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -134,20 +132,13 @@ const UsersList = () => {
                     </div>
                   </div>
                 </td>
-                <td>{user.rol}</td>
+                {/* <td>{user.rol}</td> */}
                 <td>
                   {user.enabled ? (
                     <Badge bg="success">Activo</Badge>
                   ) : (
                     <Badge bg="danger">Inactivo</Badge>
                   )}
-                </td>
-                <td>
-                  <div className="d-flex">
-                    <Button variant="link" onClick={() => handleEdit(user.id)}>
-                      <i className="bi bi-pencil-square" />
-                    </Button>
-                  </div>
                 </td>
               </tr>
             ))}

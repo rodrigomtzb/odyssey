@@ -14,6 +14,7 @@ import {
   handleFormChange,
   handleCheckboxChange,
   scrollToSection,
+  scrollToTop,
 } from "../../../utils";
 
 import AuthService from "../../../services/auth.service";
@@ -137,10 +138,14 @@ const UserForm = () => {
                       icon: "success",
                       title: "Usuario actualizado",
                       showConfirmButton: false,
-                      timer: 3500,
-                    }).then(() => {
-                      navigate("/users/list");
+                      timer: 1500,
                     });
+                    setDataIsOpen(false);
+                    console.log(response.data);
+                    setUserData(getUserData(response.data));
+                    setFormData(response.data);
+                    setDataVisible(true);
+                    scrollToTop();
                   })
                   .catch((error) => {
                     console.error("Error al editar email: ", error);
@@ -156,10 +161,14 @@ const UserForm = () => {
                   icon: "success",
                   title: "Usuario registrado",
                   showConfirmButton: false,
-                  timer: 3500,
-                }).then(() => {
-                  navigate("/users/list");
+                  timer: 1500,
                 });
+                setDataIsOpen(false);
+                console.log(response.data);
+                setUserData(getUserData(response.data));
+                setFormData(response.data);
+                setDataVisible(true);
+                scrollToTop();
               }
             });
           }

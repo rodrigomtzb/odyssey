@@ -17,8 +17,6 @@ const UserDetails = () => {
     UserService.getUser(id).then((response) => setUser(response.data));
   }, []);
 
-  console.log(user);
-
   const definitions = [
     {
       title: "ID",

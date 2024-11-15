@@ -16,6 +16,9 @@ const toggleCustomerStatus = (id, data) => {
 const getCustomers = () => {
   return get("customers");
 };
+const getCustomersBySearch = (word) => {
+  return get(`customers/searchby?searchby=${word}`)
+}
 const getCustomer = (id) => {
   return get(`customers/${id}`);
 };
@@ -43,6 +46,7 @@ const CustomerService = {
   addContact,
   toggleCustomerStatus,
   getCustomers,
+  getCustomersBySearch,
   getCustomer,
   editCustomerData,
   editCustomerAddress,

@@ -129,7 +129,7 @@ const TagInput = ({ id, type, tagsData, setFormData, state }) => {
   };
 
   useEffect(() => {
-    if (tagsData.length > 0) {
+    if (tagsData) {
       setInitialTags(tagsData);
     }
   }, [tagsData]);
@@ -200,7 +200,7 @@ const TagInput = ({ id, type, tagsData, setFormData, state }) => {
         </div>
 
         <Button variant="gd" className="mt-3" onClick={handleAddTags}>
-          {tagsData.length > 0 ? "Actualizar" : "Añadir"}
+          {tagsData ? "Actualizar" : "Añadir"}
         </Button>
       </div>
     </TitleSection>

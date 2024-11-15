@@ -14,6 +14,7 @@ import { handleFormChange, scrollToSection, scrollToTop } from "../../../utils";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import AddressService from "../../../services/address.service";
+import SearchBar from "../../../components/SearchBar";
 
 const ProjectForm = () => {
   const { id } = useParams();
@@ -391,7 +392,7 @@ const ProjectForm = () => {
                   </option>
                 ))}
             </Select>
-            <Select
+            {/* <Select
               label="Cliente"
               name="customer_id"
               value={projectData.customer_id}
@@ -402,7 +403,13 @@ const ProjectForm = () => {
                   {customer.fullName}
                 </option>
               ))}
-            </Select>
+            </Select> */}
+            <Form.Label>Cliente:</Form.Label>
+            <SearchBar
+              type="customer"
+              setFormData={setProjectData}
+              data={project ? project.customer : ""}
+            />
             <Input
               label="Nombre de Proyecto"
               placeholder="Edificio Munguia"
