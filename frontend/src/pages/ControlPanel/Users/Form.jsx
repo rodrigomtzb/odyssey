@@ -3,16 +3,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-import {
-  Input,
-  Select,
-  CheckboxGroup,
-  TitleSection,
-} from "../../../components/Form";
+import { Input, Select, TitleSection } from "../../../components/Form";
 import {
   handleEmailChange,
   handleFormChange,
-  handleCheckboxChange,
   scrollToSection,
   scrollToTop,
 } from "../../../utils";
@@ -21,25 +15,26 @@ import AuthService from "../../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import UserService from "../../../services/user.service";
+import JobPositionService from "../../../services/job-position.service";
 
 const UserForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const roles = ["admin", "mod", "user"];
   const status = [
     { id: true, name: "ACTIVO" },
     { id: false, name: "INACTIVO" },
   ];
   const [validated, setValidated] = useState(false);
+  const [jobPositions, setJobPositions] = useState();
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
     fatherLastName: "",
     motherLastName: "",
+    jobPositionId: "",
     email: "",
     username: "",
     password: "",
-    roles: [],
   });
   const [userData, setUserData] = useState();
   const [dataVisible, setDataVisible] = useState(false);
@@ -190,6 +185,7 @@ const UserForm = () => {
         title: "Apellidos",
         description: `${user.fatherLastName} ${user.motherLastName}`,
       },
+      { title: "Puesto", description: user.jobPosition.name },
       { title: "Correo Electrónico", description: user.email },
       { title: "Contraseña", description: "***********" },
     ];
@@ -207,11 +203,18 @@ const UserForm = () => {
         setFormData({
           ...response.data,
           password: "",
+          jobPositionId: response.data.jobPosition.id,
         });
         setUserData(getUserData(response.data));
       });
     }
   }, [id]);
+
+  useEffect(() => {
+    JobPositionService.getJobPositions().then((response) =>
+      setJobPositions(response.data)
+    );
+  }, []);
 
   return (
     <>
@@ -284,8 +287,14 @@ const UserForm = () => {
                 />
               </Col>
             </Row>
-            {/* Numero de telefono */}
-            {/* <Input label="Fecha de Nacimiento" name="birthDate" type="date" required /> */}
+            <Select
+              label="Puesto"
+              name="jobPositionId"
+              value={formData.jobPositionId}
+              onChange={handleFormChange(formData, setFormData)}
+              options={jobPositions}
+            />
+            <hr />
             <Input
               label="Correo Electrónico"
               type="email"
@@ -308,16 +317,6 @@ const UserForm = () => {
               onChange={handleFormChange(formData, setFormData)}
               required
             />
-            {/* 
-          <Input label="Teléfono" name="telephone" placeholder="Ingresa el teléfono" required />
-          */}
-            {/* <CheckboxGroup
-            label="Roles"
-            options={roles}
-            selectedOptions={formData.roles}
-            onChange={handleCheckboxChange(formData, setFormData, "roles")}
-            required
-            /> */}
             <Stack direction="horizontal" gap={2}>
               <Button variant="gd" className="ms-auto" type="submit">
                 {id ? "Actualizar" : "Registrar"}

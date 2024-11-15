@@ -95,7 +95,7 @@ const UsersList = () => {
             <tr>
               <th>ID</th>
               <th>Nombre</th>
-              {/* <th>Rol</th> */}
+              <th>Puesto</th>
               <th>Estado</th>
             </tr>
           </thead>
@@ -132,7 +132,7 @@ const UsersList = () => {
                     </div>
                   </div>
                 </td>
-                {/* <td>{user.rol}</td> */}
+                <td>{user.jobPosition.name}</td>
                 <td>
                   {user.enabled ? (
                     <Badge bg="success">Activo</Badge>
