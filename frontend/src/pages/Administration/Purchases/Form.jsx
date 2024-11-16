@@ -8,17 +8,20 @@ import {
 import { useParams } from "react-router-dom";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { useEffect, useState } from "react";
-import { handleFormChange } from "../../../utils";
+import { handleFormChange, scrollToTop } from "../../../utils";
 import MaterialForm from "../../../components/Form/MaterialForm";
 import { generatePurchaseTable } from "../../../utils/pdf/tablePdf";
 import ExportToExcel from "../../../utils/excel/exportExcel";
 import ProjectService from "../../../services/project.service";
+import SupplierService from "../../../services/supplier.service";
 
 const PurchaseForm = () => {
   const [purchase, setPurchase] = useState();
   const [projects, setProjects] = useState();
+  const [suppliers, setSuppliers] = useState([]);
   const [projectData, setProjectData] = useState();
-  const [formData, setFormData] = useState({ projectId: "" });
+  const [supplierData, setSupplierData] = useState();
+  const [formData, setFormData] = useState({ projectId: "", supplierId: "" });
 
   const fetchProjectData = (project) => {
     if (project[0]) {
@@ -56,21 +59,62 @@ const PurchaseForm = () => {
       return [];
     }
   };
+  const fetchSupplierData = (supplier) => {
+    if (supplier[0]) {
+      let supplierName;
+      let businessName;
+      switch (supplier[0].personType) {
+        case "F":
+          supplierName = supplier[0].fullName;
+          break;
+        case "M":
+          supplierName = supplier[0].legalName;
+          businessName = supplier[0].businessName;
+          break;
+        default:
+          break;
+      }
+      return [
+        { title: "Proveedor", description: supplierName },
+
+        {
+          title: "Tipo de Persona",
+          description: supplier[0].personType,
+        },
+      ];
+    } else {
+      return [];
+    }
+  };
 
   useEffect(() => {
     ProjectService.getProjects().then((response) => {
       setProjects(response.data);
     });
+    SupplierService.getSuppliers().then((response) => {
+      setSuppliers(response.data);
+    });
   }, []);
 
   useEffect(() => {
     if (formData.projectId) {
+      scrollToTop();
       const projectSelected = projects.filter(
         (project) => project.id == formData.projectId
       );
       setProjectData(fetchProjectData(projectSelected));
     }
   }, [formData.projectId]);
+
+  useEffect(() => {
+    if (formData.supplierId) {
+      scrollToTop();
+      const supplierSelected = suppliers.filter(
+        (supplier) => supplier.id == formData.supplierId
+      );
+      setSupplierData(fetchSupplierData(supplierSelected));
+    }
+  }, [formData.supplierId]);
 
   return (
     <>
@@ -79,6 +123,12 @@ const PurchaseForm = () => {
         <ContentCard>
           <h5>Datos del Proyecto</h5>
           <DefinitionList definitions={projectData} />
+        </ContentCard>
+      )}
+      {supplierData && (
+        <ContentCard>
+          <h5>Datos del Proveedor</h5>
+          <DefinitionList definitions={supplierData} />
         </ContentCard>
       )}
       <TitleSection text="Datos de Proyecto" isFirst>
@@ -91,6 +141,22 @@ const PurchaseForm = () => {
             value={formData.projectId}
             onChange={handleFormChange(formData, setFormData)}
           />
+          <Select
+            label="Proveedores"
+            defaultOption="Selecciona un proveedor"
+            name="supplierId"
+            value={formData.supplierId}
+            onChange={handleFormChange(formData, setFormData)}
+          >
+            {suppliers.map((supplier) => (
+              <option value={supplier.id}>
+                {supplier.personType === "F"
+                  ? supplier.fullName
+                  : supplier.legalName}
+              </option>
+            ))}
+          </Select>
+
           {/* {formData.projectId ? (
             <>
               <DefinitionList definitions={projectData} />

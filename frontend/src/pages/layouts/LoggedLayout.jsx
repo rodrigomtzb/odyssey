@@ -35,17 +35,21 @@ const LoggedLayout = () => {
         // { title: "Inventario Material", path: "/" },
       ],
     },
-    // {
-    //   title: "Recursos Humanos",
-    //   icon: "people-fill",
-    //   subItems: [
-    //     {
-    //       title: "Empleados",
-    //       path: "/",
-    //     },
-    //     { title: "Control de Asistencia", path: "/" },
-    //   ],
-    // },
+    {
+      title: "Recursos Humanos",
+      icon: "people-fill",
+      subItems: [
+        //     {
+        //       title: "Empleados",
+        //       path: "/",
+        //     },
+        //     { title: "Control de Asistencia", path: "/" },
+        {
+          title: "Puestos",
+          path: "/jobs",
+        },
+      ],
+    },
     {
       title: "Marketing",
       icon: "shop",

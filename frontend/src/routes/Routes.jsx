@@ -7,6 +7,9 @@ import CustomerList from "../pages/Marketing/Customers/List";
 import CustomerDetails from "../pages/Marketing/Customers/Customer";
 import ProjectsList from "../pages/Projects/Projects/List";
 import ProjectDetails from "../pages/Projects/Projects/Project";
+import DashboardJobs from "../pages/HumanResources/Jobs/Dashboard";
+import JobForm from "../pages/HumanResources/Jobs/Form";
+import JobsList from "../pages/HumanResources/Jobs/List";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -80,6 +83,18 @@ const router = createBrowserRouter([
       {
         path: "/hr",
         element: <HumanResources />,
+      },
+      {
+        path: "/jobs",
+        element: <DashboardJobs />
+      },
+      {
+        path: "/jobs/create",
+        element: <JobForm />
+      },
+      {
+        path: "/jobs/list",
+        element: <JobsList />
       },
       // Usuarios
       {
