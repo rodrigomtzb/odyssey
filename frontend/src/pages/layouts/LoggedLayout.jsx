@@ -8,115 +8,78 @@ import requestPermission from "../../utils/permissions";
 import getRegistrationToken from "../../utils/token";
 import { useLoader } from "../../context/Loader/LoaderProvider";
 import { Offcanvas } from "react-bootstrap";
+import UserService from "../../services/user.service";
+import AccessService from "../../services/access.service";
 
 const LoggedLayout = () => {
   const outletContent = useOutlet();
   const { isLoading } = useLoader();
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
-  const menuItems = [
-    { title: "Inicio", icon: "grid-fill", path: "/" },
-    {
-      title: "Panel de Control",
-      icon: "dpad-fill",
-      subItems: [
-        { title: "Usuarios", path: "/users" },
-        { title: "Sesiones", path: "/sessions" },
-        // { title: "Control de Accesos", path: "/" },
-        // { title: "Bitacora de Accesos", path: "/" },
-        // { title: "Roles", path: "/" },
-      ],
-    },
-    {
-      title: "Administración",
-      icon: "person-lines-fill",
-      subItems: [
-        { title: "Proveedores", path: "/providers" },
-        { title: "Compras", path: "/purchases" },
-        // { title: "Inventario Material", path: "/" },
-      ],
-    },
-    {
-      title: "Recursos Humanos",
-      icon: "people-fill",
-      subItems: [
-        //     {
-        //       title: "Empleados",
-        //       path: "/",
-        //     },
-        //     { title: "Control de Asistencia", path: "/" },
-        {
-          title: "Puestos",
-          path: "/jobs",
-        },
-      ],
-    },
-    {
-      title: "Marketing",
-      icon: "shop",
-      subItems: [
-        // {
-        //   title: "Campañas",
-        //   path: "/",
-        // },
-        // {
-        //   title: "Prospectos",
-        //   path: "/",
-        // },
-        {
-          title: "Clientes",
-          path: "/customers",
-        },
-        // {
-        //   title: "Reportes",
-        //   path: "/",
-        // },
-      ],
-    },
-    {
-      title: "Proyectos",
-      icon: "houses-fill",
-      subItems: [
-        { title: "Proyectos", path: "/projects" },
-        // { title: "Levantamientos", path: "/" },
-        // { title: "Presupuestos", path: "/" },
-        // { title: "Avances", path: "/" },
-      ],
-    },
-    // {
-    //   title: "Finanzas",
-    //   icon: "cash",
-    //   subItems: [
-    //     {
-    //       title: "Control de Pagos",
-    //       path: "/",
-    //       subItems: [
-    //         { title: "Solicitudes", path: "/" },
-    //         { title: "Autorizaciones", path: "/" },
-    //       ],
-    //     },
-    //     {
-    //       title: "Fiscal",
-    //       path: "/",
-    //       subItems: [
-    //         {
-    //           title: "Impuestos",
-    //           path: "/",
-    //         },
-    //         { title: "Facturas", path: "" },
-    //       ],
-    //     },
-    //   ],
-    // },
-  ];
+  const [menuItems, setMenuItems] = useState([]);
 
   const toggleSidebar = () => {
     setIsVisibleSidebar(!isVisibleSidebar);
   };
+  const fetchMenuItems = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.id) {
+      UserService.getUser(user.id).then((response) => {
+        let unstyizedItems = response.data.jobPosition.menuItems;
+        const mainItems = [];
+        const subItemsMap = {};
 
-  // useEffect(() => {
-  //   requestPermission();
-  //   getRegistrationToken();
-  // }, []);
+        unstyizedItems.forEach((item) => {
+          if (item.parentId) {
+            if (!subItemsMap[item.parentId]) {
+              subItemsMap[item.parentId] = [];
+            }
+            subItemsMap[item.parentId].push({
+              title: item.title,
+              path: item.path,
+              sequence: item.sequence,
+            });
+          } else {
+            mainItems.push({
+              id: item.id,
+              title: item.title,
+              icon: item.icon,
+              path: item.path,
+              sequence: item.sequence,
+            });
+          }
+        });
+
+        const formattedMenu = mainItems.map((item) => {
+          const subItems = subItemsMap[item.id];
+          return {
+            title: item.title,
+            icon: item.icon,
+            path: item.path,
+            ...(subItems
+              ? { subItems: subItems.sort((a, b) => a.sequence - b.sequence) }
+              : {}),
+            sequence: item.sequence,
+          };
+        });
+
+        // Paso 3: Ordenar por `sequence`
+        const finalMenu = formattedMenu
+          .sort((a, b) => a.sequence - b.sequence)
+          .map(({ sequence, ...rest }) => rest);
+
+        setMenuItems(finalMenu);
+      });
+    }
+    // AccessService.getAccess().then((response) => {
+    //   setMenuItems(response.data);
+    // });
+  };
+
+  useEffect(() => {
+    //   requestPermission();
+    //   getRegistrationToken();
+    fetchMenuItems();
+  }, []);
 
   return (
     <div className="bg-general">

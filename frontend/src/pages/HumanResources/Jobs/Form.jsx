@@ -84,7 +84,7 @@ const JobForm = () => {
             onChange={handleFormChange(formData, setFormData)}
           />
           <Row>
-            <Col sm={12} md={6}>
+            <Col sm={12} md={9}>
               <Select
                 label="Jefe inmediato"
                 name="parent_id"
@@ -93,9 +93,9 @@ const JobForm = () => {
                 options={jobPositions}
               />
             </Col>
-            <Col sm={12} md={6}>
+            <Col sm={12} md={3}>
               <Input
-                label="Secuencia"
+                label="N° de Secuencia"
                 placeholder="Ingresas la secuencia"
                 name="sequence"
                 type="number"

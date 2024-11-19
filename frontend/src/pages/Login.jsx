@@ -10,7 +10,6 @@ import { Loader } from "../components";
 import { useLoader } from "../context/Loader/LoaderProvider";
 
 const Login = () => {
-  const { isLoading } = useLoader();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -25,11 +24,11 @@ const Login = () => {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     }
-    setValidated(true);
     try {
       AuthService.login(credentials.username, credentials.password)
         .then((response) => {
           if (response.status === 200) {
+            setValidated(true);
             Swal.fire({
               title: `Bienvenido`,
               icon: "success",
@@ -38,12 +37,21 @@ const Login = () => {
             }).then(() => {
               localStorage.setItem("accessToken", response.data.accessToken);
               localStorage.setItem("refreshToken", response.data.refreshToken);
+              localStorage.setItem(
+                "user",
+                JSON.stringify({
+                  id: response.data.id,
+                  email: response.data.email,
+                  roles: response.data.roles,
+                })
+              );
               navigate("/");
             });
           }
         })
         .catch((error) => {
           if (error.response.status === 400) {
+            setValidated(false);
             Swal.fire({
               title: "Error",
               text: "Credenciales erroneas",
@@ -121,7 +129,12 @@ const Login = () => {
             </Card.Body>
           </Card>
           <div className="text-center mt-3 mb-0 p-2">
-            <img src={odyssey} alt="Odyssey Logo" className="img-fluid" style={{height: "30px"}} />
+            <img
+              src={odyssey}
+              alt="Odyssey Logo"
+              className="img-fluid"
+              style={{ height: "30px" }}
+            />
           </div>
         </div>
       </div>

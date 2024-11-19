@@ -91,7 +91,7 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
   return (
     <aside
       className={"fixed-top flex-column vh-100 d-flex sidebar pe-1"}
-      style={{ backgroundColor: "#14233b" }}
+      style={{ backgroundColor: "#14233b", zIndex: "8 !important"}}
     >
       <AppLogo />
       {/* Contenedor botones del sidebar */}

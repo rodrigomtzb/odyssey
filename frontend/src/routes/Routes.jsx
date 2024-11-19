@@ -10,11 +10,14 @@ import ProjectDetails from "../pages/Projects/Projects/Project";
 import DashboardJobs from "../pages/HumanResources/Jobs/Dashboard";
 import JobForm from "../pages/HumanResources/Jobs/Form";
 import JobsList from "../pages/HumanResources/Jobs/List";
+import JobDetails from "../pages/HumanResources/Jobs/Job";
+import DashboardAccesses from "../pages/ControlPanel/Access/Dashboard";
+import AccessList from "../pages/ControlPanel/Access/List";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
 );
-const LoggedLayout = React.lazy(() => import("../pages/layouts/LoggedLayout"));
+const LoggedLayout = React.lazy(() => import("../pages/Layouts/LoggedLayout"));
 const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
 const UserForm = React.lazy(() => import("../pages/ControlPanel/Users/Form"));
 const UsersList = React.lazy(() =>
@@ -86,15 +89,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/jobs",
-        element: <DashboardJobs />
+        element: <DashboardJobs />,
       },
       {
         path: "/jobs/create",
-        element: <JobForm />
+        element: <JobForm />,
       },
       {
         path: "/jobs/list",
-        element: <JobsList />
+        element: <JobsList />,
+      },
+      {
+        path: "/jobs/:id",
+        element: <JobDetails />,
       },
       // Usuarios
       {
@@ -126,6 +133,15 @@ const router = createBrowserRouter([
       {
         path: "/sessions/list",
         element: <SessionsList />,
+      },
+      //Accesos
+      {
+        path: "/accesses",
+        element: <DashboardAccesses />
+      },
+      {
+        path: "/accesses/list",
+        element: <AccessList />
       },
       // Proveedores
       {

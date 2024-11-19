@@ -16,12 +16,18 @@ import ProjectService from "../../../services/project.service";
 import SupplierService from "../../../services/supplier.service";
 
 const PurchaseForm = () => {
+  const [dataIsOpen, setDataIsOpen] = useState(true);
   const [purchase, setPurchase] = useState();
   const [projects, setProjects] = useState();
   const [suppliers, setSuppliers] = useState([]);
   const [projectData, setProjectData] = useState();
   const [supplierData, setSupplierData] = useState();
   const [formData, setFormData] = useState({ projectId: "", supplierId: "" });
+  const [material, setMaterial] = useState({
+    name: "",
+    quantity: "",
+    price: "",
+  });
 
   const fetchProjectData = (project) => {
     if (project[0]) {
@@ -63,13 +69,16 @@ const PurchaseForm = () => {
     if (supplier[0]) {
       let supplierName;
       let businessName;
+      let personType;
       switch (supplier[0].personType) {
         case "F":
           supplierName = supplier[0].fullName;
+          personType = "Persona Física";
           break;
         case "M":
           supplierName = supplier[0].legalName;
           businessName = supplier[0].businessName;
+          personType = "Persona Moral";
           break;
         default:
           break;
@@ -79,7 +88,7 @@ const PurchaseForm = () => {
 
         {
           title: "Tipo de Persona",
-          description: supplier[0].personType,
+          description: personType,
         },
       ];
     } else {
@@ -116,6 +125,12 @@ const PurchaseForm = () => {
     }
   }, [formData.supplierId]);
 
+  useEffect(() => {
+    if (formData.projectId && formData.supplierId) {
+      setDataIsOpen(false);
+    }
+  }, [formData]);
+
   return (
     <>
       <Title title="Solicitud de compra" withReturnButton />
@@ -131,7 +146,7 @@ const PurchaseForm = () => {
           <DefinitionList definitions={supplierData} />
         </ContentCard>
       )}
-      <TitleSection text="Datos de Proyecto" isFirst>
+      <TitleSection text="Datos de Proyecto" state={dataIsOpen} isFirst>
         <Form>
           <Select
             label="Proyecto"
@@ -156,10 +171,18 @@ const PurchaseForm = () => {
               </option>
             ))}
           </Select>
-
-          {/* {formData.projectId ? (
+        </Form>
+      </TitleSection>
+      {formData.projectId && formData.supplierId && (
+        <>
+          <TitleSection text="Materiales" className="d-flex">
+            <MaterialForm material={material} setMaterial={setMaterial} />
+            <Button variant="gd" className="ms-auto">Agregar</Button>
+          </TitleSection>
+        </>
+      )}
+      {/* {formData.projectId ? (
             <>
-              <DefinitionList definitions={projectData} />
               <TitleSection text="Materiales" />
               <MaterialForm />
               <hr />
@@ -172,8 +195,6 @@ const PurchaseForm = () => {
           ) : (
             ""
           )} */}
-        </Form>
-      </TitleSection>
       {/* <Col md={3}>
         <Button variant="gd" type="button" onClick={generatePurchaseTable}>
           Generar tabla

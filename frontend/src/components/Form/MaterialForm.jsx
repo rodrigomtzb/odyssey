@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-import $ from "jquery";
-import "datatables.net-bs5";
 import Input from "./Input";
+import { Col, Row } from "react-bootstrap";
 
-const MaterialForm = () => {
-  const [material, setMaterial] = useState({
-    name: "",
-    quantity: "",
-    price: "",
-  });
+const MaterialForm = ({ material, setMaterial }) => {
   const [materialList, setMaterialList] = useState([]);
   const [autoCalculate, setAutoCalculate] = useState(true);
-  const tableRef = useRef(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,16 +46,10 @@ const MaterialForm = () => {
     setMaterialList(materialList.filter((item) => item.id !== id));
   };
 
-  useEffect(() => {
-    if (tableRef.current) {
-      $(tableRef.current).DataTable();
-    }
-  }, [materialList]);
-
   return (
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-lg-6">
+    <>
+      <Row>
+        <Col lg={6}>
           <Input
             type="text"
             className="form-control"
@@ -73,40 +59,43 @@ const MaterialForm = () => {
             value={material.name}
             onChange={handleInputChange}
           />
-        </div>
-        <div className="col-lg-2">
+        </Col>
+        <Col lg={2}>
           <Input
             type="number"
             className="form-control"
             name="quantity"
-            placeholder="Cantidad"
+            placeholder="100"
             label="Cantidad"
             value={material.quantity}
             onChange={handleInputChange}
           />
-        </div>
-        <div className="col-lg-2">
+        </Col>
+        <Col lg={2}>
           <Input
             type="number"
             className="form-control"
             name="price"
-            placeholder="Precio unitario"
-            label="Precio unitario"
+            placeholder="$100"
+            label="P/U"
             value={material.price}
             onChange={handleInputChange}
           />
-        </div>
-        <div className="col-lg-2 d-flex align-items-center justify-content-center">
+        </Col>
+        <Col
+          lg={2}
+          className="d-flex align-items-center justify-content-center"
+        >
           <button
             type="button"
-            className="btn btn-success"
+            className="btn btn-success w-100"
             onClick={addMaterial}
             disabled={!material.name || !material.quantity}
           >
             <i className="bi bi-plus-lg" />
           </button>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
       <div className="mt-3">
         <label>
@@ -121,53 +110,56 @@ const MaterialForm = () => {
 
       <div className="mt-4">
         <h5>Materiales Agregados</h5>
+        <hr />
         {materialList.length > 0 ? (
-          <table className="table" ref={tableRef}>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Precio por unidad</th>
-                <th>Subtotal</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {materialList.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.quantity}</td>
-                  <td>
-                    <div className="text-end">{item.price || "N/A"}</div>
-                  </td>
-                  <td>
-                    {item.price ? (
-                      item.subtotal
-                    ) : (
-                      <input
-                        type="number"
-                        className="form-control"
-                        value={item.subtotal}
-                        onChange={(e) =>
-                          handleSubtotalChange(item.id, e.target.value)
-                        }
-                      />
-                    )}
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-center">
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => removeMaterial(item.id)}
-                      >
-                        <i className="bi bi-trash-fill" />
-                      </button>
-                    </div>
-                  </td>
+          <div className="table-responsive-sm" id="materialTableSection">
+            <table className="table align-middle table-hover table-sm table-responsive table-bordered border-black table-secondary">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>P/U</th>
+                  <th>Subtotal</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="table-group-divider">
+                {materialList.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.quantity}</td>
+                    <td>
+                      <div className="text-end">{item.price || "N/A"}</div>
+                    </td>
+                    <td>
+                      {item.price ? (
+                        item.subtotal
+                      ) : (
+                        <input
+                          type="number"
+                          className="form-control"
+                          value={item.subtotal}
+                          onChange={(e) =>
+                            handleSubtotalChange(item.id, e.target.value)
+                          }
+                        />
+                      )}
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center">
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => removeMaterial(item.id)}
+                        >
+                          <i className="bi bi-trash-fill" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <p>No se han agregado materiales.</p>
         )}
@@ -175,10 +167,10 @@ const MaterialForm = () => {
 
       {materialList.length > 0 && (
         <div className="mt-4 row">
-          <div className="col-2 d-flex align-items-center justify-content-end">
+          <div className="col-4 d-flex align-items-center justify-content-end">
             <h5>Total: $</h5>
           </div>
-          <div className="col-3">
+          <div className="col-6">
             <h5>
               {autoCalculate ? (
                 calculateTotal().toFixed(2)
@@ -193,7 +185,7 @@ const MaterialForm = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

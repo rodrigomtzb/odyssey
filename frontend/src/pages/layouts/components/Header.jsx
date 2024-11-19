@@ -3,7 +3,7 @@ import Logo from "../../../assets/img/logo-03.png";
 const Header = ({ onToggleSidebar }) => {
   return (
     <div
-      style={{ height: "100px", zIndex: "100" }}
+      style={{ height: "100px", zIndex: "99" }}
       className="bg-gd w-100 d-flex align-items-center position-fixed d-lg-none"
     >
       <div className="position-absolute start-0 ps-3">

@@ -1,15 +1,19 @@
 import { get, post } from "../utils/requests";
 
-const getAccess = () => {
+const getUserAccess = () => {
   return get("access");
 };
-const addAccesstoJobPosition = (jobId, data) => {
+const getAllAccess = () => {
+  return get("access?getAll=true");
+};
+const syncAccessToJobPosition = (jobId, data) => {
   return post(`access/jobposition/${jobId}`, data);
 };
 
 const AccessService = {
-  getAccess,
-  addAccesstoJobPosition,
+  getUserAccess,
+  getAllAccess,
+  syncAccessToJobPosition,
 };
 
 export default AccessService;

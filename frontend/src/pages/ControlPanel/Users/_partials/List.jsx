@@ -31,13 +31,6 @@ const UsersList = () => {
       setUsers(response.data);
     });
   };
-  //Por volver utilities
-  const handleDelete = (id) => {
-    alert("Borrar " + id);
-  };
-  const handleEdit = (id) => {
-    navigate(`/users/${id}/edit`);
-  };
 
   const handleView = (id) => {
     navigate(`/users/${id}`);
