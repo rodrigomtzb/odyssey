@@ -62,7 +62,6 @@ const LoggedLayout = () => {
           };
         });
 
-        // Paso 3: Ordenar por `sequence`
         const finalMenu = formattedMenu
           .sort((a, b) => a.sequence - b.sequence)
           .map(({ sequence, ...rest }) => rest);

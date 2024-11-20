@@ -3,7 +3,7 @@ import $ from "jquery";
 import { Title } from "../../../components";
 import AccessService from "../../../services/access.service";
 
-const AccessList = () => {
+const MenuItemsList = () => {
   const [flattenedAccesses, setFlattenedAccesses] = useState([]);
   const tableRef = useRef();
   let dataTableInstance = useRef(null);
@@ -24,8 +24,8 @@ const AccessList = () => {
             item.subItems.forEach((subItem) => {
               items.push({
                 sequence: item.sequence,
-                icon: "",
-                title: `↳ ${subItem.title}`,
+                icon: "caret-right-fill",
+                title: subItem.title,
                 path: subItem.path || "N/A",
               });
             });
@@ -48,7 +48,7 @@ const AccessList = () => {
       dataTableInstance.current = $(tableRef.current).DataTable({
         paging: false,
         ordering: true,
-        info: true, 
+        info: true,
         searching: true,
       });
     }
@@ -56,7 +56,7 @@ const AccessList = () => {
 
   return (
     <>
-      <Title title="Lista de Accesos"  withReturnButton/>
+      <Title title="Lista de Items del Menú" withReturnButton />
       <div>
         <table
           ref={tableRef}
@@ -89,4 +89,4 @@ const AccessList = () => {
   );
 };
 
-export default AccessList;
+export default MenuItemsList;

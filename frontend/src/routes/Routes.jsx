@@ -12,7 +12,10 @@ import JobForm from "../pages/HumanResources/Jobs/Form";
 import JobsList from "../pages/HumanResources/Jobs/List";
 import JobDetails from "../pages/HumanResources/Jobs/Job";
 import DashboardAccesses from "../pages/ControlPanel/Access/Dashboard";
-import AccessList from "../pages/ControlPanel/Access/List";
+import AccessesList from "../pages/ControlPanel/Access/AccessesList";
+import SyncAccessForm from "../pages/ControlPanel/Access/SyncAccessForm";
+import MenuItemsList from "../pages/ControlPanel/Access/MenuItemsList";
+import JobWithAccesses from "../pages/ControlPanel/Access/JobWithAccesses";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -141,7 +144,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/accesses/list",
-        element: <AccessList />
+        element: <AccessesList />
+      },
+      {
+        path: "/accesses/jobs/sync",
+        element: <SyncAccessForm />
+      },
+      {
+        path: "/accesses/jobs/:id",
+        element: <JobWithAccesses />
+      },
+      {
+        path: "/accesses/menu-items/list",
+        element: <MenuItemsList />
       },
       // Proveedores
       {

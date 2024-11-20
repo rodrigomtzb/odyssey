@@ -7,11 +7,31 @@ const DashboardAccesses = () => {
     <>
       <Title title="Accesos" />
       <Row>
-        <Col sm={12} md={6} className="mb-2 mb-md-0">
-          <CardButton to="create" section="Accesos" text="Añadir Acceso a Puesto" />
+        <Col sm={12} md={6} className="my-2">
+          <CardButton
+            to="jobs/sync"
+            section="Accesos"
+            icon="list-task"
+            text="Añadir Acceso a Puesto"
+          />
         </Col>
-        <Col sm={12} md={6} className="mt-2 mt-md-0">
-          <CardButton to="list" section="Accesos" text="Lista de Accesos"/>
+        <Col sm={12} md={6} className="my-2">
+          <CardButton
+            to="list"
+            section="Accessos"
+            icon="door-open-fill"
+            text="Lista de Accesos"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={12} md={6} className="my-2">
+          <CardButton
+            to="menu-items/list"
+            section="Menú Items"
+            icon="list-ol"
+            text="Lista de Items"
+          />
         </Col>
       </Row>
     </>

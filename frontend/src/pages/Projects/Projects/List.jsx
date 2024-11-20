@@ -1,8 +1,4 @@
 import $ from "jquery";
-import DataTable from "datatables.net-react";
-import DT from "datatables.net-bs5";
-import "datatables.net-select-dt";
-import "datatables.net-responsive-dt";
 
 import { useEffect, useState } from "react";
 import { Title } from "../../../components";
