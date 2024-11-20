@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
-import LoggedLayout from "../pages/Layouts/LoggedLayout"
+import LoggedLayout from "../pages/Layouts/LoggedLayout";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
 import CustomerList from "../pages/Marketing/Customers/List";
 import CustomerDetails from "../pages/Marketing/Customers/Customer";
