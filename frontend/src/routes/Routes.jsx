@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { PrimeReactProvider } from "primereact/api";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../pages/DashBoard";
 import LoggedLayout from "../pages/Layouts/LoggedLayout";
@@ -17,6 +18,9 @@ import AccessesList from "../pages/ControlPanel/Access/AccessesList";
 import SyncAccessForm from "../pages/ControlPanel/Access/SyncAccessForm";
 import MenuItemsList from "../pages/ControlPanel/Access/MenuItemsList";
 import JobWithAccesses from "../pages/ControlPanel/Access/JobWithAccesses";
+import OrgChart from "../pages/HumanResources/OrganizationChart/OrgChart";
+import DashboardNotification from "../pages/Notifications/Dashboard";
+import SendMail from "../pages/Notifications/Email/SendMail";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -69,188 +73,213 @@ const SupplierList = React.lazy(() =>
   import("../pages/Projects/Providers/List")
 );
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/login",
+      element: (
+        <LoggedRoute>
+          <Login />
+        </LoggedRoute>
+      ),
+    },
+    {
+      path: "/",
+      element: (
+        <PrivateRoute>
+          <LoggedLayout />
+        </PrivateRoute>
+      ),
+      children: [
+        // Recursos Humanos
+        {
+          path: "/hr",
+          element: <HumanResources />,
+        },
+        // Puestos
+        {
+          path: "/jobs",
+          element: <DashboardJobs />,
+        },
+        {
+          path: "/jobs/create",
+          element: <JobForm />,
+        },
+        {
+          path: "/jobs/list",
+          element: <JobsList />,
+        },
+        {
+          path: "/jobs/:id",
+          element: <JobDetails />,
+        },
+        // Organigrama
+        {
+          path: "/organization-chart",
+          element: <OrgChart />,
+        },
+        // Usuarios
+        {
+          path: "/users",
+          element: <Users />,
+        },
+        {
+          path: "/users/create",
+          element: <UserForm />,
+        },
+        {
+          path: "/users/list",
+          element: <UsersList />,
+          // loader: <TableLoader />
+        },
+        {
+          path: "/users/:id/edit",
+          element: <UserForm />,
+        },
+        {
+          path: "/users/:id",
+          element: <UserDetails />,
+        },
+        // Sesiones
+        {
+          path: "/sessions",
+          element: <DashboardSessions />,
+        },
+        {
+          path: "/sessions/list",
+          element: <SessionsList />,
+        },
+        //Accesos
+        {
+          path: "/accesses",
+          element: <DashboardAccesses />,
+        },
+        {
+          path: "/accesses/list",
+          element: <AccessesList />,
+        },
+        {
+          path: "/accesses/jobs/sync",
+          element: <SyncAccessForm />,
+        },
+        {
+          path: "/accesses/jobs/:id",
+          element: <JobWithAccesses />,
+        },
+        {
+          path: "/accesses/menu-items/list",
+          element: <MenuItemsList />,
+        },
+        // Proveedores
+        {
+          path: "/providers",
+          element: <DashboardProviders />,
+        },
+        {
+          path: "/providers/:id",
+          element: <SupplierDetails />,
+        },
+        {
+          path: "/providers/create",
+          element: <ProviderForm />,
+        },
+        {
+          path: "/providers/:id/edit",
+          element: <ProviderForm />,
+        },
+        {
+          path: "/providers/list",
+          element: <SupplierList />,
+        },
+        // Proyectos
+        {
+          path: "/projects",
+          element: <DashboardProjects />,
+        },
+        {
+          path: "/projects/:id",
+          element: <ProjectDetails />,
+        },
+        {
+          path: "/projects/create",
+          element: <ProjectForm />,
+        },
+        {
+          path: `/projects/:id/edit`,
+          element: <ProjectForm />,
+        },
+        {
+          path: "/projects/list",
+          element: <ProjectsList />,
+        },
+        // Compras
+        {
+          path: "/purchases",
+          element: <DashboardPurchases />,
+        },
+        {
+          path: "/purchases/create",
+          element: <PurchaseForm />,
+        },
+        {
+          path: "/purchases/list",
+          element: <PurchasesList />,
+        },
+        // Clientes
+        {
+          path: "/customers",
+          element: <DashboardCustomers />,
+        },
+        {
+          path: "/customers/create",
+          element: <CustomerForm />,
+        },
+        {
+          path: "/customers/:id/edit",
+          element: <CustomerForm />,
+        },
+        {
+          path: "/customers/list",
+          element: <CustomerList />,
+        },
+        {
+          path: "/customers/:id",
+          element: <CustomerDetails />,
+        },
+        // Notificaciones
+        {
+          path: "/notifications",
+          element: <DashboardNotification />
+        },
+        {
+          path: "/notifications/send-mail",
+          element: <SendMail />
+        },
+        {
+          path: "/loader",
+          element: <Loader />,
+        },
+        {
+          path: "/timeline",
+          element: <Timeline />,
+        },
+      ],
+    },
+  ],
   {
-    path: "/login",
-    element: (
-      <LoggedRoute>
-        <Login />
-      </LoggedRoute>
-    ),
-  },
-  {
-    path: "/",
-    element: (
-      <PrivateRoute>
-        <LoggedLayout />
-      </PrivateRoute>
-    ),
-    children: [
-      {
-        path: "/hr",
-        element: <HumanResources />,
-      },
-      {
-        path: "/jobs",
-        element: <DashboardJobs />,
-      },
-      {
-        path: "/jobs/create",
-        element: <JobForm />,
-      },
-      {
-        path: "/jobs/list",
-        element: <JobsList />,
-      },
-      {
-        path: "/jobs/:id",
-        element: <JobDetails />,
-      },
-      // Usuarios
-      {
-        path: "/users",
-        element: <Users />,
-      },
-      {
-        path: "/users/create",
-        element: <UserForm />,
-      },
-      {
-        path: "/users/list",
-        element: <UsersList />,
-        // loader: <TableLoader />
-      },
-      {
-        path: "/users/:id/edit",
-        element: <UserForm />,
-      },
-      {
-        path: "/users/:id",
-        element: <UserDetails />,
-      },
-      // Sesiones
-      {
-        path: "/sessions",
-        element: <DashboardSessions />,
-      },
-      {
-        path: "/sessions/list",
-        element: <SessionsList />,
-      },
-      //Accesos
-      {
-        path: "/accesses",
-        element: <DashboardAccesses />
-      },
-      {
-        path: "/accesses/list",
-        element: <AccessesList />
-      },
-      {
-        path: "/accesses/jobs/sync",
-        element: <SyncAccessForm />
-      },
-      {
-        path: "/accesses/jobs/:id",
-        element: <JobWithAccesses />
-      },
-      {
-        path: "/accesses/menu-items/list",
-        element: <MenuItemsList />
-      },
-      // Proveedores
-      {
-        path: "/providers",
-        element: <DashboardProviders />,
-      },
-      {
-        path: "/providers/:id",
-        element: <SupplierDetails />,
-      },
-      {
-        path: "/providers/create",
-        element: <ProviderForm />,
-      },
-      {
-        path: "/providers/:id/edit",
-        element: <ProviderForm />,
-      },
-      {
-        path: "/providers/list",
-        element: <SupplierList />,
-      },
-      // Proyectos
-      {
-        path: "/projects",
-        element: <DashboardProjects />,
-      },
-      {
-        path: "/projects/:id",
-        element: <ProjectDetails />,
-      },
-      {
-        path: "/projects/create",
-        element: <ProjectForm />,
-      },
-      {
-        path: `/projects/:id/edit`,
-        element: <ProjectForm />,
-      },
-      {
-        path: "/projects/list",
-        element: <ProjectsList />,
-      },
-      // Compras
-      {
-        path: "/purchases",
-        element: <DashboardPurchases />,
-      },
-      {
-        path: "/purchases/create",
-        element: <PurchaseForm />,
-      },
-      {
-        path: "/purchases/list",
-        element: <PurchasesList />,
-      },
-      // Clientes
-      {
-        path: "/customers",
-        element: <DashboardCustomers />,
-      },
-      {
-        path: "/customers/create",
-        element: <CustomerForm />,
-      },
-      {
-        path: "/customers/:id/edit",
-        element: <CustomerForm />,
-      },
-      {
-        path: "/customers/list",
-        element: <CustomerList />,
-      },
-      {
-        path: "/customers/:id",
-        element: <CustomerDetails />,
-      },
-      {
-        path: "/loader",
-        element: <Loader />,
-      },
-      {
-        path: "/timeline",
-        element: <Timeline />,
-      },
-    ],
-  },
-]);
+    future: {
+      v7_startTransition: true,
+    },
+  }
+);
 
 const AppRoutes = () => {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <RouterProvider router={router} />
+        <PrimeReactProvider>
+          <RouterProvider router={router} />
+        </PrimeReactProvider>
       </Suspense>
     </>
   );

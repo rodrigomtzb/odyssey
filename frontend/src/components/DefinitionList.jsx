@@ -1,4 +1,4 @@
-const DefinitionList = ({ definitions, index = ""  }) => {
+const DefinitionList = ({ definitions, index = "" }) => {
   return (
     <dl className="row">
       {definitions
@@ -9,7 +9,15 @@ const DefinitionList = ({ definitions, index = ""  }) => {
               <dt className="col-auto">{definition.title}:</dt>
             </div>
             <div className="col-lg-8 col-12">
-              <dd className="col">{definition.description}</dd>
+              {Array.isArray(definition.description) ? (
+                <ul className="col">
+                  {definition.description.map((item, i) => (
+                    <li key={`${item}-${i}`}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <dd className="col">{definition.description}</dd>
+              )}
             </div>
           </div>
         ))}

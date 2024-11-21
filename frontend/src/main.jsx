@@ -5,6 +5,8 @@ import "./css/index.css";
 import "./css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import 'primereact/resources/themes/lara-light-indigo/theme.css'; 
+import 'primereact/resources/primereact.min.css'; 
 import { LoaderProvider } from "./context/Loader/LoaderProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -72,6 +72,10 @@ const JobDetails = () => {
   useEffect(() => {
     if (jobs && job) {
       const parentJob = jobs.find((parent) => parent.id === job.parent_id);
+      const childrenNames = jobs
+        .filter((children) => children.parent_id === job.id)
+        .map((children) => children.name);
+
       setJobData([
         {
           title: "ID",
@@ -82,12 +86,16 @@ const JobDetails = () => {
           description: job.name,
         },
         {
+          title: "Descripción del Puesto",
+          description: job.description,
+        },
+        {
           title: "Jefe inmediato",
           description: parentJob ? parentJob.name : "N/A",
         },
         {
-          title: "N° de Secuencia",
-          description: job.sequence,
+          title: "Puestos a su Cargo",
+          description: childrenNames,
         },
       ]);
     }

@@ -7,7 +7,7 @@ const DashboardPurchases = () => {
     <>
       <Title title="Compras" isFirst />
       <Row>
-        <Col>
+        <Col sm={12} md={6} className="mb-2 mb-md-0">
           <CardButton
             icon="cart-plus-fill"
             text="Alta de Solicitud"
@@ -15,7 +15,7 @@ const DashboardPurchases = () => {
             section="Compras"
           />
         </Col>
-        <Col>
+        <Col sm={12} md={6} className="mt-2 mt-md-0">
           <CardButton
             icon="clipboard2-check-fill"
             text="Lista de Solicitud"
