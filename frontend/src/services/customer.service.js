@@ -2,7 +2,7 @@ import { destroy, get, post, put } from "../utils/requests";
 
 const createCustomer = (data) => {
   return post("customers", data);
-}
+};
 const addAddress = (id, data) => {
   return post(`customers/${id}/address`, data);
 };
@@ -13,12 +13,18 @@ const toggleCustomerStatus = (id, data) => {
   return post(`customers/${id}/enabled`, data);
 };
 
-const getCustomers = () => {
+const getAllCustomers = () => {
   return get("customers");
 };
+const getEnabledCustomers = () => {
+  return get("customers?isEnabled=true");
+};
+const getDisabledCustomers = () => {
+  return get("customers?isEnabled=false");
+};
 const getCustomersBySearch = (word) => {
-  return get(`customers/searchby?searchby=${word}`)
-}
+  return get(`customers/searchby?searchby=${word}`);
+};
 const getCustomer = (id) => {
   return get(`customers/${id}`);
 };
@@ -45,7 +51,9 @@ const CustomerService = {
   addAddress,
   addContact,
   toggleCustomerStatus,
-  getCustomers,
+  getAllCustomers,
+  getEnabledCustomers,
+  getDisabledCustomers,
   getCustomersBySearch,
   getCustomer,
   editCustomerData,

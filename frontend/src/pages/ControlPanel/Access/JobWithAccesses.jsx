@@ -4,6 +4,7 @@ import { ContentCard, DefinitionList, Title } from "../../../components";
 import { useEffect, useRef, useState } from "react";
 import JobPositionService from "../../../services/job-position.service";
 import { flattenedItems } from "../../../utils";
+import TableBase from "../../../components/TableBase";
 
 const JobWithAccesses = () => {
   const { id } = useParams();
@@ -16,7 +17,6 @@ const JobWithAccesses = () => {
   useEffect(() => {
     if (id) {
       JobPositionService.getJobPosition(id).then((response) => {
-        console.log(response.data);
         setJob(response.data);
       });
     }
@@ -38,59 +38,19 @@ const JobWithAccesses = () => {
       ]);
     }
   }, [job]);
-  useEffect(() => {
-    if (flattenedAccesses.length > 0) {
-      if ($.fn.dataTable.isDataTable(tableRef.current)) {
-        $(tableRef.current).DataTable().destroy();
-      }
-      dataTableInstance.current = $(tableRef.current).DataTable({
-        paging: false,
-        ordering: true,
-        info: false,
-        searching: false,
-      });
-    }
-  }, [flattenedAccesses]);
 
   return (
     <>
       <Title title="Puesto con Accesos" withReturnButton />
       <ContentCard>
         {jobData && <DefinitionList definitions={jobData} />}
-        <div>
-          <table
-            ref={tableRef}
-            className="display table table-striped"
-            style={{ width: "100%" }}
-          >
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Icon</th>
-                <th>Título</th>
-                <th>Secuencia</th>
-                <th>Path</th>
-              </tr>
-            </thead>
-            <tbody>
-              {flattenedAccesses.map((access, index) => (
-                <tr key={index}>
-                  <td>{access.id}</td>
-                  <td>
-                    {access.icon ? (
-                      <i className={`bi bi-${access.icon}`} />
-                    ) : (
-                      <i className={"bi bi-caret-right-fill"} />
-                    )}
-                  </td>
-                  <td>{access.title}</td>
-                  <td>{access.sequence}</td>
-                  <td>{access.path}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <TableBase
+          data={flattenedAccesses}
+          dataKey={["id", "icon", "title", "sequence", "path"]}
+          titles={["ID", "Icono", "Titulo", "N° de Secuencia", "Path"]}
+          paging={false}
+          sorting={false}
+        />
       </ContentCard>
     </>
   );

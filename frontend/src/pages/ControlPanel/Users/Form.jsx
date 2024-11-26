@@ -211,7 +211,7 @@ const UserForm = () => {
   }, [id]);
 
   useEffect(() => {
-    JobPositionService.getJobPositions().then((response) =>
+    JobPositionService.getEnabledJobPositions().then((response) =>
       setJobPositions(response.data)
     );
   }, []);

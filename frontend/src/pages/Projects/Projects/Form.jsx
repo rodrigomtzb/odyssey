@@ -274,7 +274,7 @@ const ProjectForm = () => {
     UserService.getUsersEnabled().then((response) => {
       setUsers(response.data);
     });
-    CustomerService.getCustomers().then((response) => {
+    CustomerService.getEnabledCustomers().then((response) => {
       setCustomers(response.data);
     });
   }, []);

@@ -6,8 +6,14 @@ const createJobPosition = (data) => {
 const toggleJobPositionStatus = (id, data) => {
   return post(`jobpositions/${id}/enabled`, data);
 };
-const getJobPositions = () => {
+const getAllJobPositions = () => {
   return get("jobpositions");
+};
+const getEnabledJobPositions = () => {
+  return get("jobpositions?isEnabled=true");
+};
+const getDisabledJobPositions = () => {
+  return get("jobpositions?isEnabled=false");
 };
 const getJobPosition = (id) => {
   return get(`jobpositions/${id}`);
@@ -16,8 +22,10 @@ const getJobPosition = (id) => {
 const JobPositionService = {
   createJobPosition,
   toggleJobPositionStatus,
-  getJobPositions,
+  getAllJobPositions,
+  getEnabledJobPositions,
+  getDisabledJobPositions,
   getJobPosition,
 };
 
-export default JobPositionService
+export default JobPositionService;

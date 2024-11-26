@@ -16,8 +16,14 @@ const toggleSupplierStatus = (id, data) => {
   return post(`suppliers/${id}/enabled`, data);
 };
 
-const getSuppliers = () => {
+const getAllSuppliers = () => {
   return get("suppliers");
+};
+const getEnabledSuppliers = () => {
+  return get("suppliers?isEnabled=true");
+};
+const getDisabledSuppliers = () => {
+  return get("suppliers?isEnabled=false");
 };
 const getSupplier = (id) => {
   return get(`suppliers/${id}`);
@@ -46,7 +52,9 @@ const SupplierService = {
   addContact,
   addTags,
   toggleSupplierStatus,
-  getSuppliers,
+  getAllSuppliers,
+  getEnabledSuppliers,
+  getDisabledSuppliers,
   getSupplier,
   editSupplierData,
   editSupplierAddress,

@@ -1,77 +1,73 @@
-import $ from "jquery";
-import DataTable from "datatables.net-react";
-import DT from "datatables.net-bs5";
-import "datatables.net-select-dt";
-import "datatables.net-responsive-dt";
-
 import { Title } from "../../../components";
 import { useEffect, useState } from "react";
 import JobPositionService from "../../../services/job-position.service";
 import { Link, useNavigate } from "react-router-dom";
-
-DataTable.use(DT);
+import DataTable from "../../../components/DataTable";
+import { TableCell, TableRow } from "@mui/material";
+import TableBase from "../../../components/TableBase";
+import FilterDropdown from "../../../components/Buttons/FilterDropdown";
+import { Badge } from "react-bootstrap";
 
 const JobsList = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
+  const [filter, setFilter] = useState("enabled");
 
   const handleView = (id) => {
     navigate(`/jobs/${id}`);
   };
 
-  useEffect(() => {
-    JobPositionService.getJobPositions().then((response) =>
-      setJobs(response.data)
-    );
-  }, []);
-  useEffect(() => {
-    if (jobs.length > 0) {
-      const table = $("#jobsTable").DataTable();
+  const handleFilterChange = (filter) => {
+    setFilter(filter);
+  };
 
-      return () => {
-        if ($.fn.dataTable.isDataTable("#jobsTable")) {
-          table.destroy();
-        }
-      };
-    }
-  }, [jobs]);
+  useEffect(() => {
+    const apiCall =
+      filter === "enabled"
+        ? JobPositionService.getEnabledJobPositions()
+        : filter === "disabled"
+        ? JobPositionService.getDisabledJobPositions()
+        : JobPositionService.getAllJobPositions();
+
+    apiCall.then((response) => {
+      setJobs(response.data);
+    });
+  }, [filter]);
+
   return (
     <>
       <Title title="Lista de Puestos" withReturnButton />
-      <div className="table-responsive">
-        <table id="jobsTable" className="display table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Puesto</th>
-              <th>Jefe inmediato</th>
-              <th>N° de Secuencia</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.map((job) => {
-              const parentJob = jobs.find(
-                (parent) => parent.id === job.parent_id
-              );
-              return (
-                <tr key={job.id}>
-                  <td>{job.id}</td>
-                  <td>
-                    <Link
-                      onClick={() => handleView(job.id)}
-                      className="text-decoration-none text-body"
-                    >
-                      <p className="fw-bold mb-1">{job.name}</p>
-                    </Link>
-                  </td>
-                  <td>{parentJob ? parentJob.name : "N/A"}</td>
-                  <td>{job.sequence}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <FilterDropdown onFilterChange={handleFilterChange} />
+      <TableBase
+        titles={["ID", "Puesto", "Jefe Inmediato", "N° de Secuencia", "Estado"]}
+        sorting={false}
+      >
+        {jobs.map((job) => {
+          const parentJob = jobs.find((parent) => parent.id === job.parent_id);
+          return (
+            <TableRow key={job.id}>
+              <TableCell>{job.id}</TableCell>
+              <TableCell>
+                <Link
+                  onClick={() => handleView(job.id)}
+                  className="text-decoration-none text-body"
+                >
+                  <p className="fw-bold mb-1">{job.name}</p>
+                </Link>
+              </TableCell>
+              <TableCell>{parentJob ? parentJob.name : "N/A"}</TableCell>
+              <TableCell>{job.sequence}</TableCell>
+              <TableCell>
+                {job.enabled ? (
+                  <Badge bg="success">Activo</Badge>
+                ) : (
+                  <Badge bg="danger">Inactivo</Badge>
+                )}
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBase>
     </>
   );
 };

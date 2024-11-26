@@ -61,7 +61,7 @@ const JobDetails = () => {
 
   useEffect(() => {
     if (id) {
-      JobPositionService.getJobPositions().then((response) =>
+      JobPositionService.getEnabledJobPositions().then((response) =>
         setJobs(response.data)
       );
       JobPositionService.getJobPosition(id).then((response) =>

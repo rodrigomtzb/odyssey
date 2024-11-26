@@ -10,8 +10,14 @@ const toggleProjectStatus = (id, data) => {
   return post(`projects/${id}/enabled`, data);
 };
 
-const getProjects = () => {
+const getAllProjects = () => {
   return get("projects");
+};
+const getEnabledProjects = () => {
+  return get("projects?isEnabled=true");
+};
+const getDisabledProjects = () => {
+  return get("projects?isEnabled=false");
 };
 const getProject = (id) => {
   return get(`projects/${id}`);
@@ -32,7 +38,9 @@ const ProjectService = {
   createProject,
   addAddress,
   toggleProjectStatus,
-  getProjects,
+  getAllProjects,
+  getEnabledProjects,
+  getDisabledProjects,
   getProject,
   editProjectData,
   editProjectAddress,

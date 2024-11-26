@@ -48,7 +48,7 @@ const OrgChart = () => {
     );
   };
   useEffect(() => {
-    JobPositionService.getJobPositions().then((response) => {
+    JobPositionService.getEnabledJobPositions().then((response) => {
       setOrgData(transformToHierarchy(response.data));
     });
   }, []);
@@ -57,7 +57,7 @@ const OrgChart = () => {
     <>
       <Title title="Organigrama" withReturnButton />
       {orgData && (
-        <div className="card overflow-x-auto">
+        <div className="card px-0 overflow-x-auto">
           <OrganizationChart
             className="w-100"
             value={orgData}

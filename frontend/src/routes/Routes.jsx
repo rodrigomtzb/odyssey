@@ -21,6 +21,7 @@ import JobWithAccesses from "../pages/ControlPanel/Access/JobWithAccesses";
 import OrgChart from "../pages/HumanResources/OrganizationChart/OrgChart";
 import DashboardNotification from "../pages/Notifications/Dashboard";
 import SendMail from "../pages/Notifications/Email/SendMail";
+import Test from "../pages/Test";
 const Login = React.lazy(() => import("../pages/Login"));
 const HumanResources = React.lazy(() =>
   import("../auth/components/dashboard-components/contents/HumanResources")
@@ -249,11 +250,11 @@ const router = createBrowserRouter(
         // Notificaciones
         {
           path: "/notifications",
-          element: <DashboardNotification />
+          element: <DashboardNotification />,
         },
         {
           path: "/notifications/send-mail",
-          element: <SendMail />
+          element: <SendMail />,
         },
         {
           path: "/loader",
@@ -262,6 +263,10 @@ const router = createBrowserRouter(
         {
           path: "/timeline",
           element: <Timeline />,
+        },
+        {
+          path: "/test",
+          element: <Test />,
         },
       ],
     },

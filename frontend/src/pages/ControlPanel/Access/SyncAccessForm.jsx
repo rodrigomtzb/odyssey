@@ -86,7 +86,7 @@ const SyncAccessForm = () => {
   };
 
   useEffect(() => {
-    JobPositionService.getJobPositions().then((response) => {
+    JobPositionService.getEnabledJobPositions().then((response) => {
       setJobs(response.data);
     });
     AccessService.getAllAccess().then((response) => {

@@ -1,11 +1,9 @@
-import $ from "jquery";
-import DataTable from "datatables.net-react";
-import DT from "datatables.net-bs5";
-import { useEffect, useState } from "react";
-import CatalogsService from "../services/catalogs.service";
-import { Badge } from "react-bootstrap";
+import { TableCell, TableRow } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-DataTable.use(DT);
+import { useEffect, useState } from "react";
+import { Badge } from "react-bootstrap";
+import CatalogsService from "../services/catalogs.service";
+import TableBase from "./TableBase";
 
 const TaxList = ({ elements, type }) => {
   const navigate = useNavigate();
@@ -28,79 +26,68 @@ const TaxList = ({ elements, type }) => {
   };
 
   useEffect(() => {
-    if (elements.length > 0) {
-      const table = $("#taxTable").DataTable();
-
-      return () => {
-        if ($.fn.dataTable.isDataTable("#taxTable")) {
-          table.destroy();
-        }
-      };
-    }
-  }, [elements]);
-
-  useEffect(() => {
     CatalogsService.getPersonType().then((response) =>
       setPersonTypeCatalog(response.data)
     );
   }, []);
   return (
     <>
-      <div className="table-responsive">
-        <table id="taxTable" className="display table">
-          <thead>
-            <tr>
-              <th>Razón Social/Nombre Comercial</th>
-              <th>RFC</th>
-              <th>Tipo de Persona</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {elements.map((element) => (
-              <tr key={element.id}>
-                <td>
-                  <div className="d-flex flex-column">
-                    {element.personType === "M" ? (
-                      <>
-                        <Link
-                          onClick={() => handleView(element.id)}
-                          className="text-decoration-none text-body"
-                        >
-                          <p className="fw-bold mb-1">{element.legalName}</p>
-                        </Link>
-                        <p className="text-muted mb-0">
-                          {element.businessName}
-                        </p>
-                      </>
-                    ) : (
-                      <Link
-                        onClick={() => handleView(element.id)}
-                        className="text-decoration-none text-body"
-                      >
-                        <p className="fw-bold mb-1">{element.fullName}</p>
-                      </Link>
-                    )}
-                  </div>
-                </td>
-                <td>
-                  {element.personType == "M"
-                    ? element.mxRfcCompany
-                    : element.mxRfc}
-                </td>
-                <td>{getPersonTypeDescription(element.personType)}</td>
-                <td>
-                  {element.enabled ? (
-                    <Badge bg="success">Activo</Badge>
-                  ) : (
-                    <Badge bg="danger">Inactivo</Badge>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <TableBase
+        titles={[
+          "Razón Social/Nombre Comercial",
+          "RFC",
+          "Tipo de Persona",
+          "Estado",
+        ]}
+        dataKey={["legalName", "mxRfc", "personType", "Estado"]}
+      >
+        {elements.map((element, index) => (
+          <TableRow
+            key={element.id}
+            sx={{
+              backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
+              "&:hover": { backgroundColor: "#e0f7fa" },
+              borderBottom: "2px solid #ddd",
+            }}
+          >
+            <TableCell>
+              <div className="d-flex flex-column">
+                {element.personType === "M" ? (
+                  <>
+                    <Link
+                      onClick={() => handleView(element.id)}
+                      className="text-decoration-none text-body"
+                    >
+                      <p className="fw-bold mb-1">{element.legalName}</p>
+                    </Link>
+                    <p className="text-muted mb-0">{element.businessName}</p>
+                  </>
+                ) : (
+                  <Link
+                    onClick={() => handleView(element.id)}
+                    className="text-decoration-none text-body"
+                  >
+                    <p className="fw-bold mb-1">{element.fullName}</p>
+                  </Link>
+                )}
+              </div>
+            </TableCell>
+            <TableCell>
+              {element.personType == "M" ? element.mxRfcCompany : element.mxRfc}
+            </TableCell>
+            <TableCell>
+              {getPersonTypeDescription(element.personType)}
+            </TableCell>
+            <TableCell>
+              {element.enabled ? (
+                <Badge bg="success">Activo</Badge>
+              ) : (
+                <Badge bg="danger">Inactivo</Badge>
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBase>
     </>
   );
 };
