@@ -146,7 +146,7 @@ const PurchaseForm = () => {
           <DefinitionList definitions={supplierData} />
         </ContentCard>
       )}
-      <TitleSection text="Datos de Proyecto" state={dataIsOpen} isFirst>
+      <TitleSection text="Datos Generales" state={dataIsOpen} isFirst>
         <Form>
           <Select
             label="Proyecto"
@@ -175,9 +175,50 @@ const PurchaseForm = () => {
       </TitleSection>
       {formData.projectId && formData.supplierId && (
         <>
+          <TitleSection text="Datos Fiscales del Proveedor">
+            <Form.Group className="mb-3">
+              <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
+              <div>
+                <Form.Check type="radio" label="Si" inline />
+                <Form.Check type="radio" label="No" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Personas físicas que presten sus servicios profesionales
+              </Form.Label>
+              <div>
+                <Form.Check type="check" label="IVA por honorarios" inline />
+                <Form.Check type="check" label="ISR por honorarios" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Personas físicas que otorgan el uso de un bien
+              </Form.Label>
+              <div>
+                <Form.Check type="check" label="IVA por Arrendamiento" inline />
+                <Form.Check type="check" label="ISR por Arrendamiento" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Persona física o moral que presta sus servicios de transporte
+              </Form.Label>
+              <div>
+                <Form.Check
+                  type="check"
+                  label="IVA Retenido 4% fletes"
+                  inline
+                />
+              </div>
+            </Form.Group>
+          </TitleSection>
           <TitleSection text="Materiales" className="d-flex">
             <MaterialForm material={material} setMaterial={setMaterial} />
-            <Button variant="gd" className="ms-auto">Agregar</Button>
+            <Button variant="gd" className="ms-auto">
+              Agregar
+            </Button>
           </TitleSection>
         </>
       )}

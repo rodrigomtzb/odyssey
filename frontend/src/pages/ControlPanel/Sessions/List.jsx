@@ -1,9 +1,7 @@
-import $ from "jquery";
 import { Button } from "react-bootstrap";
 import { Title } from "../../../components";
 import { useEffect, useState } from "react";
 import SessionsService from "../../../services/session.service";
-import DataTable from "../../../components/DataTable";
 import TableBase from "../../../components/TableBase";
 import { TableCell, TableRow } from "@mui/material";
 
