@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { useParams } from "react-router-dom";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { useEffect, useRef, useState } from "react";
@@ -9,8 +8,6 @@ import TableBase from "../../../components/TableBase";
 const JobWithAccesses = () => {
   const { id } = useParams();
   const [flattenedAccesses, setFlattenedAccesses] = useState([]);
-  const tableRef = useRef();
-  let dataTableInstance = useRef(null);
   const [job, setJob] = useState();
   const [jobData, setJobData] = useState();
 

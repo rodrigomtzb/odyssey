@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PrimeReactProvider } from "primereact/api";
 import PrivateRoute from "./PrivateRoute";
-import DashBoard from "../pages/DashBoard";
 import LoggedLayout from "../pages/Layouts/LoggedLayout";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
 import CustomerList from "../pages/Marketing/Customers/List";
@@ -23,9 +22,6 @@ import DashboardNotification from "../pages/Notifications/Dashboard";
 import SendMail from "../pages/Notifications/Email/SendMail";
 import Test from "../pages/Test";
 const Login = React.lazy(() => import("../pages/Login"));
-const HumanResources = React.lazy(() =>
-  import("../auth/components/dashboard-components/contents/HumanResources")
-);
 const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
 const UserForm = React.lazy(() => import("../pages/ControlPanel/Users/Form"));
 const UsersList = React.lazy(() =>
@@ -92,11 +88,6 @@ const router = createBrowserRouter(
         </PrivateRoute>
       ),
       children: [
-        // Recursos Humanos
-        {
-          path: "/hr",
-          element: <HumanResources />,
-        },
         // Puestos
         {
           path: "/jobs",

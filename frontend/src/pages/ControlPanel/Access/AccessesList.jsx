@@ -3,7 +3,6 @@ import { Title } from "../../../components";
 import JobPositionService from "../../../services/job-position.service";
 import { flattenedItems } from "../../../utils";
 import { Link, useNavigate } from "react-router-dom";
-import DataTable from "../../../components/DataTable";
 import TableBase from "../../../components/TableBase";
 import { TableCell, TableRow } from "@mui/material";
 

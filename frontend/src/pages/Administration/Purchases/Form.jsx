@@ -97,10 +97,10 @@ const PurchaseForm = () => {
   };
 
   useEffect(() => {
-    ProjectService.getProjects().then((response) => {
+    ProjectService.getEnabledProjects().then((response) => {
       setProjects(response.data);
     });
-    SupplierService.getSuppliers().then((response) => {
+    SupplierService.getEnabledSuppliers().then((response) => {
       setSuppliers(response.data);
     });
   }, []);

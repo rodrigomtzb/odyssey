@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
-import DataTable from "../components/DataTable";
 import UserService from "../services/user.service";
 import FilterDropdown from "../components/Buttons/FilterDropdown";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import TableBase from "../components/TableBase";
 
 const Test = () => {
@@ -40,12 +32,6 @@ const Test = () => {
   return (
     <>
       <FilterDropdown onFilterChange={handleFilterChange} />
-      {/* <DataTable
-        data={users}
-        titleCol={["ID", "Usuario", "Correo Electronico"]}
-        dataKey={["id", "username", "email"]}
-        viewConfig={{ key: "username", to: "users" }}
-      /> */}
       <TableBase
         data={users}
         dataKey={["id", "username", "email"]}

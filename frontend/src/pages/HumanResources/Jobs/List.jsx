@@ -2,7 +2,6 @@ import { Title } from "../../../components";
 import { useEffect, useState } from "react";
 import JobPositionService from "../../../services/job-position.service";
 import { Link, useNavigate } from "react-router-dom";
-import DataTable from "../../../components/DataTable";
 import { TableCell, TableRow } from "@mui/material";
 import TableBase from "../../../components/TableBase";
 import FilterDropdown from "../../../components/Buttons/FilterDropdown";
