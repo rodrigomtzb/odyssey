@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Button, Col, Form, Row, Stack } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import {
   AddressSection,
   Input,
@@ -15,6 +15,8 @@ import { handleFormChange, scrollToSection, scrollToTop } from "../../../utils";
 import SupplierService from "../../../services/supplier.service";
 import AddressService from "../../../services/address.service";
 import CatalogsService from "../../../services/catalogs.service";
+import InputWithCardIcons from "../../../components/Form/InputTest";
+import PayDataSection from "../../../components/Form/PayData";
 
 const ProviderForm = () => {
   const { id } = useParams();
@@ -596,6 +598,46 @@ const ProviderForm = () => {
             setFormData={setSupplier}
             state={id ? false : true}
           />
+          <PayDataSection />
+          <TitleSection text="Datos Fiscales del Proveedor">
+            <Form.Group className="mb-3">
+              <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
+              <div>
+                <Form.Check type="radio" label="Si" inline />
+                <Form.Check type="radio" label="No" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Personas físicas que presten sus servicios profesionales
+              </Form.Label>
+              <div>
+                <Form.Check type="check" label="IVA por honorarios" inline />
+                <Form.Check type="check" label="ISR por honorarios" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Personas físicas que otorgan el uso de un bien
+              </Form.Label>
+              <div>
+                <Form.Check type="check" label="IVA por Arrendamiento" inline />
+                <Form.Check type="check" label="ISR por Arrendamiento" inline />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                Persona física o moral que presta sus servicios de transporte
+              </Form.Label>
+              <div>
+                <Form.Check
+                  type="check"
+                  label="IVA Retenido 4% fletes"
+                  inline
+                />
+              </div>
+            </Form.Group>
+          </TitleSection>
           {/* <hr />
             <Stack direction="horizontal" gap={2}>
               <Button variant="gd" className="ms-auto" type="submit">

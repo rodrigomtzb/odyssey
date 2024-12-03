@@ -24,7 +24,7 @@ const Select = ({
 
   return (
     <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}:</Form.Label>
+      <Form.Label>{label}: {required && <span className="text-danger">*</span>}</Form.Label>
       <Form.Select
         className={`form-input ${className}`}
         name={name}

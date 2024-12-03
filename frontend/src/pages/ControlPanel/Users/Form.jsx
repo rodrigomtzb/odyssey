@@ -90,89 +90,91 @@ const UserForm = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const form = e.currentTarget;
-    // if (form.checkValidity() === false) {
-    //   e.stopPropagation();
-    // }
-    // setValidated(true);
-    Swal.fire({
-      title: "¿Estás seguro de la información del usuario?",
-      text: "Podrás cambiarlo después",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          if (id) {
-            UserService.editUserData(id, {
-              id: id,
-              firstName: formData.firstName,
-              middleName: formData.middleName,
-              fatherLastName: formData.fatherLastName,
-              motherLastName: formData.motherLastName,
-            })
-              .then(() => {
-                UserService.editUserEmail(id, {
-                  id: id,
-                  email: formData.email,
-                })
-                  .then(() => {
-                    if (formData.password) {
-                      UserService.editUserPassword(id, {
-                        id: id,
-                        password: formData.password,
-                      }).catch((error) => {
-                        console.error("Error al editar contraseña: ", error);
-                      });
-                    }
-                    Swal.fire({
-                      icon: "success",
-                      title: "Usuario actualizado",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                    setDataIsOpen(false);
-                    console.log(response.data);
-                    setUserData(getUserData(response.data));
-                    setFormData(response.data);
-                    setDataVisible(true);
-                    scrollToTop();
-                  })
-                  .catch((error) => {
-                    console.error("Error al editar email: ", error);
-                  });
+    const form = e.currentTarget;
+    setValidated(true);
+    if (form.checkValidity() === false) {
+      scrollToTop();
+      e.stopPropagation();
+    } else {
+      Swal.fire({
+        title: "¿Estás seguro de la información del usuario?",
+        text: "Podrás cambiarlo después",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          try {
+            if (id) {
+              UserService.editUserData(id, {
+                id: id,
+                firstName: formData.firstName,
+                middleName: formData.middleName,
+                fatherLastName: formData.fatherLastName,
+                motherLastName: formData.motherLastName,
               })
-              .catch((error) =>
-                console.error("Error al editar datos generales: ", error)
-              );
-          } else {
-            AuthService.register(formData).then((response) => {
-              if (response.status === 200) {
-                Swal.fire({
-                  icon: "success",
-                  title: "Usuario registrado",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                setDataIsOpen(false);
-                console.log(response.data);
-                setUserData(getUserData(response.data));
-                setFormData(response.data);
-                setDataVisible(true);
-                scrollToTop();
-              }
-            });
+                .then(() => {
+                  UserService.editUserEmail(id, {
+                    id: id,
+                    email: formData.email,
+                  })
+                    .then(() => {
+                      if (formData.password) {
+                        UserService.editUserPassword(id, {
+                          id: id,
+                          password: formData.password,
+                        }).catch((error) => {
+                          console.error("Error al editar contraseña: ", error);
+                        });
+                      }
+                      Swal.fire({
+                        icon: "success",
+                        title: "Usuario actualizado",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      });
+                      setDataIsOpen(false);
+                      console.log(response.data);
+                      setUserData(getUserData(response.data));
+                      setFormData(response.data);
+                      setDataVisible(true);
+                      scrollToTop();
+                    })
+                    .catch((error) => {
+                      console.error("Error al editar email: ", error);
+                    });
+                })
+                .catch((error) =>
+                  console.error("Error al editar datos generales: ", error)
+                );
+            } else {
+              AuthService.register(formData).then((response) => {
+                if (response.status === 200) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Usuario registrado",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  setDataIsOpen(false);
+                  console.log(response.data);
+                  setUserData(getUserData(response.data));
+                  setFormData(response.data);
+                  setDataVisible(true);
+                  scrollToTop();
+                }
+              });
+            }
+          } catch (error) {
+            console.error("Hubo un error al enviar el formulario:", error);
+            alert("Error al crear el usuario");
           }
-        } catch (error) {
-          console.error("Hubo un error al enviar el formulario:", error);
-          alert("Error al crear el usuario");
         }
-      }
-    });
+      });
+    }
   };
   const getUserData = (user) => {
     return [
@@ -251,6 +253,8 @@ const UserForm = () => {
                   placeholder="Ingresa los nombres"
                   value={formData.firstName}
                   onChange={handleFormChange(formData, setFormData)}
+                  max={100}
+                  regexType="letters-and-space"
                   required
                 />
               </Col>
@@ -261,7 +265,8 @@ const UserForm = () => {
                   placeholder="Ingresa los nombres"
                   value={formData.middleName}
                   onChange={handleFormChange(formData, setFormData)}
-                  required
+                  max={100}
+                  regexType="letters-and-space"
                 />
               </Col>
             </Row>
@@ -273,6 +278,8 @@ const UserForm = () => {
                   placeholder="Ingresa el apellido paterno"
                   value={formData.fatherLastName}
                   onChange={handleFormChange(formData, setFormData)}
+                  max={100}
+                  regexType="letters-and-space"
                   required
                 />
               </Col>
@@ -283,6 +290,8 @@ const UserForm = () => {
                   placeholder="Ingresa el apellido materno"
                   value={formData.motherLastName}
                   onChange={handleFormChange(formData, setFormData)}
+                  max={100}
+                  regexType="letters-and-space"
                   required
                 />
               </Col>
@@ -293,6 +302,7 @@ const UserForm = () => {
               value={formData.jobPositionId}
               onChange={handleFormChange(formData, setFormData)}
               options={jobPositions}
+              required
             />
             <hr />
             <Input
@@ -302,6 +312,7 @@ const UserForm = () => {
               placeholder="ejemplo@gmail.com"
               value={formData.email}
               onChange={handleEmailChange(formData, setFormData)}
+              max={100}
               required
             />
             <Input
@@ -315,6 +326,7 @@ const UserForm = () => {
               }
               value={formData.password}
               onChange={handleFormChange(formData, setFormData)}
+              max={50}
               required
             />
             <Stack direction="horizontal" gap={2}>
