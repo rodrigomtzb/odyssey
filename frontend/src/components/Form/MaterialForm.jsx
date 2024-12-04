@@ -1,29 +1,31 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "./Input";
+import Select from "./Select";
 import { Col, Row } from "react-bootstrap";
+import { handleFormChange } from "../../utils";
 
 const MaterialForm = ({ material, setMaterial }) => {
   const [materialList, setMaterialList] = useState([]);
   const [autoCalculate, setAutoCalculate] = useState(true);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setMaterial({
-      ...material,
-      [name]: value,
-    });
-  };
+  // Opciones para la unidad CATALOGO
+  const unitOptions = [
+    { id: "kg", name: "Kilogramo" },
+    { id: "m", name: "Metro" },
+    { id: "pieza", name: "Pieza" },
+    { id: "litro", name: "Litro" },
+  ];
 
   const addMaterial = () => {
-    if (material.name && material.quantity) {
+    if (material.name && material.quantity && material.unit) {
       const newMaterial = {
         ...material,
         id: Date.now(),
         subtotal: material.price ? material.quantity * material.price : "",
       };
       setMaterialList([...materialList, newMaterial]);
-      setMaterial({ name: "", quantity: "", price: "" });
+      setMaterial({ name: "", quantity: "", price: "", unit: "" });
     }
   };
 
@@ -49,7 +51,7 @@ const MaterialForm = ({ material, setMaterial }) => {
   return (
     <>
       <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <Input
             type="text"
             className="form-control"
@@ -57,7 +59,7 @@ const MaterialForm = ({ material, setMaterial }) => {
             placeholder="Nombre del material"
             label="Nombre del material"
             value={material.name}
-            onChange={handleInputChange}
+            onChange={handleFormChange(material, setMaterial)}
           />
         </Col>
         <Col lg={2}>
@@ -68,7 +70,17 @@ const MaterialForm = ({ material, setMaterial }) => {
             placeholder="100"
             label="Cantidad"
             value={material.quantity}
-            onChange={handleInputChange}
+            onChange={handleFormChange(material, setMaterial)}
+          />
+        </Col>
+        <Col lg={3}>
+          <Select
+            label="Unidad"
+            defaultOption="Selecciona una unidad"
+            name="unit"
+            options={unitOptions}
+            value={material.unit}
+            onChange={handleFormChange(material, setMaterial)}
           />
         </Col>
         <Col lg={2}>
@@ -79,18 +91,18 @@ const MaterialForm = ({ material, setMaterial }) => {
             placeholder="$100"
             label="P/U"
             value={material.price}
-            onChange={handleInputChange}
+            onChange={handleFormChange(material, setMaterial)}
           />
         </Col>
         <Col
-          lg={2}
+          lg={1}
           className="d-flex align-items-center justify-content-center"
         >
           <button
             type="button"
             className="btn btn-success w-100"
             onClick={addMaterial}
-            disabled={!material.name || !material.quantity}
+            disabled={!material.name || !material.quantity || !material.unit}
           >
             <i className="bi bi-plus-lg" />
           </button>
@@ -118,6 +130,7 @@ const MaterialForm = ({ material, setMaterial }) => {
                 <tr>
                   <th>Nombre</th>
                   <th>Cantidad</th>
+                  <th>Unidad</th>
                   <th>P/U</th>
                   <th>Subtotal</th>
                   <th>Acciones</th>
@@ -128,9 +141,8 @@ const MaterialForm = ({ material, setMaterial }) => {
                   <tr key={item.id}>
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
-                    <td>
-                      <div className="text-end">{item.price || "N/A"}</div>
-                    </td>
+                    <td>{item.unit}</td>
+                    <td>{item.price || "N/A"}</td>
                     <td>
                       {item.price ? (
                         item.subtotal

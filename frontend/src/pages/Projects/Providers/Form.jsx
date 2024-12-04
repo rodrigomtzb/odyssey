@@ -591,15 +591,8 @@ const ProviderForm = () => {
             to="supplier"
             state={id ? false : true}
           />
-          <TagInput
-            id={supplier.id}
-            type="supplier"
-            tagsData={supplier.tagsDescription}
-            setFormData={setSupplier}
-            state={id ? false : true}
-          />
-          <PayDataSection />
-          <TitleSection text="Datos Fiscales del Proveedor">
+          <PayDataSection state={id?false:true} />
+          <TitleSection text="Datos Fiscales del Proveedor" state={id?false : true}>
             <Form.Group className="mb-3">
               <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
               <div>
@@ -638,6 +631,13 @@ const ProviderForm = () => {
               </div>
             </Form.Group>
           </TitleSection>
+          <TagInput
+            id={supplier.id}
+            type="supplier"
+            tagsData={supplier.tagsDescription}
+            setFormData={setSupplier}
+            state={id ? false : true}
+          />
           {/* <hr />
             <Stack direction="horizontal" gap={2}>
               <Button variant="gd" className="ms-auto" type="submit">

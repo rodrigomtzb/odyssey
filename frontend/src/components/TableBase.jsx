@@ -112,14 +112,11 @@ const TableBase = ({
       const sortedData = getSortedData();
       const paginatedData = getPaginatedData(sortedData);
       return paginatedData.map((row, index) => (
-        <TableRow
-          key={index}
-          sx={{
+        <TableRow key={index} sx={{
             backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
             "&:hover": { backgroundColor: "#e0f7fa" },
             borderBottom: "2px solid #ddd",
-          }}
-        >
+          }}>
           {dataKey.map((key) =>
             key === "enabled" ? (
               <TableCell key={key}>

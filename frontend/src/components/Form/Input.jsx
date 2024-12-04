@@ -14,6 +14,7 @@ const Input = ({
   max,
   min,
   regexType = "all",
+  withoutLabel = false,
 }) => {
   const handleChange = (e) => {
     let newValue = e.target.value;
@@ -36,9 +37,11 @@ const Input = ({
 
   return (
     <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>
-        {label}: {required && <span className="text-danger">*</span>}
-      </Form.Label>
+      {!withoutLabel && (
+        <Form.Label>
+          {label}: {required && <span className="text-danger">*</span>}
+        </Form.Label>
+      )}
       <Form.Control
         className={`form-input ${className}`}
         type={type}

@@ -7,14 +7,25 @@ import TableBase from "../../../../components/TableBase";
 import FilterDropdown from "../../../../components/Buttons/FilterDropdown";
 import { TableCell, TableRow } from "@mui/material";
 import { Badge } from "react-bootstrap";
+import SearchInput from "../../../../components/SearchInput";
 
 const UsersList = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [originalUsers, setOriginalUsers] = useState([]); // Nuevo estado para los datos originales
   const [filter, setFilter] = useState("enabled");
 
   const handleFilterChange = (filter) => {
     setFilter(filter);
+  };
+
+  const handleSearch = (results, searchTerm) => {
+    if (searchTerm === "") {
+      // Si el término de búsqueda está vacío, restaura los datos originales
+      setUsers(originalUsers);
+    } else {
+      setUsers(results);
+    }
   };
 
   const handleView = (id) => {
@@ -31,6 +42,7 @@ const UsersList = () => {
 
     apiCall.then((response) => {
       setUsers(response.data);
+      setOriginalUsers(response.data); // Guarda los datos originales
     });
   }, [filter]);
 
@@ -38,11 +50,20 @@ const UsersList = () => {
     <>
       <Title title="Usuarios" withReturnButton />
       <FilterDropdown onFilterChange={handleFilterChange} />
+      <SearchInput
+        data={originalUsers} // Usamos los datos originales para la búsqueda
+        onSearch={(results, searchTerm) => handleSearch(results, searchTerm)}
+        searchFields={[
+          "firstName",
+          "middleName",
+          "fatherLastName",
+          "motherLastName",
+        ]}
+      />
 
       <TableBase
-        dataKey={["id", "firstName", "email", "enabled"]}
-        titles={["ID", "Nombre", "Correo Electronico", "Status"]}
-        data={users}
+        dataKey={["id", "firstName", "", "enabled"]}
+        titles={["ID", "Nombre", "Puesto", "Status"]}
       >
         {users.map((user, index) => (
           <TableRow

@@ -5,7 +5,7 @@ import { handleFormChange } from "../../utils";
 import { Form } from "react-bootstrap";
 import Select from "./Select";
 
-const PayDataSection = () => {
+const PayDataSection = ({ state }) => {
   const [formData, setFormData] = useState({
     bankNumber: "",
   });
@@ -29,8 +29,8 @@ const PayDataSection = () => {
     }
   };
   return (
-    <TitleSection text="Datos Bancarios">
-        <Form.Label>CLABE/Numero de tarjeta:</Form.Label>
+    <TitleSection text="Datos Bancarios" state={state}>
+      <Form.Label>CLABE/Numero de tarjeta:</Form.Label>
       <div className="position-relative mb-3">
         <input
           type="text"

@@ -26,6 +26,7 @@ const PurchaseForm = () => {
   const [material, setMaterial] = useState({
     name: "",
     quantity: "",
+    unit: "",
     price: "",
   });
 
@@ -175,7 +176,7 @@ const PurchaseForm = () => {
       </TitleSection>
       {formData.projectId && formData.supplierId && (
         <>
-          <TitleSection text="Datos Fiscales del Proveedor">
+          {/* <TitleSection text="Datos Fiscales del Proveedor">
             <Form.Group className="mb-3">
               <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
               <div>
@@ -213,7 +214,7 @@ const PurchaseForm = () => {
                 />
               </div>
             </Form.Group>
-          </TitleSection>
+          </TitleSection> */}
           <TitleSection text="Materiales" className="d-flex">
             <MaterialForm material={material} setMaterial={setMaterial} />
             <Button variant="gd" className="ms-auto">
