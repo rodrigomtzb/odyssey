@@ -5,7 +5,7 @@ import AuthService from "../services/auth.service";
 
 const api = axios.create({
   baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { useEffect, useState } from "react";
 import JobPositionService from "../../../services/job-position.service";
@@ -135,6 +135,14 @@ const JobDetails = () => {
           </div>
         </>
       )}
+      <hr />
+      <Row>
+        <Col>
+          <Link to="edit">
+            <Button variant="gd">Editar Información</Button>
+          </Link>
+        </Col>
+      </Row>
     </>
   );
 };

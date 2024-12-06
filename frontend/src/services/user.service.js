@@ -19,6 +19,9 @@ const editUserData = (id, data) => {
 const editUserEmail = (id, data) => {
   return put(`users/${id}/email`, data);
 };
+const editUserJob = (id, data) => {
+  return put(`users/${id}/jobposition`, data);
+};
 const editUserPassword = (id, data) => {
   return put(`users/${id}/password`, data);
 };
@@ -33,6 +36,7 @@ const UserService = {
   getUser,
   editUserData,
   editUserEmail,
+  editUserJob,
   editUserPassword,
   toggleUserStatus,
 };

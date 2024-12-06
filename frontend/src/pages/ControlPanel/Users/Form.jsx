@@ -37,6 +37,8 @@ const UserForm = () => {
     password: "",
   });
   const [userData, setUserData] = useState();
+  const [userEmail, setUserEmail] = useState();
+  const [userJob, setUserJob] = useState();
   const [dataVisible, setDataVisible] = useState(false);
   const [dataIsOpen, setDataIsOpen] = useState(true);
 
@@ -117,35 +119,43 @@ const UserForm = () => {
                 motherLastName: formData.motherLastName,
               })
                 .then(() => {
-                  UserService.editUserEmail(id, {
-                    id: id,
-                    email: formData.email,
-                  })
-                    .then(() => {
-                      if (formData.password) {
-                        UserService.editUserPassword(id, {
-                          id: id,
-                          password: formData.password,
-                        }).catch((error) => {
-                          console.error("Error al editar contraseña: ", error);
-                        });
-                      }
-                      Swal.fire({
-                        icon: "success",
-                        title: "Usuario actualizado",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      });
-                      setDataIsOpen(false);
-                      console.log(response.data);
-                      setUserData(getUserData(response.data));
-                      setFormData(response.data);
-                      setDataVisible(true);
-                      scrollToTop();
+                  UserService.editUserJob(id, {
+                    userId: id,
+                    jobPositionId: formData.jobPositionId,
+                  }).then(() => {
+                    UserService.editUserEmail(id, {
+                      id: id,
+                      email: formData.email,
                     })
-                    .catch((error) => {
-                      console.error("Error al editar email: ", error);
-                    });
+                      .then(() => {
+                        if (formData.password) {
+                          UserService.editUserPassword(id, {
+                            id: id,
+                            password: formData.password,
+                          }).catch((error) => {
+                            console.error(
+                              "Error al editar contraseña: ",
+                              error
+                            );
+                          });
+                        }
+                        Swal.fire({
+                          icon: "success",
+                          title: "Usuario actualizado",
+                          showConfirmButton: false,
+                          timer: 1500,
+                        });
+                        setDataIsOpen(false);
+                        console.log(response.data);
+                        setUserData(getUserData(response.data));
+                        setFormData(response.data);
+                        setDataVisible(true);
+                        scrollToTop();
+                      })
+                      .catch((error) => {
+                        console.error("Error al editar email: ", error);
+                      });
+                  });
                 })
                 .catch((error) =>
                   console.error("Error al editar datos generales: ", error)
@@ -180,17 +190,28 @@ const UserForm = () => {
     return [
       { title: "ID", description: user.id },
       {
-        title: "Nombre(s)",
-        description: `${user.firstName} ${user.middleName}`,
+        title: "Primer Nombre",
+        description: user.firstName,
       },
       {
-        title: "Apellidos",
-        description: `${user.fatherLastName} ${user.motherLastName}`,
+        title: "Segundo Nombre",
+        description: user.middleName,
       },
-      { title: "Puesto", description: user.jobPosition.name },
-      { title: "Correo Electrónico", description: user.email },
-      { title: "Contraseña", description: "***********" },
+      {
+        title: "Apellido Paterno",
+        description: user.fatherLastName,
+      },
+      {
+        title: "Apellido Materno",
+        description: user.motherLastName,
+      },
     ];
+  };
+  const getUserJob = (user) => {
+    return [{ title: "Puesto", description: user.jobPosition.name }];
+  };
+  const getUserEmail = (user) => {
+    return [{ title: "Correo Electrónico", description: user.email }];
   };
   const handleEdit = () => {
     setDataIsOpen(true);
@@ -208,6 +229,8 @@ const UserForm = () => {
           jobPositionId: response.data.jobPosition.id,
         });
         setUserData(getUserData(response.data));
+        setUserEmail(getUserEmail(response.data));
+        setUserJob(getUserJob(response.data));
       });
     }
   }, [id]);
@@ -225,19 +248,81 @@ const UserForm = () => {
         withReturnButton
       />
       {userData && dataVisible ? (
-        <Row>
-          <Col sm={10}>
-            {userData && <DefinitionList definitions={userData} />}
-          </Col>
-          <Col
-            sm={2}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <Button variant="gd" onClick={() => handleEdit()}>
-              <i className="bi bi-pencil-square" />
-            </Button>
-          </Col>
-        </Row>
+        <ContentCard>
+          {userData && (
+            <Row>
+              <Col sm={10}>
+                <DefinitionList definitions={userData} />
+              </Col>
+              <Col
+                sm={2}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <Button variant="gd" onClick={() => handleEdit()}>
+                  <i className="bi bi-pencil-square" />
+                </Button>
+              </Col>
+            </Row>
+          )}
+          {userJob && (
+            <>
+              <hr />
+              <Row>
+                <Col sm={10}>
+                  <DefinitionList definitions={userJob} />
+                </Col>
+                <Col
+                  sm={2}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <Button variant="gd" onClick={() => handleEdit()}>
+                    <i className="bi bi-pencil-square" />
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          )}
+          {userEmail && (
+            <>
+              <hr />
+              <Row>
+                <Col sm={10}>
+                  <DefinitionList definitions={userEmail} />
+                </Col>
+                <Col
+                  sm={2}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <Button variant="gd" onClick={() => handleEdit()}>
+                    <i className="bi bi-pencil-square" />
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          )}
+          {userEmail && (
+            <>
+              <hr />
+              <Row>
+                <Col sm={10}>
+                  <DefinitionList
+                    definitions={[
+                      { title: "Contraseña", description: "***********" },
+                    ]}
+                  />
+                </Col>
+                <Col
+                  sm={2}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <Button variant="gd" onClick={() => handleEdit()}>
+                    <i className="bi bi-pencil-square" />
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          )}
+        </ContentCard>
       ) : (
         ""
       )}
@@ -327,7 +412,6 @@ const UserForm = () => {
               value={formData.password}
               onChange={handleFormChange(formData, setFormData)}
               max={50}
-              required
             />
             <Stack direction="horizontal" gap={2}>
               <Button variant="gd" className="ms-auto" type="submit">

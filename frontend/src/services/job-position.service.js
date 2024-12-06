@@ -1,4 +1,4 @@
-import { get, post } from "../utils/requests";
+import { get, post, put } from "../utils/requests";
 
 const createJobPosition = (data) => {
   return post("jobpositions", data);
@@ -18,6 +18,9 @@ const getDisabledJobPositions = () => {
 const getJobPosition = (id) => {
   return get(`jobpositions/${id}`);
 };
+const editJobPosition = (id, data) => {
+  return put(`jobpositions/${id}`, data);
+};
 
 const JobPositionService = {
   createJobPosition,
@@ -26,6 +29,7 @@ const JobPositionService = {
   getEnabledJobPositions,
   getDisabledJobPositions,
   getJobPosition,
+  editJobPosition,
 };
 
 export default JobPositionService;

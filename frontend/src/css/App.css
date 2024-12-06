@@ -56,6 +56,11 @@
   scrollbar-gutter: stable both-edges;
 }
 
+.p-selectbutton .p-button.p-highlight{
+  background: #14233b;
+  border-color: #14233b;
+}
+
 .suggestion-item {
   background-color: #ffffff;
   color: #14233b;

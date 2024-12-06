@@ -1,10 +1,10 @@
 const DefinitionList = ({ definitions, index = "" }) => {
   return (
-    <dl className="row">
+    <dl className="row mb-0" >
       {definitions
         .filter((definition) => definition.description)
         .map((definition) => (
-          <div className="d-flex row" key={definition.title + index}>
+          <div className="d-flex row align-items-center" key={definition.title + index}>
             <div className="col-lg-4 col-12">
               <dt className="col-auto">{definition.title}:</dt>
             </div>

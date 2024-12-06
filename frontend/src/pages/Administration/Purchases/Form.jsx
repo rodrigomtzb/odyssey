@@ -14,21 +14,25 @@ import { generatePurchaseTable } from "../../../utils/pdf/tablePdf";
 import ExportToExcel from "../../../utils/excel/exportExcel";
 import ProjectService from "../../../services/project.service";
 import SupplierService from "../../../services/supplier.service";
+import { TabPanel, TabView } from "primereact/tabview";
+import { SelectButton } from "primereact/selectbutton";
+import PurchaseService from "../../../services/purchase.service";
 
 const PurchaseForm = () => {
   const [dataIsOpen, setDataIsOpen] = useState(true);
   const [purchase, setPurchase] = useState();
+  const [purchaseTypes, setPurchaseTypes] = useState();
   const [projects, setProjects] = useState();
   const [suppliers, setSuppliers] = useState([]);
   const [projectData, setProjectData] = useState();
   const [supplierData, setSupplierData] = useState();
-  const [formData, setFormData] = useState({ projectId: "", supplierId: "" });
-  const [material, setMaterial] = useState({
-    name: "",
-    quantity: "",
-    unit: "",
-    price: "",
+  const [formData, setFormData] = useState({
+    projectId: "",
+    supplierId: "",
+    purchaseTypeId: "",
+    purchaseDescription: "",
   });
+  const [material, setMaterial] = useState();
 
   const fetchProjectData = (project) => {
     if (project[0]) {
@@ -97,6 +101,18 @@ const PurchaseForm = () => {
     }
   };
 
+  const handleSubmitRequest = () => {
+    PurchaseService.createPurchase({
+      ...formData,
+      needInvoice: true,
+      total: material.total,
+      items: material.materials,
+      disbursementTypeId: 1,
+    }).then((response) => {
+      console.log(response.data);
+    });
+  };
+
   useEffect(() => {
     ProjectService.getEnabledProjects().then((response) => {
       setProjects(response.data);
@@ -104,6 +120,10 @@ const PurchaseForm = () => {
     SupplierService.getEnabledSuppliers().then((response) => {
       setSuppliers(response.data);
     });
+    setPurchaseTypes([
+      { id: 1, name: "Para Proyecto" },
+      { id: 2, name: "Para Almacen" },
+    ]);
   }, []);
 
   useEffect(() => {
@@ -147,82 +167,94 @@ const PurchaseForm = () => {
           <DefinitionList definitions={supplierData} />
         </ContentCard>
       )}
+      {material && (
+        <ContentCard>
+          <h5>Materiales</h5>
+          <div className="table-responsive-sm" id="materialTableSection">
+            <table className="table align-middle table-hover table-sm table-responsive table-bordered border-black table-secondary">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                  <th>P/U</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody className="table-group-divider">
+                {material.materials.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.material.name}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.unitId}</td>
+                    <td>{item.unitPrice || "N/A"}</td>
+                    <td>{item.totalAmmount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h6>
+            Total: <span>{material.total}</span>
+          </h6>
+        </ContentCard>
+      )}
+
       <TitleSection text="Datos Generales" state={dataIsOpen} isFirst>
-        <Form>
-          <Select
-            label="Proyecto"
-            defaultOption="Selecciona un proyecto"
-            name="projectId"
-            options={projects}
-            value={formData.projectId}
+        <Col className="mb-3">
+          <Form.Label>Tipo de Compra:</Form.Label>
+          <SelectButton
+            className="rounded-2"
+            name="purchaseTypeId"
+            options={purchaseTypes}
+            optionLabel="name"
+            optionValue="id"
+            value={formData.purchaseTypeId}
             onChange={handleFormChange(formData, setFormData)}
           />
-          <Select
-            label="Proveedores"
-            defaultOption="Selecciona un proveedor"
-            name="supplierId"
-            value={formData.supplierId}
-            onChange={handleFormChange(formData, setFormData)}
-          >
-            {suppliers.map((supplier) => (
-              <option value={supplier.id}>
-                {supplier.personType === "F"
-                  ? supplier.fullName
-                  : supplier.legalName}
-              </option>
-            ))}
-          </Select>
-        </Form>
+        </Col>
+        <Select
+          label="Proveedor"
+          defaultOption="Selecciona un proveedor"
+          name="supplierId"
+          value={formData.supplierId}
+          onChange={handleFormChange(formData, setFormData)}
+        >
+          {suppliers.map((supplier) => (
+            <option value={supplier.id}>
+              {supplier.personType === "F"
+                ? supplier.fullName
+                : supplier.legalName}
+            </option>
+          ))}
+        </Select>
+        {formData.purchaseTypeId === 1 ? (
+          <>
+            <Select
+              label="Proyecto"
+              defaultOption="Selecciona un proyecto"
+              name="projectId"
+              options={projects}
+              value={formData.projectId}
+              onChange={handleFormChange(formData, setFormData)}
+            />
+          </>
+        ) : formData.purchaseTypeId === 2 ? (
+          <>
+            <Input
+              label="Descripción de Compra"
+              placeholder="Ingresa la descripción de la compra"
+              name="purchaseDescription"
+              value={formData.purchaseDescription}
+              onChange={handleFormChange(formData, setFormData)}
+            />
+          </>
+        ) : (
+          ""
+        )}
       </TitleSection>
-      {formData.projectId && formData.supplierId && (
-        <>
-          {/* <TitleSection text="Datos Fiscales del Proveedor">
-            <Form.Group className="mb-3">
-              <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
-              <div>
-                <Form.Check type="radio" label="Si" inline />
-                <Form.Check type="radio" label="No" inline />
-              </div>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                Personas físicas que presten sus servicios profesionales
-              </Form.Label>
-              <div>
-                <Form.Check type="check" label="IVA por honorarios" inline />
-                <Form.Check type="check" label="ISR por honorarios" inline />
-              </div>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                Personas físicas que otorgan el uso de un bien
-              </Form.Label>
-              <div>
-                <Form.Check type="check" label="IVA por Arrendamiento" inline />
-                <Form.Check type="check" label="ISR por Arrendamiento" inline />
-              </div>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                Persona física o moral que presta sus servicios de transporte
-              </Form.Label>
-              <div>
-                <Form.Check
-                  type="check"
-                  label="IVA Retenido 4% fletes"
-                  inline
-                />
-              </div>
-            </Form.Group>
-          </TitleSection> */}
-          <TitleSection text="Materiales" className="d-flex">
-            <MaterialForm material={material} setMaterial={setMaterial} />
-            <Button variant="gd" className="ms-auto">
-              Agregar
-            </Button>
-          </TitleSection>
-        </>
-      )}
+      {(formData.projectId || formData.purchaseDescription) &&
+        formData.supplierId && <MaterialForm setFormData={setMaterial} />}
       {/* {formData.projectId ? (
             <>
               <TitleSection text="Materiales" />
@@ -243,6 +275,17 @@ const PurchaseForm = () => {
         </Button>
         <ExportToExcel />
       </Col> */}
+      <Col>
+        <hr />
+        <Button
+          type="button"
+          variant="gd"
+          onClick={handleSubmitRequest}
+          disabled={!material}
+        >
+          Enviar solicitud
+        </Button>
+      </Col>
     </>
   );
 };

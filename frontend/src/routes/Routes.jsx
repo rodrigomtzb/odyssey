@@ -105,6 +105,10 @@ const router = createBrowserRouter(
           path: "/jobs/:id",
           element: <JobDetails />,
         },
+        {
+          path: "/jobs/:id/edit",
+          element: <JobForm />
+        },
         // Organigrama
         {
           path: "/organization-chart",

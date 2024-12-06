@@ -591,8 +591,11 @@ const ProviderForm = () => {
             to="supplier"
             state={id ? false : true}
           />
-          <PayDataSection state={id?false:true} />
-          <TitleSection text="Datos Fiscales del Proveedor" state={id?false : true}>
+          <PayDataSection state={id ? false : true} />
+          <TitleSection
+            text="Datos Fiscales del Proveedor"
+            state={id ? false : true}
+          >
             <Form.Group className="mb-3">
               <Form.Label>¿Proveedor es sujeto a retención?</Form.Label>
               <div>
