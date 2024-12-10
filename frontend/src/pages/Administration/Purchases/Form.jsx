@@ -8,31 +8,35 @@ import {
 import { useParams } from "react-router-dom";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { useEffect, useState } from "react";
-import { handleFormChange, scrollToTop } from "../../../utils";
+import { getParseFloat, handleFormChange, scrollToTop } from "../../../utils";
 import MaterialForm from "../../../components/Form/MaterialForm";
 import { generatePurchaseTable } from "../../../utils/pdf/tablePdf";
 import ExportToExcel from "../../../utils/excel/exportExcel";
 import ProjectService from "../../../services/project.service";
 import SupplierService from "../../../services/supplier.service";
 import { TabPanel, TabView } from "primereact/tabview";
-import { SelectButton } from "primereact/selectbutton";
+import { SelectButton } from "../../../components/Form";
 import PurchaseService from "../../../services/purchase.service";
+import CatalogsService from "../../../services/catalogs.service";
 
 const PurchaseForm = () => {
   const [dataIsOpen, setDataIsOpen] = useState(true);
   const [purchase, setPurchase] = useState();
   const [purchaseTypes, setPurchaseTypes] = useState();
+  const [disbursementTypes, setDisbursementTypes] = useState();
   const [projects, setProjects] = useState();
   const [suppliers, setSuppliers] = useState([]);
   const [projectData, setProjectData] = useState();
   const [supplierData, setSupplierData] = useState();
+  const [material, setMaterial] = useState();
   const [formData, setFormData] = useState({
     projectId: "",
     supplierId: "",
-    purchaseTypeId: "",
+    purchaseTypeId: 1,
     purchaseDescription: "",
+    disbursementTypeId: "",
   });
-  const [material, setMaterial] = useState();
+  const isForProject = formData.purchaseTypeId === 3;
 
   const fetchProjectData = (project) => {
     if (project[0]) {
@@ -102,14 +106,21 @@ const PurchaseForm = () => {
   };
 
   const handleSubmitRequest = () => {
-    PurchaseService.createPurchase({
+    // PurchaseService.createPurchase({
+    //   ...formData,
+    //   needInvoice: true,
+    //   total: material.total,
+    //   items: material.materials,
+    //   disbursementTypeId: 1,
+    // }).then((response) => {
+    //   console.log(response.data);
+    // });
+    console.log({
       ...formData,
       needInvoice: true,
-      total: material.total,
+      total: getParseFloat(material.total),
       items: material.materials,
-      disbursementTypeId: 1,
-    }).then((response) => {
-      console.log(response.data);
+
     });
   };
 
@@ -120,10 +131,12 @@ const PurchaseForm = () => {
     SupplierService.getEnabledSuppliers().then((response) => {
       setSuppliers(response.data);
     });
-    setPurchaseTypes([
-      { id: 1, name: "Para Proyecto" },
-      { id: 2, name: "Para Almacen" },
-    ]);
+    CatalogsService.getPurchaseType().then((response) => {
+      setPurchaseTypes(response.data);
+    });
+    CatalogsService.getDisbursementType().then((response) => {
+      setDisbursementTypes(response.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -195,40 +208,40 @@ const PurchaseForm = () => {
             </table>
           </div>
           <h6>
-            Total: <span>{material.total}</span>
+            Total: $
+            <span>
+              {getParseFloat(material.total)}
+            </span>
           </h6>
         </ContentCard>
       )}
 
       <TitleSection text="Datos Generales" state={dataIsOpen} isFirst>
-        <Col className="mb-3">
-          <Form.Label>Tipo de Compra:</Form.Label>
-          <SelectButton
-            className="rounded-2"
-            name="purchaseTypeId"
-            options={purchaseTypes}
-            optionLabel="name"
-            optionValue="id"
-            value={formData.purchaseTypeId}
-            onChange={handleFormChange(formData, setFormData)}
-          />
-        </Col>
+        <SelectButton
+          label="Tipo de Compra"
+          className="rounded-2"
+          name="purchaseTypeId"
+          options={purchaseTypes}
+          optionLabel="name"
+          optionValue="id"
+          value={formData.purchaseTypeId}
+          onChange={handleFormChange(formData, setFormData)}
+        />
         <Select
           label="Proveedor"
           defaultOption="Selecciona un proveedor"
           name="supplierId"
           value={formData.supplierId}
-          onChange={handleFormChange(formData, setFormData)}
-        >
-          {suppliers.map((supplier) => (
-            <option value={supplier.id}>
-              {supplier.personType === "F"
+          options={suppliers.map((supplier) => ({
+            id: supplier.id,
+            name:
+              supplier.personType === "F"
                 ? supplier.fullName
-                : supplier.legalName}
-            </option>
-          ))}
-        </Select>
-        {formData.purchaseTypeId === 1 ? (
+                : supplier.legalName,
+          }))}
+          onChange={handleFormChange(formData, setFormData)}
+        />
+        {isForProject ? (
           <>
             <Select
               label="Proyecto"
@@ -239,7 +252,7 @@ const PurchaseForm = () => {
               onChange={handleFormChange(formData, setFormData)}
             />
           </>
-        ) : formData.purchaseTypeId === 2 ? (
+        ) : (
           <>
             <Input
               label="Descripción de Compra"
@@ -249,8 +262,6 @@ const PurchaseForm = () => {
               onChange={handleFormChange(formData, setFormData)}
             />
           </>
-        ) : (
-          ""
         )}
       </TitleSection>
       {(formData.projectId || formData.purchaseDescription) &&
@@ -275,13 +286,26 @@ const PurchaseForm = () => {
         </Button>
         <ExportToExcel />
       </Col> */}
+      {material && (
+        <TitleSection text="Pago">
+          <SelectButton
+            label="Forma de Pago"
+            name="disbursementTypeId"
+            options={disbursementTypes}
+            optionLabel="name"
+            optionValue="id"
+            value={formData.disbursementTypeId}
+            onChange={handleFormChange(formData, setFormData)}
+          />
+        </TitleSection>
+      )}
       <Col>
         <hr />
         <Button
           type="button"
           variant="gd"
           onClick={handleSubmitRequest}
-          disabled={!material}
+          disabled={!formData.disbursementTypeId}
         >
           Enviar solicitud
         </Button>

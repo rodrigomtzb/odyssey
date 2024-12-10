@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ReturnButton from "../Buttons/ReturnButton";
+import { Fieldset } from "primereact/fieldset";
 
 const TitleSection = ({
   text,

@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
 #root {
   margin: 0 auto;
 }
@@ -56,9 +56,58 @@
   scrollbar-gutter: stable both-edges;
 }
 
-.p-selectbutton .p-button.p-highlight{
+.p-dropdown-items-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #14233b #ffffff;
+}
+.p-selectbutton .p-button.p-highlight {
   background: #14233b;
-  border-color: #14233b;
+  border-color: #20385e;
+}
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #20385e;
+}
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: #20385e;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #14233b, 0 1px 2px 0 rgb(0, 0, 0);
+}
+.p-button {
+  height: 40px;
+  font-size: small;
+}
+.p-button:focus {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #14233b, 0 1px 2px 0 rgb(0, 0, 0);
+}
+.p-inputtext:enabled:focus {
+  border-color: #20385e;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #14233b, 0 1px 2px 0 rgb(0, 0, 0);
+}
+.p-inputtext:enabled:hover {
+  border-color: #20385e;
+}
+.p-inputtext,
+.p-dropdown,
+.p-dropdown-item,
+.p-dropdown-label {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  color: white;
+  background: #20385e;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+  background: #1c3052;
+}
+
+.p-organizationchart-lines,
+.p-organizationchart-line-left,
+.p-organizationchart-line-right,
+.p-organizationchart-line-top,
+.p-organizationchart-line-down {
+  stroke: black !important;
+  stroke-width: 2px !important;
 }
 
 .suggestion-item {

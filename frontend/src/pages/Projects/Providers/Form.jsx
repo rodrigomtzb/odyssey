@@ -9,6 +9,7 @@ import {
   TagInput,
   TagList,
   ContactSection,
+  PayDataSection,
 } from "../../../components/Form";
 import { DefinitionList, Title, ContentCard } from "../../../components";
 import { handleFormChange, scrollToSection, scrollToTop } from "../../../utils";
@@ -16,16 +17,18 @@ import SupplierService from "../../../services/supplier.service";
 import AddressService from "../../../services/address.service";
 import CatalogsService from "../../../services/catalogs.service";
 import InputWithCardIcons from "../../../components/Form/InputTest";
-import PayDataSection from "../../../components/Form/PayData";
+import { confirmationAlert } from "../../../utils/alerts";
 
 const ProviderForm = () => {
   const { id } = useParams();
   const [personType, setPersonType] = useState([]);
   const [dataVisible, setDataVisible] = useState(true);
   const [supplier, setSupplier] = useState();
-  const [selectedAddress, setSelectAddress] = useState();
-  const [selectedContact, setSelectContact] = useState();
+  const [selectedAccount, setSelectedAccount] = useState();
+  const [selectedAddress, setSelectedAddress] = useState();
+  const [selectedContact, setSelectedContact] = useState();
   const [supplierData, setSupplierData] = useState();
+  const [supplierAccounts, setSupplierAccounts] = useState();
   const [supplierAddresses, setSupplierAddresses] = useState();
   const [supplierContacts, setSupplierContacts] = useState();
   const [supplierTags, setSupplierTags] = useState();
@@ -144,12 +147,16 @@ const ProviderForm = () => {
         scrollToSection("dataSection");
         break;
       case "address":
-        setSelectAddress(supplier.address[index]);
+        setSelectedAddress(supplier.address[index]);
         scrollToSection("addressSection");
         break;
       case "contact":
-        setSelectContact(supplier.contactMethods[index]);
+        setSelectedContact(supplier.contactMethods[index]);
         scrollToSection("contactSection");
+        break;
+      case "account":
+        setSelectedAccount(supplier.bankAccounts[index]);
+        scrollToSection("accountSection");
         break;
     }
   };
@@ -185,16 +192,22 @@ const ProviderForm = () => {
             let contactId = supplier.contactMethods[index].id;
             SupplierService.deleteSupplierContact(supplier.id, contactId).then(
               (response) => {
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "Contacto eliminado correctamente",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
+                confirmationAlert("Contacto eliminado correctamente");
                 setSupplier(response.data);
               }
             );
+            break;
+          case "account":
+            let accountId = supplier.bankAccounts[index].id;
+            console.log(accountId);
+            SupplierService.deleteSupplierAccount(supplier.id, accountId)
+              .then((response) => {
+                confirmationAlert("Datos bancarios eliminados correctamente");
+                setSupplier(response.data);
+              })
+              .catch((err) => {
+                console.error(err);
+              });
             break;
 
           default:
@@ -230,6 +243,14 @@ const ProviderForm = () => {
       { title: "Correo Electrónico", description: contact.email },
       { title: "Número de Teléfono", description: contact.phoneNumber },
       { title: "Tipo de Telefono", description: contact.phoneType.name },
+    ]);
+  };
+  const getBankAccounts = (accounts) => {
+    return accounts.map((account) => [
+      { title: "ID", description: account.id },
+      { title: account.accountType.name, description: account.account },
+      { title: "Banco", description: account.bank.name },
+      { title: "Descipción", description: account.description },
     ]);
   };
   const fetchAddresses = async (addresses) => {
@@ -326,6 +347,9 @@ const ProviderForm = () => {
         }
         if (supplier.tagsDescription && supplier.tagsDescription.length > 0) {
           setSupplierTags(supplier.tagsDescription);
+        }
+        if (supplier.bankAccounts && supplier.bankAccounts.length > 0) {
+          setSupplierAccounts(getBankAccounts(supplier.bankAccounts));
         }
       } catch (error) {
         console.error("Error fetching supplier data:", error);
@@ -468,7 +492,51 @@ const ProviderForm = () => {
                 </Row>
               </>
             ))}
-
+          {supplierAccounts &&
+            supplierAccounts.map((list, index) => (
+              <>
+                <hr />
+                <Row>
+                  <Col sm={10}>
+                    <div key={index}>
+                      <h5>Dato Bancario {index + 1}</h5>
+                      <DefinitionList definitions={list} />
+                    </div>
+                  </Col>
+                  <Col
+                    sm={2}
+                    className="d-flex align-items-center justify-content-center"
+                  >
+                    <Row>
+                      <Col
+                        sm={12}
+                        className="mb-1 d-flex justify-content-center"
+                      >
+                        <Button
+                          variant="gd"
+                          onClick={() =>
+                            handleEdit(supplier.id, index, "account")
+                          }
+                        >
+                          <i className="bi bi-pencil-square" />
+                        </Button>
+                      </Col>
+                      <Col
+                        sm={12}
+                        className="mt-1 d-flex justify-content-center"
+                      >
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDelete(index, "account")}
+                        >
+                          <i className="bi bi-trash-fill" />
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </>
+            ))}
           {supplierTags && (
             <>
               <hr />
@@ -591,7 +659,13 @@ const ProviderForm = () => {
             to="supplier"
             state={id ? false : true}
           />
-          <PayDataSection state={id ? false : true} />
+          <PayDataSection
+            id={supplier.id}
+            type="supplier"
+            formData={selectedAccount}
+            setFormData={setSupplier}
+            state={id ? false : true}
+          />
           <TitleSection
             text="Datos Fiscales del Proveedor"
             state={id ? false : true}

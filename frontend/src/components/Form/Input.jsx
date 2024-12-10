@@ -1,21 +1,30 @@
-import { Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import regexUtils from "../../utils/regex";
+import { InputNumber } from "primereact/inputnumber";
 
 const Input = ({
   label,
-  className,
+  className = "",
+  contentClassName = "",
   type = "text",
   name,
   placeholder,
   value,
   onChange,
-  required,
+  required = false,
   style,
   max,
   min,
   regexType = "all",
   withoutLabel = false,
+  withoutClasses = false,
+  mask,
+  showMask = false,
 }) => {
+  const [keyfilter, setKeyfilter] = useState(null);
+
   const handleChange = (e) => {
     let newValue = e.target.value;
 
@@ -23,38 +32,83 @@ const Input = ({
       newValue = newValue.toUpperCase();
     }
 
-    const regex = regexUtils(regexType);
-    if (
-      !regex ||
-      type === "email" ||
-      type === "password" ||
-      regex.test(newValue)
-    ) {
-      e.target.value = newValue;
-      onChange(e);
+    if (onChange) {
+      onChange({
+        target: {
+          name: e.target.name,
+          value: newValue,
+        },
+      });
     }
   };
 
+  useEffect(() => {
+    if (regexUtils(regexType)) {
+      setKeyfilter(regexUtils(regexType));
+    } else {
+      setKeyfilter(null);
+    }
+  }, []);
+
   return (
-    <Form.Group className="mb-3" controlId={name}>
+    <div className={!withoutClasses ? `mb-3 ${contentClassName}` : ""}>
       {!withoutLabel && (
-        <Form.Label>
+        <label htmlFor={name} className="form-label">
           {label}: {required && <span className="text-danger">*</span>}
-        </Form.Label>
+        </label>
       )}
-      <Form.Control
-        className={`form-input ${className}`}
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        required={required}
-        maxLength={max}
-        minLength={min}
-        style={style}
-      />
-    </Form.Group>
+      {mask ? (
+        <InputMask
+          id={name}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          value={value || ""}
+          onChange={handleChange}
+          className={`w-100 form-input ${className}`}
+          keyfilter={keyfilter}
+          required={required}
+          maxLength={max}
+          minLength={min}
+          style={style}
+          mask={mask}
+          unmask={true}
+          autoClear={false}
+        />
+      ) : type === "money" ? (
+        <InputNumber
+          inputId={name}
+          name={name}
+          placeholder={placeholder}
+          value={value || ""}
+          onValueChange={onChange}
+          max={max}
+          min={min}
+          mode="currency"
+          currency="USD"
+          locale="en-US"
+          inputStyle={style}
+          inputClassName={`form-input ${className}`}
+          className="w-100"
+          required={required}
+        />
+      ) : (
+        <InputText
+          id={name}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          value={value || ""}
+          onChange={handleChange}
+          className={`w-100 form-input ${className}`}
+          keyfilter={keyfilter}
+          required={required}
+          maxLength={max}
+          minLength={min}
+          style={style}
+        />
+      )}
+    </div>
   );
 };
 

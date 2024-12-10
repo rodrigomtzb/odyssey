@@ -301,6 +301,7 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
                 placeholder="57820"
                 max={5}
                 value={address.zipCode}
+                regexType="only-numbers"
                 onChange={handleFormChange(address, setAddress)}
               />
             </Col>

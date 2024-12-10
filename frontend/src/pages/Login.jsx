@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Loader } from "../components";
 import { useLoader } from "../context/Loader/LoaderProvider";
+import { FloatLabel } from "primereact/floatlabel";
+import { InputText } from "primereact/inputtext";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -105,7 +107,6 @@ const Login = () => {
                     required
                   />
                 </FloatingLabel>
-
                 <FloatingLabel
                   controlId="floatingPassword"
                   label="Contraseña"

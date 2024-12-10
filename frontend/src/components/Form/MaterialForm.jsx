@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "./Input";
 import Select from "./Select";
 import { Button, Col, Row } from "react-bootstrap";
-import { handleFormChange } from "../../utils";
+import { getParseFloat, handleFormChange } from "../../utils";
 import TitleSection from "./TitleSection";
+import CatalogsService from "../../services/catalogs.service";
 
 const MaterialForm = ({ setFormData }) => {
   const [materialList, setMaterialList] = useState([]);
   const [isvisible, setIsVisible] = useState(true);
   const [autoCalculate, setAutoCalculate] = useState(true);
   const [total, setTotal] = useState(0);
+  const [unitsMeasure, setUnitsMeasure] = useState();
   const [material, setMaterial] = useState({
     id: "",
     name: "",
@@ -21,14 +22,6 @@ const MaterialForm = ({ setFormData }) => {
     unitPrice: "",
     totalAmmount: "",
   });
-
-  // Opciones para la unidad CATALOGO
-  const unitOptions = [
-    { id: 1, name: "Kilogramo" },
-    { id: 2, name: "Metro" },
-    { id: 3, name: "Pieza" },
-    { id: 4, name: "Litro" },
-  ];
 
   const addMaterial = () => {
     if (material.name && item.quantity && item.unitId) {
@@ -42,21 +35,18 @@ const MaterialForm = ({ setFormData }) => {
       setItem({ quantity: "", unitId: "", unitPrice: "" });
     }
   };
-
   const handleSubtotalChange = (i, value) => {
     setMaterialList((prevList) =>
       prevList.map((item, index) =>
-        index === i ? { ...item, totalAmmount: value } : item
+        index === i ? { ...item, totalAmmount: getParseFloat(value) } : item
       )
     );
   };
-
   const handleAddMaterials = () => {
     setIsVisible(false);
-    
+
     setFormData({ materials: materialList, total: total });
   };
-
   const removeMaterial = (id) => {
     setMaterialList((prevList) =>
       prevList.filter((item, index) => index !== id)
@@ -74,17 +64,23 @@ const MaterialForm = ({ setFormData }) => {
     }
   }, [materialList, autoCalculate]);
 
+  useEffect(() => {
+    CatalogsService.getUnitMeasure().then((response) => {
+      setUnitsMeasure(response.data);
+    });
+  }, []);
+
   return (
     <>
       <TitleSection text="Materiales" state={isvisible}>
         <Row>
           <Col>
             <Input
-              type="text"
-              className="form-control"
-              name="name"
-              placeholder="Nombre del material"
               label="Nombre del material"
+              name="name"
+              className="form-control"
+              placeholder="Nombre del material"
+              regexType="letters-and-space"
               value={material.name}
               onChange={handleFormChange(material, setMaterial)}
             />
@@ -93,11 +89,11 @@ const MaterialForm = ({ setFormData }) => {
         <Row>
           <Col lg={3}>
             <Input
-              type="number"
-              className="form-control"
-              name="quantity"
-              placeholder="100"
               label="Cantidad"
+              name="quantity"
+              className="form-control"
+              regexType="only-numbers"
+              placeholder="100"
               value={item.quantity}
               onChange={handleFormChange(item, setItem)}
             />
@@ -107,18 +103,18 @@ const MaterialForm = ({ setFormData }) => {
               label="Unidad"
               defaultOption="Selecciona una unidad"
               name="unitId"
-              options={unitOptions}
+              options={unitsMeasure}
               value={item.unitId}
               onChange={handleFormChange(item, setItem)}
             />
           </Col>
           <Col lg={3}>
             <Input
-              type="number"
-              className="form-control"
-              name="unitPrice"
-              placeholder="$100"
+              type="money"
               label="P/U"
+              name="unitPrice"
+              className="form-control"
+              placeholder="$100"
               value={item.unitPrice}
               onChange={handleFormChange(item, setItem)}
             />
@@ -175,15 +171,17 @@ const MaterialForm = ({ setFormData }) => {
                       <td>{item.unitPrice || "N/A"}</td>
                       <td>
                         {item.unitPrice ? (
-                          item.totalAmmount
+                          `$${getParseFloat(item.totalAmmount)}`
                         ) : (
-                          <input
-                            type="number"
-                            className="form-control"
+                          <Input
+                            type="money"
                             value={item.totalAmmount}
+                            placeholder="$999.99"
                             onChange={(e) =>
                               handleSubtotalChange(index, e.target.value)
                             }
+                            withoutLabel
+                            withoutClasses
                           />
                         )}
                       </td>
@@ -216,15 +214,16 @@ const MaterialForm = ({ setFormData }) => {
               <div className="col-6">
                 <h5>
                   {autoCalculate ? (
-                    total
+                    getParseFloat(total)
                   ) : (
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Ingrese el total manualmente"
+                    <Input
+                      type="money"
+                      placeholder="$999.99"
                       name="total"
                       value={total}
                       onChange={handleFormChange(total, setTotal)}
+                      withoutClasses
+                      withoutLabel
                     />
                   )}
                 </h5>

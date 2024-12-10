@@ -9,6 +9,7 @@ import AddressService from "../../../services/address.service";
 const SupplierDetails = () => {
   const { id } = useParams();
   const [supplierData, setSupplierData] = useState([]);
+  const [supplierAccounts, setSupplierAccounts] = useState([]);
   const [supplierAddresses, setSupplierAddresses] = useState([]);
   const [supplierContacts, setSupplierContacts] = useState([]);
 
@@ -27,6 +28,9 @@ const SupplierDetails = () => {
 
         if (supplier.contactMethods && supplier.contactMethods.length > 0) {
           setSupplierContacts(getContactMethods(supplier.contactMethods));
+        }
+        if (supplier.bankAccounts && supplier.bankAccounts.length > 0) {
+          setSupplierAccounts(getBankAccounts(supplier.bankAccounts));
         }
       } catch (error) {
         console.error("Error fetching supplier data:", error);
@@ -97,6 +101,14 @@ const SupplierDetails = () => {
       { title: "Tipo de Telefono", description: contact.phoneType.name },
     ]);
   };
+  const getBankAccounts = (accounts) => {
+    return accounts.map((account) => [
+      { title: "ID", description: account.id },
+      { title: account.accountType.name, description: account.account },
+      { title: "Banco", description: account.bank.name },
+      { title: "Descipción", description: account.description },
+    ]);
+  };
 
   return (
     <>
@@ -118,6 +130,14 @@ const SupplierDetails = () => {
             <div key={index}>
               <hr />
               <h5>Contacto {index + 1}</h5>
+              <DefinitionList definitions={list} index={index} />
+            </div>
+          ))}
+        {supplierAccounts.length > 0 &&
+          supplierAccounts.map((list, index) => (
+            <div key={index}>
+              <hr />
+              <h5>Dato Bancario {index + 1}</h5>
               <DefinitionList definitions={list} index={index} />
             </div>
           ))}

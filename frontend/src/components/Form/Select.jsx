@@ -1,5 +1,5 @@
-import { Children, useEffect } from "react";
-import { Form } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Dropdown } from "primereact/dropdown";
 
 const Select = ({
   label,
@@ -9,47 +9,44 @@ const Select = ({
   options,
   optionValue = "id",
   optionLabel = "name",
-  className,
-  defaultOption,
-  required,
-  disabled,
-  children,
+  className = "",
+  defaultOption = "Seleccione una opción",
+  required = false,
+  disabled = false,
+  loading = false,
 }) => {
   useEffect(() => {
-    if (options && options.length == 1) {
+    if (options && options.length === 1) {
       const singleOptionValue = options[0][optionValue] || options[0];
       onChange({ target: { name, value: singleOptionValue } });
     }
-  }, [options]);
+  }, [options, onChange, name, optionValue]);
 
   return (
-    <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>{label}: {required && <span className="text-danger">*</span>}</Form.Label>
-      <Form.Select
-        className={`form-input ${className}`}
-        name={name}
+    <div className={`mb-3 ${className}`}>
+      {label && (
+        <label htmlFor={name} className="form-label">
+          {label}: {required && <span className="text-danger">*</span>}
+        </label>
+      )}
+      <Dropdown
+        id={name}
         value={value}
-        onChange={onChange}
-        required={required}
+        onChange={(e) =>
+          onChange({
+            target: { name, value: e.value },
+          })
+        }
+        options={options}
+        optionLabel={optionLabel}
+        optionValue={optionValue}
+        placeholder={defaultOption}
+        className={`form-input w-100 ${disabled ? "p-disabled" : ""}`}
+        style={{ heigth: "2rem" }}
         disabled={disabled}
-      >
-        <option value="" disabled={required}>
-          {defaultOption || "Seleccione una opción"}
-        </option>
-        {children ? (
-          children
-        ) : (
-          <>
-            {options &&
-              options.map((option, index) => (
-                <option key={index} value={option[optionValue] || option}>
-                  {option[optionLabel] || option}
-                </option>
-              ))}
-          </>
-        )}
-      </Form.Select>
-    </Form.Group>
+        loading={loading}
+      />
+    </div>
   );
 };
 
