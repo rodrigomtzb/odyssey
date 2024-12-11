@@ -4,27 +4,37 @@ import { Fieldset } from "primereact/fieldset";
 
 const TitleSection = ({
   text,
-  isFirst,
   withReturnButton,
   children,
   state = true,
+  disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(state);
 
-  const toggleContent = () => setIsOpen(!isOpen);
+  const toggleContent = () => {
+    if (!disabled) {
+      setIsOpen(!isOpen);
+    }
+  };
 
   useEffect(() => {
     setIsOpen(state);
   }, [state]);
 
+  useEffect(() => {
+    if (disabled) {
+      setIsOpen(false);
+    }
+  }, [disabled]);
+
   return (
     <>
-      {!isFirst && <hr style={{ borderColor: "#14233b" }} />}
-
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div
-          className="d-flex align-items-center p-2 w-100 bg-gd"
-          style={{ cursor: "pointer" }}
+          className={`d-flex align-items-center p-2 w-100 ${
+            disabled ? "bg-disabled" : "bg-gd"
+          }`}
+          style={{ cursor: disabled ? "not-allowed" : "pointer" }}
           onClick={toggleContent}
         >
           <h5 className="m-0">{text}</h5>
@@ -40,7 +50,7 @@ const TitleSection = ({
         {withReturnButton && <ReturnButton />}
       </div>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <div className="content px-3 pt-4 pb-3 border bg-secondary-subtle rounded">
           {children}
         </div>

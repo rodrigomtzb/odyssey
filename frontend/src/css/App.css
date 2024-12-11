@@ -39,6 +39,10 @@
   background-color: #14233b !important;
   color: white;
 }
+.bg-disabled {
+  background-color: #586272 !important;
+  color: white;
+}
 .form-input {
   background-color: #c9cfd7 !important;
 }

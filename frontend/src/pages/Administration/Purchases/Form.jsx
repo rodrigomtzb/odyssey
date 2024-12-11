@@ -18,16 +18,19 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { SelectButton } from "../../../components/Form";
 import PurchaseService from "../../../services/purchase.service";
 import CatalogsService from "../../../services/catalogs.service";
+import { SubmitButton } from "../../../components/Buttons";
 
 const PurchaseForm = () => {
   const [dataIsOpen, setDataIsOpen] = useState(true);
+  const [isDataVisible, setIsDataVisible] = useState(false);
   const [purchase, setPurchase] = useState();
   const [purchaseTypes, setPurchaseTypes] = useState();
   const [disbursementTypes, setDisbursementTypes] = useState();
   const [projects, setProjects] = useState();
   const [suppliers, setSuppliers] = useState([]);
-  const [projectData, setProjectData] = useState();
-  const [supplierData, setSupplierData] = useState();
+  const [projectData, setProjectData] = useState([]);
+  const [supplierData, setSupplierData] = useState([]);
+  const [purchaseDescriptionData, setPurchaseDescriptionData] = useState([]);
   const [material, setMaterial] = useState();
   const [formData, setFormData] = useState({
     projectId: "",
@@ -104,24 +107,49 @@ const PurchaseForm = () => {
       return [];
     }
   };
+  const handleSaveData = () => {
+    if (
+      formData.supplierId &&
+      (formData.projectId || formData.purchaseDescription)
+    ) {
+      const supplierSelected = suppliers.filter(
+        (supplier) => supplier.id == formData.supplierId
+      );
+      setSupplierData(fetchSupplierData(supplierSelected));
 
+      if (isForProject) {
+        const projectSelected = projects.filter(
+          (project) => project.id == formData.projectId
+        );
+        setProjectData(fetchProjectData(projectSelected));
+      } else {
+        setPurchaseDescriptionData([
+          {
+            title: "Descripción de compra",
+            description: formData.purchaseDescription,
+          },
+        ]);
+      }
+      scrollToTop();
+      setDataIsOpen(false);
+    }
+  };
   const handleSubmitRequest = () => {
-    // PurchaseService.createPurchase({
+    PurchaseService.createPurchase({
+      ...formData,
+      needInvoice: true,
+      total: material.total,
+      items: material.materials,
+      disbursementTypeId: 1,
+    }).then((response) => {
+      console.log(response.data);
+    });
+    // console.log({
     //   ...formData,
     //   needInvoice: true,
     //   total: material.total,
     //   items: material.materials,
-    //   disbursementTypeId: 1,
-    // }).then((response) => {
-    //   console.log(response.data);
     // });
-    console.log({
-      ...formData,
-      needInvoice: true,
-      total: getParseFloat(material.total),
-      items: material.materials,
-
-    });
   };
 
   useEffect(() => {
@@ -139,84 +167,60 @@ const PurchaseForm = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (formData.projectId) {
-      scrollToTop();
-      const projectSelected = projects.filter(
-        (project) => project.id == formData.projectId
-      );
-      setProjectData(fetchProjectData(projectSelected));
-    }
-  }, [formData.projectId]);
-
-  useEffect(() => {
-    if (formData.supplierId) {
-      scrollToTop();
-      const supplierSelected = suppliers.filter(
-        (supplier) => supplier.id == formData.supplierId
-      );
-      setSupplierData(fetchSupplierData(supplierSelected));
-    }
-  }, [formData.supplierId]);
-
-  useEffect(() => {
-    if (formData.projectId && formData.supplierId) {
-      setDataIsOpen(false);
-    }
-  }, [formData]);
-
   return (
     <>
       <Title title="Solicitud de compra" withReturnButton />
-      {projectData && (
-        <ContentCard>
-          <h5>Datos del Proyecto</h5>
-          <DefinitionList definitions={projectData} />
-        </ContentCard>
-      )}
-      {supplierData && (
+      {supplierData.length > 0 && (
         <ContentCard>
           <h5>Datos del Proveedor</h5>
           <DefinitionList definitions={supplierData} />
-        </ContentCard>
-      )}
-      {material && (
-        <ContentCard>
-          <h5>Materiales</h5>
-          <div className="table-responsive-sm" id="materialTableSection">
-            <table className="table align-middle table-hover table-sm table-responsive table-bordered border-black table-secondary">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Cantidad</th>
-                  <th>Unidad</th>
-                  <th>P/U</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody className="table-group-divider">
-                {material.materials.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.material.name}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.unitId}</td>
-                    <td>{item.unitPrice || "N/A"}</td>
-                    <td>{item.totalAmmount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <h6>
-            Total: $
-            <span>
-              {getParseFloat(material.total)}
-            </span>
-          </h6>
+          <hr />
+          {projectData.length > 0 && (
+            <>
+              <h5>Datos del Proyecto</h5>
+              <DefinitionList definitions={projectData} />
+            </>
+          )}
+          {purchaseDescriptionData.length > 0 && (
+            <DefinitionList definitions={purchaseDescriptionData} />
+          )}
+          {material && (
+            <>
+              <hr />
+              <h5>Materiales</h5>
+              <div className="table-responsive-sm" id="materialTableSection">
+                <table className="table align-middle table-hover table-sm table-responsive table-bordered border-black table-secondary">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Cantidad</th>
+                      <th>Unidad</th>
+                      <th>P/U</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody className="table-group-divider">
+                    {material.materials.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.material.name}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.unitId}</td>
+                        <td>{item.unitPrice || "N/A"}</td>
+                        <td>{item.totalAmmount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <h6>
+                Total: $<span>{getParseFloat(material.total)}</span>
+              </h6>
+            </>
+          )}
         </ContentCard>
       )}
 
-      <TitleSection text="Datos Generales" state={dataIsOpen} isFirst>
+      <TitleSection text="Datos Generales" state={dataIsOpen}>
         <SelectButton
           label="Tipo de Compra"
           className="rounded-2"
@@ -263,9 +267,9 @@ const PurchaseForm = () => {
             />
           </>
         )}
+        <SubmitButton text="Guardar" onClick={handleSaveData} />
       </TitleSection>
-      {(formData.projectId || formData.purchaseDescription) &&
-        formData.supplierId && <MaterialForm setFormData={setMaterial} />}
+      {supplierData.length > 0 && <MaterialForm setFormData={setMaterial} />}
       {/* {formData.projectId ? (
             <>
               <TitleSection text="Materiales" />

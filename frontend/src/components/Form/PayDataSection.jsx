@@ -19,6 +19,7 @@ const PayDataSection = ({ id, type, formData, setFormData, state }) => {
     bankId: "",
     account: "",
     accountTypeId: 1,
+    description: ""
   });
   const isTypeClabe = payData.accountTypeId === 3;
 
@@ -172,6 +173,13 @@ const PayDataSection = ({ id, type, formData, setFormData, state }) => {
             onChange={handleFormChange(payData, setPayData)}
             disabled={isTypeClabe}
           />
+           <Input
+              label="Descripción"
+              placeholder="Ingresa una descripción"
+              name="description"
+              value={payData.description}
+              onChange={handleFormChange(payData, setPayData)}
+            />
           <Button variant="gd" onClick={handleSubmit}>
             {formData ? "Actualizar" : "Añadir"}
           </Button>

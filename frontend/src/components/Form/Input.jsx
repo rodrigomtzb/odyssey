@@ -22,6 +22,7 @@ const Input = ({
   withoutClasses = false,
   mask,
   showMask = false,
+  suffix,
 }) => {
   const [keyfilter, setKeyfilter] = useState(null);
 
@@ -87,6 +88,22 @@ const Input = ({
           mode="currency"
           currency="USD"
           locale="en-US"
+          inputStyle={style}
+          inputClassName={`form-input ${className}`}
+          className="w-100"
+          required={required}
+        />
+      ) : type === "number" ? (
+        <InputNumber
+          inputId={name}
+          name={name}
+          placeholder={placeholder}
+          value={value || ""}
+          onValueChange={onChange}
+          max={max}
+          min={min}
+          mode="decimal"
+          suffix={suffix}
           inputStyle={style}
           inputClassName={`form-input ${className}`}
           className="w-100"

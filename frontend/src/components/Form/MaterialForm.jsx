@@ -7,6 +7,7 @@ import TitleSection from "./TitleSection";
 import CatalogsService from "../../services/catalogs.service";
 
 const MaterialForm = ({ setFormData }) => {
+  const [unit, setUnit] = useState();
   const [materialList, setMaterialList] = useState([]);
   const [isvisible, setIsVisible] = useState(true);
   const [autoCalculate, setAutoCalculate] = useState(true);
@@ -60,10 +61,15 @@ const MaterialForm = ({ setFormData }) => {
           total + (item.totalAmmount ? parseFloat(item.totalAmmount) : 0),
         0
       );
-      setTotal(tot.toFixed(2));
+      setTotal(Number(tot.toFixed(2)));
     }
   }, [materialList, autoCalculate]);
 
+  useEffect(() => {
+    if (item.unitId) {
+      setUnit(unitsMeasure.find((unit) => unit.id === item.unitId));
+    }
+  }, [item.unitId]);
   useEffect(() => {
     CatalogsService.getUnitMeasure().then((response) => {
       setUnitsMeasure(response.data);
@@ -89,12 +95,14 @@ const MaterialForm = ({ setFormData }) => {
         <Row>
           <Col lg={3}>
             <Input
+              type="number"
               label="Cantidad"
               name="quantity"
               className="form-control"
               regexType="only-numbers"
               placeholder="100"
               value={item.quantity}
+              suffix={unit ? ` ${unit.abbreviation}` : ""}
               onChange={handleFormChange(item, setItem)}
             />
           </Col>
