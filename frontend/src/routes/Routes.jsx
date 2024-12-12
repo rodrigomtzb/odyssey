@@ -21,6 +21,7 @@ import OrgChart from "../pages/HumanResources/OrganizationChart/OrgChart";
 import DashboardNotification from "../pages/Notifications/Dashboard";
 import SendMail from "../pages/Notifications/Email/SendMail";
 import Test from "../pages/Test";
+import PurchaseDetails from "../pages/Administration/Purchases/Purchase";
 const Login = React.lazy(() => import("../pages/Login"));
 const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
 const UserForm = React.lazy(() => import("../pages/ControlPanel/Users/Form"));
@@ -212,6 +213,10 @@ const router = createBrowserRouter(
         {
           path: "/purchases",
           element: <DashboardPurchases />,
+        },
+        {
+          path: "/purchases/:id",
+          element: <PurchaseDetails />
         },
         {
           path: "/purchases/create",

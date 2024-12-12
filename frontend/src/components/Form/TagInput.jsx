@@ -30,10 +30,8 @@ const TagInput = ({ id, type, tagsData, setFormData, state }) => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (selectedIndex >= 0) {
-        // Selecciona la sugerencia activa si se presiona Enter
         handleSuggestionClick(suggestions[selectedIndex]);
       } else {
-        // Añadir nuevo tag si no hay selección de sugerencia
         addNewTag();
       }
     } else if (event.key === "ArrowDown") {
@@ -122,8 +120,6 @@ const TagInput = ({ id, type, tagsData, setFormData, state }) => {
           });
           setIsOpen(false);
         });
-        break;
-      default:
         break;
     }
   };

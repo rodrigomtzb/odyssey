@@ -144,12 +144,6 @@ const PurchaseForm = () => {
     }).then((response) => {
       console.log(response.data);
     });
-    // console.log({
-    //   ...formData,
-    //   needInvoice: true,
-    //   total: material.total,
-    //   items: material.materials,
-    // });
   };
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { getParseFloat, handleFormChange } from "../../utils";
 import TitleSection from "./TitleSection";
 import CatalogsService from "../../services/catalogs.service";
+import SearchInput from "./SearchInput";
 
 const MaterialForm = ({ setFormData }) => {
   const [unit, setUnit] = useState();
@@ -92,6 +93,17 @@ const MaterialForm = ({ setFormData }) => {
             />
           </Col>
         </Row>
+        {/* <Row>
+          <Col>
+            <SearchInput
+              label="Busqueda"
+              name="name"
+              placeholder="Nombre"
+              value={material.name}
+              onChange={handleFormChange(material, setMaterial)}
+            />
+          </Col>
+        </Row> */}
         <Row>
           <Col lg={3}>
             <Input

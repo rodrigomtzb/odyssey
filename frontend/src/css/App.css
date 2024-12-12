@@ -114,6 +114,9 @@
   stroke-width: 2px !important;
 }
 
+.p-stepper .p-stepper-header .p-stepper-action {
+  background:#e2e3e5;
+}
 .suggestion-item {
   background-color: #ffffff;
   color: #14233b;
