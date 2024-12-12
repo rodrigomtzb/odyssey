@@ -16,11 +16,11 @@ const Select = ({
   loading = false,
 }) => {
   useEffect(() => {
-    if (options && options.length === 1) {
+    if (options && options.length === 1 && value !== options[0][optionValue]) {
       const singleOptionValue = options[0][optionValue] || options[0];
       onChange({ target: { name, value: singleOptionValue } });
     }
-  }, [options, onChange, name, optionValue]);
+  }, [options]);
 
   return (
     <div className={`mb-3 ${className}`}>

@@ -117,6 +117,10 @@
 .p-stepper .p-stepper-header .p-stepper-action {
   background:#e2e3e5;
 }
+
+.p-accordion .p-accordion-header .p-accordion-header-link{
+  padding: 1rem;
+}
 .suggestion-item {
   background-color: #ffffff;
   color: #14233b;

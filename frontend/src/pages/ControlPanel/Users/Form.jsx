@@ -26,6 +26,7 @@ const UserForm = () => {
   ];
   const [validated, setValidated] = useState(false);
   const [jobPositions, setJobPositions] = useState();
+  const [parentUsers, setParentUsers] = useState([]);
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -35,6 +36,7 @@ const UserForm = () => {
     email: "",
     username: "",
     password: "",
+    parentUserId: "",
   });
   const [userData, setUserData] = useState();
   const [userEmail, setUserEmail] = useState();
@@ -219,6 +221,21 @@ const UserForm = () => {
   };
 
   useEffect(() => {
+    if (formData.jobPositionId) {
+      let selectedJob = jobPositions.find(
+        (job) => job.id === formData.jobPositionId
+      );
+      UserService.getUsers().then((response) => {
+        let filteredUsers = response.data.filter(
+          (user) => user.jobPosition.id === selectedJob.id
+        );
+        setParentUsers(filteredUsers);
+      });
+    } else {
+      setParentUsers([]);
+    }
+  }, [formData.jobPositionId]);
+  useEffect(() => {
     if (id) {
       setDataVisible(true);
       setDataIsOpen(false);
@@ -234,11 +251,11 @@ const UserForm = () => {
       });
     }
   }, [id]);
-
   useEffect(() => {
-    JobPositionService.getEnabledJobPositions().then((response) =>
-      setJobPositions(response.data)
-    );
+    JobPositionService.getEnabledJobPositions().then((response) => {
+      console.log(response.data);
+      setJobPositions(response.data);
+    });
   }, []);
 
   return (
@@ -381,12 +398,26 @@ const UserForm = () => {
                 />
               </Col>
             </Row>
+            <hr />
             <Select
               label="Puesto"
               name="jobPositionId"
               value={formData.jobPositionId}
               onChange={handleFormChange(formData, setFormData)}
               options={jobPositions}
+              required
+            />
+            <Select
+              label="Jefe Inmediato"
+              name="parentUserId"
+              value={formData.parentUserId}
+              onChange={handleFormChange(formData, setFormData)}
+              options={parentUsers.map((user) => ({
+                id: user.id,
+                name: `${user.firstName || ""} ${user.middleName || ""} ${
+                  user.fatherLastName || ""
+                } ${user.motherLastName || ""}`,
+              }))}
               required
             />
             <hr />
