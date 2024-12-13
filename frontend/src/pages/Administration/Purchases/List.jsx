@@ -5,6 +5,7 @@ import { Badge, Button, Col, Row } from "react-bootstrap";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { getParseFloat } from "../../../utils";
 import { useNavigate } from "react-router-dom";
+import purchaseRequest from "../../../utils/pdf/purchaseRequest";
 
 const PurchasesList = () => {
   const [purchases, setPurchases] = useState([]);
@@ -22,7 +23,9 @@ const PurchasesList = () => {
         <div className="d-flex align-items-center ps-1 my-2">
           <span className="fs-5">{supplierName}</span>
           <span className="text-secondary ms-2"> - {purchaseTypeName}</span>
-          <span className="text-secondary-subtle ms-1">${getParseFloat(total)}</span>
+          <span className="text-secondary-subtle ms-1">
+            ${getParseFloat(total)}
+          </span>
           <Badge className="ms-auto bg-warning text-black">Por Autorizar</Badge>
         </div>
       </>
@@ -93,9 +96,29 @@ const PurchasesList = () => {
           </>
         )}
         <hr />
-        <Button variant="gd" onClick={() => handleView(id)}>
-          Ver Mas <i className="bi bi-plus-lg" />
-        </Button>
+        <Row xs="auto">
+          <Col>
+            <Button variant="gd" onClick={() => handleView(id)}>
+              Ver Mas <i className="bi bi-plus-lg" />
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              onClick={() =>
+                purchaseRequest(
+                  purchases.find((purchase) => purchase.id === id)
+                )
+              }
+            >
+              Generar PDF <i className="bi bi-filetype-pdf" />
+            </Button>
+          </Col>
+          <Col>
+            <Button variant="success" disabled>
+              Generar Excel <i className="bi bi-filetype-xlsx" />
+            </Button>
+          </Col>
+        </Row>
       </>
     );
   };

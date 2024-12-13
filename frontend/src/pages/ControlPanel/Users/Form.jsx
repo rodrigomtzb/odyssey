@@ -227,7 +227,7 @@ const UserForm = () => {
       );
       UserService.getUsers().then((response) => {
         let filteredUsers = response.data.filter(
-          (user) => user.jobPosition.id === selectedJob.id
+          (user) => user.jobPosition.id === selectedJob.parent_id
         );
         setParentUsers(filteredUsers);
       });

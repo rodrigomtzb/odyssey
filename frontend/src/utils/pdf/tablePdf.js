@@ -6,8 +6,8 @@ export const generatePurchaseTable = () => {
 
   const empresa = "GRUPO DINÁMICA, CONSTRUCCIÓN Y ACABADOS, S.A. DE C.V.";
   const titulo = "REQUISICIÓN DE MATERIALES";
-  const directora = "DIRECTORA DE OPERACIONES: ING. ARQ. BELEM GÓMEZ TAGLE";
-  const cliente = "Cliente:";
+  const directora = "DIRECTOR(A) DE OPERACIONES:";
+  const cliente = "CLIENTE:";
   const obra = "Obra: RESIDENCIAL PACIFICO DIAMANTE";
   const fecha = "Fecha: 05/08/2024";
   const lugar = "Lugar: ACAPULCO DE JUAREZ, GUERRERO";
