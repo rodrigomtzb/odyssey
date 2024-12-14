@@ -62,7 +62,7 @@ const PurchasesList = () => {
             },
           ]}
         />
-        {items && (
+        {/* {items && (
           <>
             <hr />
             <h5>Materiales</h5>
@@ -94,7 +94,7 @@ const PurchasesList = () => {
               Total: $<span>{getParseFloat(total)}</span>
             </h6>
           </>
-        )}
+        )} */}
         <hr />
         <Row xs="auto">
           <Col>
