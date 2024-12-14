@@ -227,15 +227,7 @@ const UserForm = () => {
       { title: "Puesto", description: user.jobPosition.name },
       { title: "Jefe Inmediato", description: parentName },
     ];
-    return [
-      { title: "Puesto", description: user.jobPosition.name },
-      {
-        title: "Jefe Inmediato",
-        description: `${response.data.firstName} ${
-          response.data.middleName || ""
-        } ${response.data.fatherLastName} ${response.data.motherLastName}`,
-      },
-    ];
+
   };
   const getUserEmail = (user) => {
     return [{ title: "Correo Electrónico", description: user.email }];

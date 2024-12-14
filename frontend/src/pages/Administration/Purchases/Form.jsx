@@ -142,7 +142,7 @@ const PurchaseForm = () => {
       items: material.materials,
       disbursementTypeId: 1,
     }).then((response) => {
-      console.log(response.data);
+      
     });
   };
 
