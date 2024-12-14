@@ -27,6 +27,7 @@ const UserForm = () => {
   const [validated, setValidated] = useState(false);
   const [jobPositions, setJobPositions] = useState();
   const [parentUsers, setParentUsers] = useState([]);
+  const [parentName, setParentName] = useState();
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -124,6 +125,7 @@ const UserForm = () => {
                   UserService.editUserJob(id, {
                     userId: id,
                     jobPositionId: formData.jobPositionId,
+                    parentUserId: formData.parentUserId,
                   }).then(() => {
                     UserService.editUserEmail(id, {
                       id: id,
@@ -210,7 +212,30 @@ const UserForm = () => {
     ];
   };
   const getUserJob = (user) => {
-    return [{ title: "Puesto", description: user.jobPosition.name }];
+    if (user.parentUser) {
+      UserService.getUser(user.parentUser.id).then((response) => {
+        setParentName(
+          `${response.data.firstName} ${response.data.middleName || ""} ${
+            response.data.fatherLastName
+          } ${response.data.motherLastName}`
+        );
+      });
+    } else {
+      setParentName("");
+    }
+    return [
+      { title: "Puesto", description: user.jobPosition.name },
+      { title: "Jefe Inmediato", description: parentName },
+    ];
+    return [
+      { title: "Puesto", description: user.jobPosition.name },
+      {
+        title: "Jefe Inmediato",
+        description: `${response.data.firstName} ${
+          response.data.middleName || ""
+        } ${response.data.fatherLastName} ${response.data.motherLastName}`,
+      },
+    ];
   };
   const getUserEmail = (user) => {
     return [{ title: "Correo Electrónico", description: user.email }];
@@ -221,29 +246,36 @@ const UserForm = () => {
   };
 
   useEffect(() => {
-    if (formData.jobPositionId) {
+    if (formData.jobPositionId && Array.isArray(jobPositions)) {
       let selectedJob = jobPositions.find(
         (job) => job.id === formData.jobPositionId
       );
-      UserService.getUsers().then((response) => {
-        let filteredUsers = response.data.filter(
-          (user) => user.jobPosition.id === selectedJob.parent_id
-        );
-        setParentUsers(filteredUsers);
-      });
+      if (selectedJob) {
+        UserService.getUsers().then((response) => {
+          let filteredUsers = response.data.filter(
+            (user) => user.jobPosition.id === selectedJob.parent_id
+          );
+          setParentUsers(filteredUsers);
+        });
+      } else {
+        console.error("Job position not found");
+        setParentUsers([]);
+      }
     } else {
       setParentUsers([]);
     }
-  }, [formData.jobPositionId]);
+  }, [formData.jobPositionId, jobPositions]);
   useEffect(() => {
     if (id) {
       setDataVisible(true);
       setDataIsOpen(false);
       UserService.getUser(id).then((response) => {
+        console.log(response.data);
         setFormData({
           ...response.data,
           password: "",
           jobPositionId: response.data.jobPosition.id,
+          parentUserId: response.data.parentUser.id,
         });
         setUserData(getUserData(response.data));
         setUserEmail(getUserEmail(response.data));

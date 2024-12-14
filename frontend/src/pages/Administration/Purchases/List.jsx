@@ -12,28 +12,43 @@ const PurchasesList = () => {
   const navigate = useNavigate();
 
   const headerTemplate = (
-    supplierName,
+    supplierEmail,
     projectName,
-    purchaseDescription,
-    purchaseTypeName,
-    total
+    purchaseType,
+    total,
+    status
   ) => {
     return (
-      <>
-        <div className="d-flex align-items-center ps-1 my-2">
-          <span className="fs-5">{supplierName}</span>
-          <span className="text-secondary ms-2"> - {purchaseTypeName}</span>
-          <span className="text-secondary-subtle ms-1">
-            ${getParseFloat(total)}
-          </span>
-          <Badge className="ms-auto bg-warning text-black">Por Autorizar</Badge>
+      <div className="d-flex align-items-center justify-content-between w-100">
+        <div className="p-2" style={{ width: "60%" }}>
+          <div className="fw-bold">
+            {projectName || "Sin Proyecto"}{" "}
+            {purchaseType ? (
+              <span className="text-secondary"> - {purchaseType}</span>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="text-secondary mt-2">{supplierEmail}</div>
         </div>
-      </>
+
+        <div className="text-end fw-bold p-2" style={{ width: "20%" }}>
+          ${getParseFloat(total)}
+        </div>
+
+        <div className="text-end p-2" style={{ width: "20%" }}>
+          <Badge bg="warning" className="ms-auto text-black">
+            {status}
+          </Badge>
+        </div>
+      </div>
     );
   };
+
   const bodyTemplate = (
     id,
     items,
+    userName,
     supplierName,
     projectName,
     purchaseDescription,
@@ -44,6 +59,10 @@ const PurchasesList = () => {
       <>
         <DefinitionList
           definitions={[
+            {
+              title: "Elaborado por",
+              description: userName,
+            },
             {
               title: "Proveedor",
               description: supplierName,
@@ -140,16 +159,24 @@ const PurchasesList = () => {
         {purchases.map((purchase) => (
           <AccordionTab
             header={headerTemplate(
+              purchase.user?.email || "Sin identificar",
               purchase.supplier.fullName || purchase.supplier.legalName,
-              "",
-              "",
-              purchase.purchaseType.name,
-              purchase.total
+              purchase.purchaseType.name || "",
+              purchase.total,
+              "POR CONFIRMAR",
+              purchase.purchaseType.name
             )}
           >
             {bodyTemplate(
               purchase.id,
               purchase.items,
+              purchase.user
+                ? `${purchase.user.firstName} ${
+                    purchase.user.middleName || ""
+                  } ${purchase.user.fatherLastName} ${
+                    purchase.user.motherLastName
+                  }`
+                : "SIN IDENTIFICAR",
               purchase.supplier.fullName || purchase.supplier.legalName,
               purchase.project?.name,
               purchase.purchaseDescription,
