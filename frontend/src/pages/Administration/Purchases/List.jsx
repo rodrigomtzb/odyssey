@@ -132,11 +132,11 @@ const PurchasesList = () => {
               Generar PDF <i className="bi bi-filetype-pdf" />
             </Button>
           </Col>
-          <Col>
+          {/* <Col>
             <Button variant="success" disabled>
               Generar Excel <i className="bi bi-filetype-xlsx" />
             </Button>
-          </Col>
+          </Col> */}
         </Row>
       </>
     );
