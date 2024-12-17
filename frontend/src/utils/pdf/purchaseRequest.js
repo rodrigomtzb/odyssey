@@ -6,11 +6,11 @@ import getParseFloat from "../getParseFloat";
 const purchaseRequest = (purchase) => {
   const doc = new jsPDF();
 
+  const userName = `${purchase.user?.firstName} ${purchase.user?.fatherLastName}`;
   const supplierName =
     purchase.supplier?.fullName ||
     `${purchase.supplier?.legalName} - ${purchase.supplier.businessName}`;
   const projectName = purchase.project?.name || "USO INTERNO";
-  // const projectAddress
   const customerName =
     purchase.project?.customer?.fullName ||
     purchase.project?.customer?.legalName;
@@ -103,23 +103,31 @@ const purchaseRequest = (purchase) => {
   doc.setFont(font, "bold");
   doc.text("Proveedor:", textX, contentTextY);
   doc.setFont(font, "normal");
-  doc.text(String(supplierName), textX + 25, contentTextY, { maxWidth: halfWidth - 30 });
+  doc.text(String(supplierName), textX + 25, contentTextY, {
+    maxWidth: halfWidth - 30,
+  });
 
   doc.setFont(font, "bold");
   doc.text("Cliente:", textX2, contentTextY);
   doc.setFont(font, "normal");
-  doc.text(String(customerName), textX2 + 25, contentTextY, { maxWidth: halfWidth - 30 });
+  doc.text(String(customerName), textX2 + 25, contentTextY, {
+    maxWidth: halfWidth - 30,
+  });
 
   contentTextY += lineHeight + 5;
   doc.setFont(font, "bold");
   doc.text("Descripción:", textX, contentTextY);
   doc.setFont(font, "normal");
-  doc.text(String(description), textX + 25, contentTextY, { maxWidth: halfWidth - 30 });
+  doc.text(String(description), textX + 25, contentTextY, {
+    maxWidth: halfWidth - 30,
+  });
 
   doc.setFont(font, "bold");
   doc.text("Proyecto:", textX2, contentTextY);
   doc.setFont(font, "normal");
-  doc.text(String(projectName), textX2 + 25, contentTextY, { maxWidth: halfWidth - 30 });
+  doc.text(String(projectName), textX2 + 25, contentTextY, {
+    maxWidth: halfWidth - 30,
+  });
 
   contentTextY += lineHeight + 5;
   doc.setFont(font, "bold");
@@ -188,10 +196,51 @@ const purchaseRequest = (purchase) => {
     rounded
   );
 
+  // Calcular los anchos de cada sección
+  const sectionWidth = (pageWidth - 2 * margin) / 3;
+  const sectionPadding = 5;
+
+  // Primera sección
+  const section1X = margin;
+  doc.line(
+    section1X + sectionWidth,
+    bottomRectY,
+    section1X + sectionWidth,
+    bottomRectY + bottomBoxHeight
+  ); // Línea divisora
+  doc.setFont(font, "bold");
+  doc.text("Realizado por:", section1X + sectionPadding, bottomRectY + 10);
+  doc.setFont(font, "normal");
+  doc.text(userName, section1X + sectionPadding, bottomRectY + 20, {
+    maxWidth: sectionWidth - 2 * sectionPadding,
+  });
+
+  // Segunda sección
+  const section2X = margin + sectionWidth;
+  doc.line(
+    section2X + sectionWidth,
+    bottomRectY,
+    section2X + sectionWidth,
+    bottomRectY + bottomBoxHeight
+  ); // Línea divisora
+  doc.setFont(font, "bold");
+  doc.text("Autorizado por:", section2X + sectionPadding, bottomRectY + 10);
+  doc.setFont(font, "normal");
+  // doc.text("Texto en la segunda sección.", section2X + sectionPadding, bottomRectY + 20, {
+  // maxWidth: sectionWidth - 2 * sectionPadding,
+  // });
+
+  const section3X = margin + 2 * sectionWidth;
+  doc.setFont(font, "bold");
+  // doc.text("Sección 3:", section3X + sectionPadding, bottomRectY + 10);
+  doc.setFont(font, "normal");
+  // doc.text("Texto en la tercera sección.", section3X + sectionPadding, bottomRectY + 20, {
+  // maxWidth: sectionWidth - 2 * sectionPadding,
+  // });
+
   const pdfBlob = doc.output("blob");
   const pdfURL = URL.createObjectURL(pdfBlob);
   window.open(pdfURL, "_blank");
 };
-
 
 export default purchaseRequest;

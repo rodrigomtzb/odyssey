@@ -80,8 +80,9 @@ const PurchasesList = () => {
               description: purchaseTypeName,
             },
           ]}
+          
         />
-        {/* {items && (
+        {items && (
           <>
             <hr />
             <h5>Materiales</h5>
@@ -113,7 +114,7 @@ const PurchasesList = () => {
               Total: $<span>{getParseFloat(total)}</span>
             </h6>
           </>
-        )} */}
+        )}
         <hr />
         <Row xs="auto">
           <Col>
@@ -121,22 +122,6 @@ const PurchasesList = () => {
               Ver Mas <i className="bi bi-plus-lg" />
             </Button>
           </Col>
-          <Col>
-            <Button
-              onClick={() =>
-                purchaseRequest(
-                  purchases.find((purchase) => purchase.id === id)
-                )
-              }
-            >
-              Generar PDF <i className="bi bi-filetype-pdf" />
-            </Button>
-          </Col>
-          {/* <Col>
-            <Button variant="success" disabled>
-              Generar Excel <i className="bi bi-filetype-xlsx" />
-            </Button>
-          </Col> */}
         </Row>
       </>
     );
