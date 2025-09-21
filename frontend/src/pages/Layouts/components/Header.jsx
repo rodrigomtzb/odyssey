@@ -3,7 +3,7 @@ import Logo from "../../../assets/img/Odyssey.png";
 const Header = ({ onToggleSidebar }) => {
   return (
     <div
-      style={{ height: "100px", zIndex: "99" }}
+      style={{ height: "62px", zIndex: "99" }}
       className="bg-gd w-100 d-flex align-items-center position-fixed d-lg-none"
     >
       <div className="position-absolute start-0 ps-3">
@@ -18,7 +18,7 @@ const Header = ({ onToggleSidebar }) => {
           src={Logo}
           alt="logo"
           className="img-fluid"
-          style={{ maxHeight: "60px" }}
+          style={{ maxHeight: "50px" }}
         />
       </div>
     </div>
