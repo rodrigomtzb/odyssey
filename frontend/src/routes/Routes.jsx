@@ -4,6 +4,7 @@ import { PrimeReactProvider } from "primereact/api";
 import PrivateRoute from "./PrivateRoute";
 import LoggedLayout from "../pages/Layouts/LoggedLayout";
 import SupplierDetails from "../pages/Projects/Providers/Supplier";
+import Summary from "../pages/Summary/Summary";
 import CustomerList from "../pages/Marketing/Customers/List";
 import CustomerDetails from "../pages/Marketing/Customers/Customer";
 import ProjectsList from "../pages/Projects/Projects/List";
@@ -251,6 +252,10 @@ const router = createBrowserRouter(
         {
           path: "/notifications",
           element: <DashboardNotification />,
+        },
+        {
+          path: "/summary",
+          element: <Summary />,
         },
         {
           path: "/notifications/send-mail",
