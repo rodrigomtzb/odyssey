@@ -1,4 +1,4 @@
-import Logo from "../../../assets/img/logo-03.png";
+import Logo from "../../../assets/img/Odyssey.png";
 
 const Header = ({ onToggleSidebar }) => {
   return (

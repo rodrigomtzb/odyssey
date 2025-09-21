@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import AuthService from "../services/auth.service";
 
 const api = axios.create({
-  baseURL: "https://developers.smartinnovationsystems.com:8443/api/",
+  baseURL: "https://developers.smartinnovationsystems.com/api/",
   timeout: 60000,
   headers: {
     "Content-Type": "application/json",

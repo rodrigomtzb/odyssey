@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Form, FloatingLabel, Button } from "react-bootstrap";
 
 import AuthService from "../services/auth.service";
-import imgLogo from "../assets/img/logo02.png";
+import imgLogo from "../assets/img/logo-tr-SIS.png";
 import odyssey from "../assets/img/Odyssey.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";

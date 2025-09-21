@@ -15,7 +15,7 @@ ul {
   margin-bottom: 0px !important;
 }
 .App {
-  background-image: url("../assets/img/scene-construction-02.jpg");
+  background-image: url("../assets/img/bg-odyssey-01.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -25,7 +25,7 @@ ul {
   min-height: 100vh;
 }
 .bg-general {
-  background-image: url("../assets/img/scene-construction-01.jpg");
+  background-image: url("../assets/img/bg-odyssey-int-01.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
