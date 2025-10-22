@@ -109,6 +109,19 @@ const Input = ({
           className="w-100"
           required={required}
         />
+      ) : type === "textarea" ? (
+        <InputText
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          value={value || ""}
+          onChange={handleChange}
+          rows={4}
+          autoResize
+          className={`w-100 form-input ${className}`}
+          maxLength={max}
+          style={style}
+        />
       ) : (
         <InputText
           id={name}

@@ -18,14 +18,24 @@ const Sidebar = ({ menuItems, onToggleSidebar }) => {
   const handleLogout = async () => {
     try {
       AuthService.logout().then((response) => {
-        if (response.status === 200) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
+          localStorage.removeItem("user");
           navigate("/login");
-        }
+      }).catch((error) => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+        console.error(error.message); // "Something went wrong in the then handler!"
+        navigate("/login");
       });
     } catch (error) {
       console.error("Error: ", error);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      navigate("/login");
+      
     }
   };
 

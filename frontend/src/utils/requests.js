@@ -4,7 +4,8 @@ import Swal from "sweetalert2";
 import AuthService from "../services/auth.service";
 
 const api = axios.create({
-  baseURL: "https://developers.smartinnovationsystems.com/api/",
+  //baseURL: "https://developers.smartinnovationsystems.com/api/",
+  baseURL: import.meta.env.VITE_REACT_APP_API_URL,
   timeout: 60000,
   headers: {
     "Content-Type": "application/json",

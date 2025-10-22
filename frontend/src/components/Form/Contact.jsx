@@ -5,9 +5,11 @@ import { handleFormChange, scrollToTop } from "../../utils";
 import TitleSection from "./TitleSection";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Input from "./Input";
+//import TextArea from "./TexTArea";
 import SupplierService from "../../services/supplier.service";
 import CustomerService from "../../services/customer.service";
 import Swal from "sweetalert2";
+import CompanyService from "../../services/company.service";
 
 const ContactSection = ({ id, formData, setFormData, to, state }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -69,6 +71,29 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
             );
             break;
 
+          case "company":
+            CompanyService.editCustomerContact(id, contact).then(
+              (response) => {
+                scrollToTop();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Contacto editado correctamente",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setFormData(response.data);
+                setContact({
+                  personName: "",
+                  email: "",
+                  phoneNumber: "",
+                  phoneTypeId: "",
+                });
+                setIsOpen(false);
+              }
+            );
+            break;
+
           default:
             break;
         }
@@ -98,6 +123,27 @@ const ContactSection = ({ id, formData, setFormData, to, state }) => {
             break;
           case "customer":
             CustomerService.addContact(id, contact).then((response) => {
+              scrollToTop();
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Contacto agregado correctamente",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setFormData(response.data);
+              setContact({
+                personName: "",
+                email: "",
+                phoneNumber: "",
+                phoneTypeId: "",
+              });
+              setIsOpen(false);
+            });
+            break;
+
+          case "company":
+            CompanyService.addContact(id, contact).then((response) => {
               scrollToTop();
               Swal.fire({
                 position: "center",

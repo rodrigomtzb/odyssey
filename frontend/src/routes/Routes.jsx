@@ -23,6 +23,18 @@ import DashboardNotification from "../pages/Notifications/Dashboard";
 import SendMail from "../pages/Notifications/Email/SendMail";
 import Test from "../pages/Test";
 import PurchaseDetails from "../pages/Administration/Purchases/Purchase";
+import DashboardCompanies from "../pages/Administration/Companies/DashBoard";
+import CompanyForm from "../pages/Administration/Companies/Form";
+import CompanyList from "../pages/Administration/Companies/List";
+import CompanyDetails from "../pages/Administration/Companies/Company";
+import DashboardSucursales from "../pages/Administration/Sucursales/DashBoard";
+import SucursalesForm from "../pages/Administration/Sucursales/Form";
+import SucursalesList from "../pages/Administration/Sucursales/List";
+import SucursalDetail from "../pages/Administration/Sucursales/Sucursal";
+import DashboardProducts from "../pages/Inventory/Products/DashBoard";
+import ProductsForm from "../pages/Inventory/Products/ProductForm";
+import AssignProductForm from "../pages/Inventory/AssigmentProducts/AssignProductForm";
+
 const Login = React.lazy(() => import("../pages/Login"));
 const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
 const UserForm = React.lazy(() => import("../pages/ControlPanel/Users/Form"));
@@ -268,6 +280,58 @@ const router = createBrowserRouter(
         {
           path: "/timeline",
           element: <Timeline />,
+        },
+        {
+          path: "/companies",
+          element: <DashboardCompanies />,
+        }, 
+        {
+          path: "/companies/create",
+          element: <CompanyForm />,
+        },
+        {
+          path: "/companies/list",
+          element: <CompanyList />,
+        },
+        {
+          path: "/companies/:id",
+          element: <CompanyDetails />,
+        },
+        {
+          path: "/companies/:id/edit",
+          element: <CompanyForm />,
+        },
+        {
+          path: "/sucursales",
+          element: <DashboardSucursales />,
+        },
+        {
+          path: "/sucursales/create",
+          element: <SucursalesForm />,
+        },
+        {
+          path: "/sucursales/list",
+          element: <SucursalesList />,
+        },
+        {
+          path: "/sucursales/:id",
+          element: <SucursalDetail />,
+        },
+        {
+          path: "/sucursales/:id/edit",
+          element: <SucursalesForm />,
+        },
+        {
+          path: "/products",
+          element: <DashboardProducts />,
+        },
+        {
+          path: "/products/create",
+          element: <ProductsForm />,
+        },
+        {
+          path:"/assigmentproducts",
+          element:<AssignProductForm />,
         },
         {
           path: "/test",

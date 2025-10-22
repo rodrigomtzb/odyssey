@@ -12,7 +12,11 @@ const login = (username, password) => {
 };
 
 const logout = () => {
-  return post("auth/signout");
+  try{
+    return post("auth/signout");
+  }catch(error){
+    console.log('error');
+  }
 };
 
 const refreshToken = (data) => {

@@ -32,17 +32,22 @@ const Login = () => {
           if (response.status === 200) {
             setValidated(true);
             Swal.fire({
-              title: `Bienvenido`,
+              title: "Bienvenido",
               icon: "success",
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
+
+              console.log("Response Login");
+              console.log(response);
+
               localStorage.setItem("accessToken", response.data.accessToken);
               localStorage.setItem("refreshToken", response.data.refreshToken);
               localStorage.setItem(
                 "user",
                 JSON.stringify({
                   id: response.data.id,
+                  companyId: response.data.companyId,
                   email: response.data.email,
                   roles: response.data.roles,
                 })

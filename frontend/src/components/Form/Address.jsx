@@ -10,6 +10,7 @@ import CatalogsService from "../../services/catalogs.service";
 import CustomerService from "../../services/customer.service";
 import Swal from "sweetalert2";
 import ProjectService from "../../services/project.service";
+import CompanyService from "../../services/company.service";
 
 const AddressSection = ({ id, formData, setFormData, to, state }) => {
   const [states, setStates] = useState();
@@ -105,6 +106,11 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
               endActions(response);
             });
             break;
+          case "company":
+              CompanyService.editCompanyAddress(id, address).then((response) => {
+                endActions(response);
+              });
+              break;
           default:
             break;
         }
@@ -201,6 +207,37 @@ const AddressSection = ({ id, formData, setFormData, to, state }) => {
               });
             });
             break;
+          case "company":
+              CompanyService.addAddress(id, address).then(() => {
+                scrollToTop();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Dirección añadida correctamente",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setAddress({
+                  street: "",
+                  number: "",
+                  apartmentNumber: "",
+                  zipCode: "",
+                  neighborhoodId: "",
+                  townId: "",
+                  statemxId: "",
+                  firstStreet: "",
+                  secondStreet: "",
+                  description: "",
+                  latitude: "",
+                  longitude: "",
+                  addressTypeId: "",
+                });
+                setIsOpen(false);
+                ProjectService.getProject(id).then((response) => {
+                  setFormData(response.data);
+                });
+              });
+              break;
           default:
             break;
         }

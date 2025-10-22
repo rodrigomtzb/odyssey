@@ -22,6 +22,9 @@ const TaxList = ({ elements, type }) => {
       case "customer":
         navigate(`/customers/${id}`);
         break;
+      case "company":
+        navigate(`/companies/${id}`);
+        break;
     }
   };
 
