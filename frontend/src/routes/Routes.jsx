@@ -34,6 +34,11 @@ import SucursalDetail from "../pages/Administration/Sucursales/Sucursal";
 import DashboardProducts from "../pages/Inventory/Products/DashBoard";
 import ProductsForm from "../pages/Inventory/Products/ProductForm";
 import AssignProductForm from "../pages/Inventory/AssigmentProducts/AssignProductForm";
+import ProductExchange from "../pages/Inventory/ProductExchange/ProductExchange"
+import ProductSale from "../pages/Sales/ProductSale/ProductSale";
+import ProductList from "../pages/Inventory/Products/List";
+import SalesHistory from "../pages/Sales/SalesHistory/SalesHistory";
+import ReportesVentasComparativo from "../pages/Sales/ReportesVentasComparativo/ReportesVentasComparativo";
 
 const Login = React.lazy(() => import("../pages/Login"));
 const Users = React.lazy(() => import("../pages/ControlPanel/Users/Users"));
@@ -322,16 +327,36 @@ const router = createBrowserRouter(
           element: <SucursalesForm />,
         },
         {
-          path: "/products",
+          path: "/inventory/products",
           element: <DashboardProducts />,
         },
         {
-          path: "/products/create",
+          path: "/inventory/products/create",
           element: <ProductsForm />,
         },
         {
-          path:"/assigmentproducts",
+          path: "/inventory/products/list",
+          element: <ProductList />,
+        },
+        {
+          path:"/inventory/assigmentproducts",
           element:<AssignProductForm />,
+        },
+        {
+          path:"/inventory/productexchange",
+          element:<ProductExchange />,
+        },
+        {
+          path:"/sales/productsale",
+          element:<ProductSale />,
+        },
+        {
+          path:"/sales/saleshistory",
+          element:<SalesHistory />,
+        },
+        {
+          path:"/sales/generalReport",
+          element:<ReportesVentasComparativo />
         },
         {
           path: "/test",

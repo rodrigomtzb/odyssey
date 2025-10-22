@@ -267,7 +267,7 @@ const UserForm = () => {
           ...response.data,
           password: "",
           jobPositionId: response.data.jobPosition.id,
-          parentUserId: response.data.parentUser.id,
+          parentUserId: response.data.parentUser?.id,
         });
         setUserData(getUserData(response.data));
         setUserEmail(getUserEmail(response.data));

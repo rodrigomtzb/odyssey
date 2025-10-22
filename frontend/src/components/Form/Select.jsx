@@ -15,12 +15,27 @@ const Select = ({
   disabled = false,
   loading = false,
 }) => {
+  // useEffect(() => {
+  //   if (options && options.length === 1 && value !== options[0][optionValue]) {
+  //     const singleOptionValue = options[0][optionValue] || options[0];
+  //     onChange({ target: { name, value: singleOptionValue } });
+  //   }
+  // }, [options]);
+
   useEffect(() => {
-    if (options && options.length === 1 && value !== options[0][optionValue]) {
-      const singleOptionValue = options[0][optionValue] || options[0];
-      onChange({ target: { name, value: singleOptionValue } });
+    if (!options || options.length !== 1) return;
+  
+    const singleOptionValue = options[0][optionValue] || options[0];
+  
+    // Ejecuta onChange solo si el valor actual es diferente
+    if (value !== singleOptionValue) {
+      // Ejecuta solo una vez
+      setTimeout(() => {
+        onChange({ target: { name, value: singleOptionValue } });
+      }, 0);
     }
-  }, [options]);
+  }, [options?.length]); // 👈 se ejecuta solo cuando cambia la cantidad de opciones
+  
 
   return (
     <div className={`mb-3 ${className}`}>
