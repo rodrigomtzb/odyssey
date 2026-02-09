@@ -12,7 +12,7 @@ const DashboardSucursales = () => {
             to="create"
             section="Sucursales"
             text="Alta de Sucursal"
-            icon="buildings-fill-add"
+            icon="shop"
           />
         </Col>
         <Col sm={12} md={6} className="mt-2 mt-md-0">
@@ -20,7 +20,7 @@ const DashboardSucursales = () => {
             to="list"
             section="Sucursales"
             text="Lista de Sucursales"
-            icon="buildings-lines-fill"
+            icon="list-ol"
           />
         </Col>
       </Row>

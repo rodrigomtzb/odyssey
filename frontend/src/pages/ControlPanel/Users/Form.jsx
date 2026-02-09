@@ -1,8 +1,10 @@
-import { Form, Button, Stack, Col, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Button, Col,Form, Row, Stack } from "react-bootstrap";
+import { useNavigate , useParams } from "react-router-dom";
+
 import Swal from "sweetalert2";
 
+import { ContentCard, DefinitionList, Title } from "../../../components";
 import { Input, Select, TitleSection } from "../../../components/Form";
 import {
   handleEmailChange,
@@ -11,10 +13,9 @@ import {
   scrollToTop,
 } from "../../../utils";
 
-import AuthService from "../../../services/auth.service";
-import { useNavigate } from "react-router-dom";
-import { ContentCard, DefinitionList, Title } from "../../../components";
-import UserService from "../../../services/user.service";
+import AuthService        from "../../../services/auth.service";
+import CompanyService     from "../../../services/company.service";
+import UserService        from "../../../services/user.service";
 import JobPositionService from "../../../services/job-position.service";
 
 const UserForm = () => {
@@ -26,9 +27,12 @@ const UserForm = () => {
   ];
   const [validated, setValidated] = useState(false);
   const [jobPositions, setJobPositions] = useState();
+  const [companies, setCompanies] = useState();
   const [parentUsers, setParentUsers] = useState([]);
   const [parentName, setParentName] = useState();
   const [formData, setFormData] = useState({
+    companyId: "",
+    businessName: "",
     firstName: "",
     middleName: "",
     fatherLastName: "",
@@ -116,6 +120,8 @@ const UserForm = () => {
             if (id) {
               UserService.editUserData(id, {
                 id: id,
+                companyId: formData.companyId,
+                businessName: formData.businessName,
                 firstName: formData.firstName,
                 middleName: formData.middleName,
                 fatherLastName: formData.fatherLastName,
@@ -194,6 +200,10 @@ const UserForm = () => {
     return [
       { title: "ID", description: user.id },
       {
+        title: "Compañia",
+        description: user.company?.businessName,
+      },
+      {
         title: "Primer Nombre",
         description: user.firstName,
       },
@@ -257,6 +267,7 @@ const UserForm = () => {
       setParentUsers([]);
     }
   }, [formData.jobPositionId, jobPositions]);
+  
   useEffect(() => {
     if (id) {
       setDataVisible(true);
@@ -275,9 +286,20 @@ const UserForm = () => {
       });
     }
   }, [id]);
+
+  useEffect(()=>{
+    CompanyService.getEnabledCompanies().then((response) => {
+
+      console.log("companies: ");
+      console.log(response);
+      setCompanies( response.data );
+
+    });
+    
+  },[]);
+  
   useEffect(() => {
     JobPositionService.getEnabledJobPositions().then((response) => {
-      console.log(response.data);
       setJobPositions(response.data);
     });
   }, []);
@@ -291,19 +313,21 @@ const UserForm = () => {
       {userData && dataVisible ? (
         <ContentCard>
           {userData && (
-            <Row>
-              <Col sm={10}>
-                <DefinitionList definitions={userData} />
-              </Col>
-              <Col
-                sm={2}
-                className="d-flex justify-content-center align-items-center"
-              >
-                <Button variant="gd" onClick={() => handleEdit()}>
-                  <i className="bi bi-pencil-square" />
-                </Button>
-              </Col>
-            </Row>
+            <>
+              <Row>
+                <Col sm={10}>
+                  <DefinitionList definitions={userData} />
+                </Col>
+                <Col
+                  sm={2}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <Button variant="gd" onClick={() => handleEdit()}>
+                    <i className="bi bi-pencil-square" />
+                  </Button>
+                </Col>
+              </Row>
+            </> 
           )}
           {userJob && (
             <>
@@ -371,6 +395,19 @@ const UserForm = () => {
         <TitleSection text="Datos Generales" isFirst state={dataIsOpen}>
           <Form onSubmit={handleSubmit} noValidate validated={validated}>
             {/* <Form.Group className="mb-3" controlId="names"> */}
+            <Row>
+              <Select
+                label="Compañia"
+                name="company_id"
+                value={formData.businessName}
+                optionValue = "id"
+                optionLabel = "businessName"
+                onChange={handleFormChange(formData, setFormData)}
+                options={companies}
+                required
+              />
+            </Row>
+            <hr />
             <Row>
               <Col>
                 <Input

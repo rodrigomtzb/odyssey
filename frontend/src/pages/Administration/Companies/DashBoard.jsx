@@ -12,7 +12,7 @@ const DashboardCompanies = () => {
             to="create"
             section="Compañias"
             text="Alta de Compañia"
-            icon="buildings-fill-add"
+            icon="bi bi-buildings-fill"
           />
         </Col>
         <Col sm={12} md={6} className="mt-2 mt-md-0">
@@ -20,7 +20,7 @@ const DashboardCompanies = () => {
             to="list"
             section="Compañias"
             text="Lista de Compañias"
-            icon="buildings-lines-fill"
+            icon="list-ol"
           />
         </Col>
       </Row>

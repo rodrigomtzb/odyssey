@@ -12,7 +12,7 @@ const DashboardProducts = () => {
             to="create"
             section="Productos"
             text="Alta de Productos"
-            icon="buildings-fill-add"
+            icon="basket2"
           />
         </Col>
         <Col sm={12} md={6} className="mt-2 mt-md-0">
@@ -20,7 +20,7 @@ const DashboardProducts = () => {
             to="list"
             section="Productos"
             text="Lista de Productos"
-            icon="buildings-lines-fill"
+            icon="list-ol"
           />
         </Col>
       </Row>

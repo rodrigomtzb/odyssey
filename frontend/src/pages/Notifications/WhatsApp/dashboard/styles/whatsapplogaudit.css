@@ -1,0 +1,123 @@
+.wa-exec-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 650px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f0f2f5;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  }
+  
+  /* Sidebar */
+  .wa-exec-sidebar {
+    background: #fff;
+    padding: 16px;
+    border-right: 1px solid #e5e7eb;
+  }
+  
+  .wa-client-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-bottom: 8px;
+  }
+  
+  .wa-client-item:hover {
+    background: #f5f7fb;
+  }
+  
+  .wa-client-item.active {
+    background: #e0e7ff;
+  }
+  
+  .wa-avatar {
+    width: 42px;
+    height: 42px;
+    background: #4f46e5;
+    color: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+  }
+  
+  .wa-phone {
+    font-weight: 600;
+  }
+  
+  .wa-preview {
+    font-size: 12px;
+    color: #6b7280;
+  }
+  
+  /* Chat */
+  .wa-exec-chat {
+    display: flex;
+    flex-direction: column;
+    background: #efeae2;
+  }
+  
+  .wa-chat-header {
+    background: #fff;
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .wa-metrics {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  
+  .wa-chat-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .wa-msg {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  
+  .wa-msg.sent {
+    justify-content: flex-end;
+  }
+  
+  .wa-msg.received {
+    justify-content: flex-start;
+  }
+  
+  .wa-bubble {
+    max-width: 65%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+  }
+  
+  .sent .wa-bubble {
+    background: #d9fdd3;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .received .wa-bubble {
+    background: #fff;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .wa-time {
+    font-size: 10px;
+    color: #6b7280;
+    text-align: right;
+    margin-top: 4px;
+  }
+  
+  .wa-placeholder {
+    margin: auto;
+    font-size: 16px;
+    color: #6b7280;
+  }
+  
