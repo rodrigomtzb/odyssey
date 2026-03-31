@@ -6,14 +6,24 @@ import WhatsAppLogService from "../../../services/whatsapplogaudit.service";
 export default function WhatsAppAudit() {
   const [logData, setLogData] = useState([]);
 
-useEffect(() => {
+  useEffect(() => {
+
+    let isMounted = true;
 
     WhatsAppLogService.getWhatsAppLog()
       .then(res => {
-        console.log("¡Ahora sí es un CSV!", res);
-        setLogData(res.data);
+        if (isMounted) {
+          console.log("¡Ahora sí es un CSV!", res);
+          setLogData(res.data);
+        }
       })
       .catch(err => console.error("Error:", err));
+
+          // Función de limpieza (Cleanup)
+      return () => {
+        isMounted = false;
+      };
+
   }, []);
 
   if (!logData) return <div className="loading">Cargando Dashboard Ejecutivo…</div>;

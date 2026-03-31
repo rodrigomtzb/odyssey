@@ -111,7 +111,8 @@ const WhatsAppLogAudit = ({ logs }) => {
             Selecciona un cliente para auditar la conversación
           </div>
         ) : (
-          <>
+            <>
+          <div className="wa-chat-content">
             {/* Header */}
             <div className="wa-chat-header">
               <strong>{selectedClient}</strong>
@@ -137,7 +138,7 @@ const WhatsAppLogAudit = ({ logs }) => {
                 <div
                   key={i}
                   className={`wa-msg ${
-                    m.direction === "OUTBOUND" ? "sent" : "received"
+                    m.direction === "INBOUND" ? "sent" : "received"
                   }`}
                 >
                   <div className="wa-bubble">
@@ -150,6 +151,8 @@ const WhatsAppLogAudit = ({ logs }) => {
               ))}
               <div ref={endRef} />
             </div>
+          </div> 
+          {/* sección de mensajes con encabezado */}
           </>
         )}
       </main>

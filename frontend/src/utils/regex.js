@@ -6,10 +6,12 @@ const regexUtils = (type) => {
       return /^\d*$/;
     case "letters-and-numbers":
       return /^[a-zA-Z0-9]*$/;
+    case "email":
+      return /^[^\s@]+@[^\s@]+\.[^\s@]*$/;
     case "letters-and-space":
       return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
     case "all":
-      return /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]*$/;
+      return /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s@.,-_]*$/;
     default:
       return false;
   }

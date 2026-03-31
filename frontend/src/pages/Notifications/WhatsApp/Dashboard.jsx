@@ -7,6 +7,14 @@ const DashboardWhatsapp = () => {
     <>
       <Title title="WhatsApp" isFirst />
       <Row>
+      <Col sm={12} md={6} className="mt-2 mt-md-0">
+          <CardButton
+            icon="kanban"
+            text="Seguimiento de Clientes"
+            to="kanban-clientes"
+            section="Whatsapp"
+          />
+        </Col>
         <Col sm={12} md={6} className="mb-2 mb-md-0">
           <CardButton
             icon="whatsapp"
@@ -17,7 +25,7 @@ const DashboardWhatsapp = () => {
         </Col>
         <Col sm={12} md={6} className="mt-2 mt-md-0">
           <CardButton
-            icon="user-agent-tie"
+            icon="bi bi-incognito"
             text="Agente IA"
             to="agent-monitor"
             section="Whatsapp"

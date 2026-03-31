@@ -7,11 +7,12 @@ import Swal from "sweetalert2";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { Input, Select, TitleSection } from "../../../components/Form";
 import {
-  handleEmailChange,
-  handleFormChange,
   scrollToSection,
   scrollToTop,
 } from "../../../utils";
+
+import handleEmailChange from "../../../utils/handle/handleEmailChange";
+import handleFormChange from "../../../utils/handle/handleFormChange";
 
 import AuthService        from "../../../services/auth.service";
 import CompanyService     from "../../../services/company.service";
@@ -398,8 +399,8 @@ const UserForm = () => {
             <Row>
               <Select
                 label="Compañia"
-                name="company_id"
-                value={formData.businessName}
+                name="companyId"
+                value={formData.companyId}
                 optionValue = "id"
                 optionLabel = "businessName"
                 onChange={handleFormChange(formData, setFormData)}

@@ -23,6 +23,7 @@ import DashboardNotification from "../pages/Notifications/Dashboard";
 import DashboardWhatsapp from "../pages/Notifications/WhatsApp/Dashboard";
 import WhatsAppAudit from "../pages/Notifications/WhatsApp/WhatsAppAudit";
 import AgentIAMonitor from "../pages/Notifications/WhatsApp/AgentMonitor";
+import KanbanClientes from "../pages/Notifications/WhatsApp/KanbanClientes";
 import SendMail from "../pages/Notifications/Email/SendMail";
 import Test from "../pages/Test";
 import PurchaseDetails from "../pages/Administration/Purchases/Purchase";
@@ -280,6 +281,10 @@ const router = createBrowserRouter(
         {
           path: "/notifications/whatsapp/conversation",
           element: <WhatsAppAudit />,
+        },
+        {
+          path:"/notifications/whatsapp/kanban-clientes",
+          element: <KanbanClientes />,
         },
         {
           path: "/notifications/whatsapp",
