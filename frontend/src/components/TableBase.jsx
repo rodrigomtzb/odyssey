@@ -103,41 +103,43 @@ const TableBase = ({
     }
   }, [children, data, rowsPerPage, page]);
 
-  const renderRows = () => {
-    if (children) {
-      const sortedChildren = getSortedChildren();
-      const paginatedChildren = getPaginatedChildren(sortedChildren);
-      return paginatedChildren;
-    } else {
-      const sortedData = getSortedData();
-      const paginatedData = getPaginatedData(sortedData);
-      return paginatedData.map((row, index) => (
-        <TableRow key={index} sx={{
-            backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
-            "&:hover": { backgroundColor: "#e0f7fa" },
-            borderBottom: "2px solid #ddd",
-          }}>
-          {dataKey.map((key) =>
-            key === "enabled" ? (
-              <TableCell key={key}>
-                {row[key] == true ? (
-                  <Badge bg="success">Activo</Badge>
-                ) : (
-                  <Badge bg="danger">Inactivo</Badge>
-                )}
-              </TableCell>
-            ) : key === "icon" ? (
-              <TableCell key={key}>
-                <i className={`bi bi-${row[key]}`} />
-              </TableCell>
-            ) : (
-              <TableCell key={key}>{row[key]}</TableCell>
-            )
-          )}
-        </TableRow>
-      ));
+const renderRows = () => {
+  // Convertimos children a un array real de forma segura
+  const childrenArray = Children.toArray(children);
+  const hasChildren = childrenArray.length > 0;
+
+  if (hasChildren) {
+    // 1. Ordenar
+    let displayChildren = [...childrenArray];
+    if (sorting) {
+      displayChildren.sort((a, b) => {
+        const index = dataKey.indexOf(orderBy);
+        const aValue = getChildData(a, index);
+        const bValue = getChildData(b, index);
+        
+        if (order === "asc") return aValue > bValue ? 1 : -1;
+        return aValue < bValue ? 1 : -1;
+      });
     }
-  };
+
+    // 2. Paginar
+    if (paging && rowsPerPage > 0) {
+      const start = page * rowsPerPage;
+      const end = start + rowsPerPage;
+      displayChildren = displayChildren.slice(start, end);
+    }
+
+    return displayChildren;
+  } else {
+    // Lógica de data (esta parte parece estar bien, pero asegúrate del slice)
+    const sortedData = getSortedData();
+    return paging && rowsPerPage > 0
+      ? sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      : sortedData;
+    // ... resto del map de data
+  }
+};
+
 
   return (
     <Paper

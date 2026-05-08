@@ -1,36 +1,87 @@
-
 import { useEffect, useState } from "react";
 import { Title } from "../../../components";
-import CompanyService from "../../../services/company.service"
-import TaxList from "../../../components/TaxList";
+import ProductService from "../../../services/product.service";
 import FilterDropdown from "../../../components/Buttons/FilterDropdown";
+import TableBase from "../../../components/TableBase";
+import { TableCell, TableRow } from "@mui/material";
+import SearchInput from "../../../components/SearchInput"
 
 const ProductList = () => {
-  const [companies, setCompanies] = useState([]);
+  const [productsVariants, setProductsVariants] = useState([]);
+  const [originalProductsVariants, setOriginalProductsVariants] = useState([]);
   const [filter, setFilter] = useState("enabled");
 
   const handleFilterChange = (filter) => {
     setFilter(filter);
   };
 
-//   useEffect(() => {
-//     const apiCall =
-//       filter === "enabled"
-//         ? CompanyService.getEnabledCompanies()
-//         : filter === "disabled"
-//         ? CompanyService.getDisabledCompanies()
-//         : CompanyService.getAllCompanies();
 
-//     apiCall.then((response) => {
-//         setCompanies(response.data);
-//     });
-//   }, [filter]);
+  const handleSearch = (results, searchTerm) => {
+    console.log("result");
+    console.log(results);
+
+    if (searchTerm === "") {
+      // Si el término de búsqueda está vacío, restaura los datos originales
+      setProductsVariants(originalProductsVariants);
+    } else {
+      setProductsVariants(results);
+    }
+  };
+
+   useEffect(() => {
+     const apiCall =
+       filter === "enabled"
+         ? ProductService.getAllProductsVariants()
+         : filter === "disabled"
+         ? ProductService.getAllProductsVariants()
+         : ProductService.getAllProductsVariants();
+
+     apiCall.then((response) => {
+      setOriginalProductsVariants(response.data);
+      setProductsVariants(response.data);
+     });
+   }, [filter]);
 
   return (
     <>
-      <Title title="Lista de Productos" withReturnButton />
+     <Title title="Productos" withReturnButton />
       <FilterDropdown onFilterChange={handleFilterChange} />
-      <TaxList key="productsTable" elements={companies} type="product" />
+      <SearchInput
+        data={originalProductsVariants} // Usamos los datos originales para la búsqueda
+        onSearch={(results, searchTerm) => handleSearch(results, searchTerm)}
+        searchFields={[
+          "categoryName",
+          "productName",
+          "materialName",
+          "size",
+          "color",
+        ]}
+      />
+
+      <TableBase
+        dataKey={["variantId", "categoryName", "productName", "variantName"]}
+        titles={["ID", "Categoria", "Producto", "Variante"]}
+      >
+        {productsVariants.map((variant, index) => (
+          <TableRow
+            key={variant.id}
+            sx={{
+              backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#ffffff",
+              "&:hover": { backgroundColor: "#e0f7fa" },
+              borderBottom: "2px solid #ddd",
+            }}
+          >
+            <TableCell>{variant.id}</TableCell>
+            <TableCell>{variant.categoryName}</TableCell>
+            <TableCell>{variant.productName}</TableCell>
+            <TableCell>
+                <div>{variant.materialName==null?'':variant.materialName}</div>
+                <div>{variant.color==null?'':variant.color}</div>
+                <div>{variant.size==null?'':variant.size}</div>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBase>
     </>
   );
 };

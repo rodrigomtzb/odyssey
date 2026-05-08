@@ -13,8 +13,8 @@ const toggleSucursalStatus = (id, data) => {
   return post(`sucursales/${id}/enabled`, data);
 };
 
-const getAllSucursales = () => {
-  return get("sucursales");
+const getAllSucursales = (companyId) => {
+  return get("/companies/"+companyId+"/sucursales");
 };
 const getEnabledSucursales = () => {
   return get("sucursales?isEnabled=true");

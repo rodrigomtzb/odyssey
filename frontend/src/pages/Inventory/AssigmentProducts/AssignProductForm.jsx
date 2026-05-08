@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Title, ContentCard } from "../../../components";
 import { Select, Input, TitleSection } from "../../../components/Form";
+import SucursalService from "../../../services/sucursal.service";
 import { Button, Col } from "react-bootstrap";
 
 const AssignProductForm  = () => {
@@ -15,11 +16,23 @@ const AssignProductForm  = () => {
     quantity: "",
   });
 
-//   useEffect(() => {
-//     // Carga inicial de sucursales y productos
-//     axiosInstance.get("/branches").then((res) => setBranches(res.data));
-//     axiosInstance.get("/products").then((res) => setProducts(res.data));
-//   }, []);
+   useEffect(() => {
+     // Carga inicial de sucursales y productos
+
+     const user = JSON.parse(localStorage.getItem( "user" ));
+
+     SucursalService
+      .getAllSucursales(user.companyId)
+      .then( 
+            (res) => {
+                        console.log("response Sucursales:");
+                        console.log(res.data);
+                        setBranches(res.data); 
+                      }
+            );
+     //axiosInstance.get("/branches").then((res) => setBranches(res.data));
+     //axiosInstance.get("/products").then((res) => setProducts(res.data));
+   }, []);
 
 //   // Cargar variantes al seleccionar un producto
 //   useEffect(() => {
@@ -100,7 +113,7 @@ const AssignProductForm  = () => {
           defaultOption="Seleccione una sucursal"
           name="branchId"
           value={formData.branchId}
-          options={branches.map((b) => ({ id: b.id, name: b.name }))}
+          options={branches}
           onChange={handleChange}
           required
         />

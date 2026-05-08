@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-//import axiosInstance from "../../api/axiosConfig";
-//import "../../styles/forms.css";
+import ProductService from "../../../services/product.service";
 import { ContentCard, DefinitionList, Title } from "../../../components";
 import { Input, Select, TitleSection } from "../../../components/Form";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 const ProductForm = () => {
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const [variants, setVariants] = useState([]);
   const [variant, setVariant] = useState({
     color: "",
@@ -20,16 +20,38 @@ const ProductForm = () => {
     code: "",
     name: "",
     description: "",
+    productId: "",
     categoryId: "",
     enabled: true,
   });
 
- /* useEffect(() => {
-    axiosInstance
-      .get("/categories")
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.error("Error cargando categorías:", err));
-  }, []); */
+ useEffect(() => {
+   ProductService
+    .getAllCategoriesProducts()
+      .then( (res)=>{
+        console.log(res);
+        setCategories(res.data);
+    });
+
+  }, []);
+
+
+  const handleCategoryChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    console.log(e.target);
+
+    ProductService
+      .getAllProductsByCategoryId(value)
+      .then( (res) => {
+        console.log(res.data);
+        setProducts(res.data)
+      });
+  
+    setProduct({
+      ...product,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleProductChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -38,7 +60,27 @@ const ProductForm = () => {
       ...product,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    ProductService
+      .getProductById(product.categoryId,value)
+      .then(( res )=>{
+          console.log(res.data);
+          const { code, name, description } = res.data;
+
+          setProduct((prevState) => ({
+            ...prevState,
+            code,
+            name,
+            description
+          }));
+
+          console.log("product");
+          console.log(product);
+
+      });
   };
+
+  
 
   const handleVariantChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -120,6 +162,25 @@ const ProductForm = () => {
     {/* Sección de formulario */}
     <TitleSection id="dataSection" text="Datos del Producto" isFirst>
       <Form>
+
+      <Select
+          label="Categoría"
+          name="categoryId"
+          value={product.categoryId}
+          onChange={handleCategoryChange}
+          options={categories}
+          required
+        />
+
+      <Select
+          label="Producto"
+          name="productId"
+          value={product.productId}
+          onChange={handleProductChange}
+          options={products}
+          required
+        />
+
         <Input
           label="Código"
           placeholder="Ingresa el código del producto"
@@ -145,18 +206,6 @@ const ProductForm = () => {
           name="description"
           value={product.description}
           onChange={handleProductChange}
-        />
-  
-        <Select
-          label="Categoría"
-          name="categoryId"
-          value={product.categoryId}
-          onChange={handleProductChange}
-          options={[
-            { value: "", label: "Seleccione una categoría" },
-            ...categories.map((cat) => ({ value: cat.id, label: cat.name })),
-          ]}
-          required
         />
   
         {/* <CheckBox

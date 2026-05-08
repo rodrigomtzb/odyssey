@@ -50,9 +50,10 @@ const Login = () => {
                   companyId: response.data.companyId,
                   email: response.data.email,
                   roles: response.data.roles,
+                  clientId: response.data.clientId
                 })
               );
-              //navigate("/");
+              navigate("/");
             });
           }
         })

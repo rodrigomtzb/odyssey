@@ -29,6 +29,10 @@ const getCompany = (id) => {
   return get(`companies/${id}`);
 };
 
+const getJobsByCompany = (id) => {
+  return get(`companies/${id}/jobpositions`);
+};
+
 const editCompanyData = (id, data) => {
   return put(`companies/${id}/data`, data);
 };
@@ -56,6 +60,7 @@ const CompanyService = {
   getDisabledCompanies,
   getCompanysBySearch,
   getCompany,
+  getJobsByCompany,
   editCompanyData,
   editCompanyAddress,
   editCompanyContact,

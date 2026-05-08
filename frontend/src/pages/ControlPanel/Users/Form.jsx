@@ -28,6 +28,7 @@ const UserForm = () => {
   ];
   const [validated, setValidated] = useState(false);
   const [jobPositions, setJobPositions] = useState();
+  const [createJobPosition, setCreateJobPosition] = useState(false);
   const [companies, setCompanies] = useState();
   const [parentUsers, setParentUsers] = useState([]);
   const [parentName, setParentName] = useState();
@@ -43,6 +44,8 @@ const UserForm = () => {
     username: "",
     password: "",
     parentUserId: "",
+    jobPositionName: "",
+    creaNuevoPuesto: false
   });
   const [userData, setUserData] = useState();
   const [userEmail, setUserEmail] = useState();
@@ -98,6 +101,36 @@ const UserForm = () => {
       }
     });
   };
+
+  const handleCompanyChange = (e) => {
+    const { name, value } = e.target;
+
+    const companyId = value;
+
+    CompanyService.getJobsByCompany(companyId).then((res) =>{
+
+      console.log("carga de JobPositions");
+      console.log(res.data);
+
+      const creaNuevoPuesto = (res.data.length == 0);
+
+      const jobPositionName = creaNuevoPuesto ? "" : formData.jobPositionName ;
+
+      setCreateJobPosition(creaNuevoPuesto);
+      setJobPositions(res.data);
+
+      setFormData({
+        ...formData,
+        [name]: value,
+        creaNuevoPuesto: creaNuevoPuesto,
+        jobPositionName: jobPositionName,
+      });
+
+    })
+
+    
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -289,12 +322,16 @@ const UserForm = () => {
   }, [id]);
 
   useEffect(()=>{
+
+    const user = JSON.parse(localStorage.getItem( "user" ));
+
+    setFormData((prev) => ({
+      ...prev,
+      companyId: user.companyId
+    }));
+
     CompanyService.getEnabledCompanies().then((response) => {
-
-      console.log("companies: ");
-      console.log(response);
       setCompanies( response.data );
-
     });
     
   },[]);
@@ -403,7 +440,7 @@ const UserForm = () => {
                 value={formData.companyId}
                 optionValue = "id"
                 optionLabel = "businessName"
-                onChange={handleFormChange(formData, setFormData)}
+                onChange={handleCompanyChange}
                 options={companies}
                 required
               />
@@ -461,6 +498,9 @@ const UserForm = () => {
               </Col>
             </Row>
             <hr />
+
+          {!createJobPosition ? (
+            <>
             <Select
               label="Puesto"
               name="jobPositionId"
@@ -482,6 +522,19 @@ const UserForm = () => {
               }))}
               required
             />
+            </>
+          ):(
+            <Input
+              label="Puesto"
+              type="text"
+              name="jobPositionName"
+              placeholder="Nombre del Puesto"
+              value={formData.jobPositionName}
+              onChange={handleEmailChange(formData, setFormData)}
+              max={100}
+              required
+            />
+          )}
             <hr />
             <Input
               label="Correo Electrónico"
